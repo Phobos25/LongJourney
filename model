@@ -1,3 +1,9 @@
+20180929
+working on other simulations. have problems with pd.read_csv
+maybe use different type of reading or somehow convert the raw data
+or maybe just read it normally and convert it to data frame or database
+
+
 20180928
 refactoring
 
