@@ -1,3 +1,8 @@
+20180930
+working on data processing. Probably need to process raw data and 
+create another method just for that. currently struggling with
+createing DataForm, need to pass 2d array
+
 20180929
 working on other simulations. have problems with pd.read_csv
 maybe use different type of reading or somehow convert the raw data
