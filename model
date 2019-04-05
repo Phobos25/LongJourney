@@ -1,5 +1,9 @@
+//TODO add reader for coords
+//TODO add reader for rms 
+
 20190405
-created output reader for amplitudes
+coded reader for amplitudes
+coded reader for output file
 
 20190404
 fixed ampl calculations
