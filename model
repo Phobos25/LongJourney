@@ -1,5 +1,8 @@
 TODO need some testing(f)
 //TODO implement amplitude reading program
+20190617
+fixed some bug in signal handling class
+
 20190616
 refactoring code and combining codes from different programs
 added more code
