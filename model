@@ -1,5 +1,8 @@
 TODO need some testing(f)
 //TODO implement amplitude reading program
+20190623
+added error handling into the reader class
+
 20190620
 working with literature. making notes and refactoring code
 
