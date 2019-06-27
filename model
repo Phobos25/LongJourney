@@ -1,7 +1,10 @@
 TODO need some testing(f)
 //TODO implement amplitude reading program
+//TODO need to add output file creater or handler
+
 20190627
 added dist and amp reading code
+worked out other stuff
 
 20190626
 working with dist and amp
