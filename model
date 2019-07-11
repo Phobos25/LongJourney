@@ -1,6 +1,9 @@
 TODO need some testing(f)
 //TODO implement amplitude reading program
 //TODO need to add output file creater or handler
+20190711
+implemented all params saving to json. now I have json file with all outputs
+
 20190710
 reorganized code into json reading class
 
