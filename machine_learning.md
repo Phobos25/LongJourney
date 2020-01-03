@@ -1,1 +1,0 @@
-Конспекты курса machine learning
