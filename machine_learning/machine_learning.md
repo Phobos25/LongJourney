@@ -11,3 +11,7 @@ if (isAwesome){
   return true
 }
 ```
+
+If you want to insert images, this is how you do it:
+
+![test_pic](pics/test_pic1.jpeg)
