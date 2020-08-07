@@ -87,4 +87,60 @@ query = """
 Animal  Num
 Cat      2
 ```
-Т.к. только одна группа удовлетворяет нашему критерию (больше 1), наш query будет возвращать таблицу с одной строкой. 
+Т.к. только одна группа удовлетворяет нашему критерию (больше 1), наш query будет возвращать таблицу с одной строкой.
+
+# JOIN LEFT, UNION
+**INNER JOIN** соединяет только по совпадающим значениям. Если в столбце есть значения, которые не совпадают, или отсутствуют данные, то они выбрасываются. 
+```
+owners table                        pets table        
+ID   Name           Age   Pet_ID    ID Name     Age  Animal 
+1  Aubrey Little    20      1       1  Bonkers   1   Rabbit
+2  Chett Crawfish   45      3       2  Moon      9   Dog
+3  Jules Spinner    10      4       3  Ripley    7   Cat
+4  Magnus Burnsides 9       2       4  Tom       2   Cat
+5  Veronica Dunn    8      NULL     5  Maisie    10  Dog
+```
+
+Сравнивая две таблицы, видно, что у Veronica Dunn нет питомца, и у собаки Maisie нет хозяина, т.к. номер 5 не появляется в таблице хозяев. 
+
+Если мы используем **INNER JOIN** по Pet_ID (owners table) и ID (pets table), то Veronica Dunn и Maisie в общую таблицу не попадут. 
+Если мы хотим включить все данные из таблицы owners table, мы можем использовать **LEFT JOIN**. Здесь LEFT имеется в виду, таблица, которая идет первой. Пр.:
+```
+`bigquery-public-data.pet_records.owners` AS o INNER JOIN `bigquery-public-data.pet_records.pets AS p`
+```
+Таблица хозяев идет первой, поэтому она будет *left table*, а таблица питомцев *right table*. 
+
+Если мы хотим включить все данные из обоих таблиц, мы используем **FULL JOIN**. Следует иметь в виду, что отсутствующие данные будут заменены на NULL.
+```
+FULL JOIN
+Owner_Name          Pet_Name
+Aubrey Little        Bonkers
+Magnus Burnsides     Moon
+Chett Crawfish       Ripley
+Jules Spinner        Tom
+Veronica Dunn        NULL
+NULL                 Maisie
+```
+
+Если **JOIN** объединяет горизонтально, то **UNION** объединяет вертикально 
+```
+query = """
+        SELECT Age FROM `bigquery-public-data.pet_records.pets`
+        UNION ALL
+        SELECT Age FROM `bigquery-public-data.pet_records.owners`
+        """
+
+Age
+20
+45
+10
+9
+8
+1
+9
+7
+2
+10
+```
+Как видно в таблице присутствуют дубликаты. Это происходит из-за команды **UNION ALL**, если использовать **UNION DISTINCT**, то дубликатов не будет
+
