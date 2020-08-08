@@ -144,3 +144,18 @@ Age
 ```
 Как видно в таблице присутствуют дубликаты. Это происходит из-за команды **UNION ALL**, если использовать **UNION DISTINCT**, то дубликатов не будет
 
+В реальном случае, иногда приходится объединять, получать информацию с больше чем двух таблиц. Пример такой команды приведен ниже:
+```
+query = """
+        SELECT o.Name AS Owner_Name,
+               p.Name AS Pet_name, 
+               t.Treat AS Fav_Treat    
+        FROM `bigquery-public-data.pet_records.pets` AS p 
+        FULL JOIN `bigquery-public-data.pet_records.owners` AS o
+            ON p.ID = o.Pet_ID
+        LEFT JOIN `bigquery-public-data.pet_records.treats` AS t
+            ON p.ID = t.Pet_ID
+        """
+```
+
+
