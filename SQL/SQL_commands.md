@@ -180,6 +180,35 @@ query = """
 * **ORDER BY** --- определяет сортировку. В нашем примере мы использовали *date*, т.е. ранние даты будут располагаться выше. 
 * **ROWS BETWEEN 1 PRECEDING AND CURRENT ROW** --- также известен, как *временное окно* (window frame). Он определяет число строк, которые будут исопльзоваться в каждом вычислении. 
 
+Window framce clauses примеры:
+* **ROWS BETWEEN 1 PRECEDING AND CURRENT ROW** --- предыдущая строка и текущая строка
+* **ROWS BETWEEN 3 PRECEDING AND 1 FOLLOWING** --- 3 предыдущие строки, текущая строка, и следующая строка
+* **ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING** --- все строки
+
+Выше, мы рассмотрели только одну из многих аналитических функций. BigQuery поддерживает множество других, про которые можно прочитать в [документации](https://cloud.google.com/bigquery/docs/reference/standard-sql/analytic-function-concepts).
+
+1) Аналитические функции аггрегаторы (analytic aggregate functions. *Aggregate* --- *formed or calculated by the combination of many separate units or items; total*)
+Функции аггрегаторы берут все значения в окне и возвращают одно значение. 
+
+* **MIN()** (or **MAX()**) --- возвращает минимум (или максимум) из входных значений
+* **AVG()** (or **SUM()**) --- возвращает среднее (или сумму) входных значений
+* **COUNT()** --- возвращает число строк входных данных.
+ 
+2) Аналитические навигационные функции (Analytic navigation functions)
+**Навигационные функции** присваивают значение на основе значения в строке (обычно), отличной от текущей. 
+
+* **FIRST_VALUE** (or **LAST_VALUE()**) --- возвращает первое (или последнее) значение во входных данных
+* **LEAD()** (and **LAG()**) --- возвращает значение следующей (или предыдущей) строки
+
+3) Аналитические нумерующие функции (Analytic numbering functions)
+**Нумерующие функции** присваивают целочисленные значения к каждой строке исходя из порядка.
+
+* **ROW_NUMBER()** --- возвращает порядок, в котором строки появляется во входных данных (начиная с 1)
+* **RANK()** --- All rows with the same value in the ordering column receive the same rank value, where the next row receives a rank value which increments by the number of rows with the previous rank value.
+
+
+
+
 
 
 
