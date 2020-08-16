@@ -111,7 +111,7 @@ query = """
 * show_time_to_run() --- выводит длительность обработки вашего запроса
 
 # Стратегии для написания эффективного запроса
-1) Выбирайте только те столбцы, которые вам нужны. 
+1) **Выбирайте только те столбцы, которые вам нужны.**
 
 Давайте рассмотрим пример:
 ```
@@ -127,6 +127,99 @@ Data processed: 2504.697 GB
 Data processed: 2.396 GB
 ```
 как мы видим, разница в 1000 раз. 
+
+2. **Читаем меньше данных**
+
+Для примера рассмотрим два запроса одних и тех же данных. Данные представляют собой среднюю длительность (в секундах) путешествия на велосипеде в Сан-Франциско. 
+
+```
+more_data_query = """
+                  SELECT MIN(start_station_name) AS start_station_name,
+                      MIN(end_station_name) AS end_station_name,
+                      AVG(duration_sec) AS avg_duration_sec
+                  FROM `bigquery-public-data.san_francisco.bikeshare_trips`
+                  WHERE start_station_id != end_station_id 
+                  GROUP BY start_station_id, end_station_id
+                  LIMIT 10
+                  """
+show_amount_of_data_scanned(more_data_query)
+
+less_data_query = """
+                  SELECT start_station_name,
+                      end_station_name,
+                      AVG(duration_sec) AS avg_duration_sec                  
+                  FROM `bigquery-public-data.san_francisco.bikeshare_trips`
+                  WHERE start_station_name != end_station_name
+                  GROUP BY start_station_name, end_station_name
+                  LIMIT 10
+                  """
+show_amount_of_data_scanned(less_data_query)
+```
+
+```
+Data processed: 0.076 GB
+Data processed: 0.06 Gb
+```
+
+По сути station ID и station name это одно и то же --- уникальные названия остановок, нам не надо использовать start_station_id и end_station_id
+Мы можем использовать  start_station_name и end_station_name, который уже используется для расчета времени путешествия. 
+
+3. **Избегайте N:N JOIN**
+
+Почти все соединения таблиц, который мы рассмотрели представляли собой 1:1 JOIN, т.е. каждая строка, каждой таблицы совпадала максимум с одной строкой из другой таблицы. 
+
+Другой тип --- это N:1 JOIN, это когда каждая строка одной таблицы потенциально совпадает со множеством строк другой таблицы. 
+
+Третий тип --- это N:N JOIN, это когда группа строк одной таблицы может совпадать с группой строк другой таблицы. 
+
+Для сравнения, рассмотрим пример:
+```
+big_join_query = """
+                 SELECT repo,
+                     COUNT(DISTINCT c.committer.name) as num_committers,
+                     COUNT(DISTINCT f.id) AS num_files
+                 FROM `bigquery-public-data.github_repos.commits` AS c,
+                     UNNEST(c.repo_name) AS repo
+                 INNER JOIN `bigquery-public-data.github_repos.files` AS f
+                     ON f.repo_name = repo
+                 WHERE f.repo_name IN ( 'tensorflow/tensorflow', 'facebook/react', 'twbs/bootstrap', 'apple/swift', 'Microsoft/vscode', 'torvalds/linux')
+                 GROUP BY repo
+                 ORDER BY repo
+                 """
+show_time_to_run(big_join_query)
+
+small_join_query = """
+                   WITH commits AS
+                   (
+                   SELECT COUNT(DISTINCT committer.name) AS num_committers, repo
+                   FROM `bigquery-public-data.github_repos.commits`,
+                       UNNEST(repo_name) as repo
+                   WHERE repo IN ( 'tensorflow/tensorflow', 'facebook/react', 'twbs/bootstrap', 'apple/swift', 'Microsoft/vscode', 'torvalds/linux')
+                   GROUP BY repo
+                   ),
+                   files AS 
+                   (
+                   SELECT COUNT(DISTINCT id) AS num_files, repo_name as repo
+                   FROM `bigquery-public-data.github_repos.files`
+                   WHERE repo_name IN ( 'tensorflow/tensorflow', 'facebook/react', 'twbs/bootstrap', 'apple/swift', 'Microsoft/vscode', 'torvalds/linux')
+                   GROUP BY repo
+                   )
+                   SELECT commits.repo, commits.num_committers, files.num_files
+                   FROM commits 
+                   INNER JOIN files
+                       ON commits.repo = files.repo
+                   ORDER BY repo
+                   """
+
+show_time_to_run(small_join_query)
+```
+Output:
+```
+Time to run: 9.06 seconds
+Time to run: 10.798 seconds
+```
+
+
 
 
 
