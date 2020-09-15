@@ -39,6 +39,8 @@ my_new_model.layers[0].trainable = False
 
 "my_new_model.layers[0].trainable = False" --- указывает, что не надо обучать загруженный слой, т.к. мы используем уже обученную модель, обучать ее заново нам не надо. 
 
+Начало рабоыт с практикой
+
 # Data Augmentation
 
 
