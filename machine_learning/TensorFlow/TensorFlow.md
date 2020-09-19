@@ -56,5 +56,8 @@ data_generator_with_aug = ImageDataGenerator(preprocessing_function=preprocess_i
 ```
 Здесь, preprocessing_function=preprocess_input --- это и есть смещение, horizontal_flip=True --- зеркальное переворачивание, width_shift_range и height_shift_range --- величина смещения по горизонтали и вертикали. 
 
+# Backpropagation
+Метод обратных ошибок заключается в том, чтобы при обычном обучении сохранять некоторые результатвы вычислений для последующего их использования. При обычном методом "forward propagation" веса меняются на последнем слое, а при обратноых ошибках эти веса используются для изменения весов в обратную сторону по всем слоям. 
+
 
 
