@@ -57,7 +57,27 @@ data_generator_with_aug = ImageDataGenerator(preprocessing_function=preprocess_i
 Здесь, preprocessing_function=preprocess_input --- это и есть смещение, horizontal_flip=True --- зеркальное переворачивание, width_shift_range и height_shift_range --- величина смещения по горизонтали и вертикали. 
 
 # Backpropagation
-Метод обратных ошибок заключается в том, чтобы при обычном обучении сохранять некоторые результатвы вычислений для последующего их использования. При обычном методом "forward propagation" веса меняются на последнем слое, а при обратноых ошибках эти веса используются для изменения весов в обратную сторону по всем слоям. 
+Метод обратных ошибок заключается в том, чтобы при обычном обучении сохранять некоторые результатвы вычислений для последующего их использования. При обычном методом "forward propagation" веса меняются на последнем слое, а при обратноых ошибках эти веса используются для изменения весов в обратную сторону по всем слоям.  
 
+# patterns in backward flow
+add gate: gradient distributor. *Если стоит "+ gate", то локальный градиент будет одинаковым.* (см рис) 
+max gate: gradient router. *Если стоит "max gate", то один из локальных градиентов --- который меньше --- зануляется --- умножается на 0, другой --- который больше --- умножается на 1*
 
+# Implementation: forward/backward API
+
+Graph (or Net) object. (Rough pseudo code)
+```
+class ComputationalGraph(object):
+    #...
+    def forward(inputs):
+        # 1. [pass inputs to input gates...]
+        # 2. forward the computational graph:
+        for gate in self.graph.nodes_topologically_sorted():
+            gate.forward()
+        return loss # the final gate in the graph outputs the loss
+    def backward():
+        for gate in reversed(self.graph.nodes_topologically_sorted()):
+            gate.backward() # little piece of backprop (chain rule applied)
+        return inputs_gradients
+```
 
