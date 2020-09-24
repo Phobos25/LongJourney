@@ -116,4 +116,11 @@ class MultiplyGate (object)
 
 https://github.com/BVLC/caffe --- это открытый фреймворк DeepLearning, который в основном используется для обработки изображений. 
 
-49:30
+# short summary
+* neural nets will be very large no hope of writing down gradient formula by hand for all parameters
+* backpropagation = recursive application of the chain rule along a computational graph to compute the gradients of all inputs/parameters/intermediates
+* implementations maintain a graph structure, where the nodes implement the **forward()/backward()** API
+* **forward** compute result of an operation and save any intermediates needed for gradient computation in memory
+* **backward** apply the chain rule to compute the gradient of the loss function with respect to the inputs. 
+
+49:30 
