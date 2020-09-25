@@ -123,4 +123,4 @@ https://github.com/BVLC/caffe --- это открытый фреймворк Dee
 * **forward** compute result of an operation and save any intermediates needed for gradient computation in memory
 * **backward** apply the chain rule to compute the gradient of the loss function with respect to the inputs. 
 
-49:30 
+1:11:30 
