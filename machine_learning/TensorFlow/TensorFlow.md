@@ -122,3 +122,5 @@ https://github.com/BVLC/caffe --- это открытый фреймворк Dee
 * implementations maintain a graph structure, where the nodes implement the **forward()/backward()** API
 * **forward** compute result of an operation and save any intermediates needed for gradient computation in memory
 * **backward** apply the chain rule to compute the gradient of the loss function with respect to the inputs. 
+
+done in 29092020
