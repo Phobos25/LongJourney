@@ -192,3 +192,38 @@ W = np.random.randn(fan_in, fan_out) / np.sqrt(fan_in)
 ```
 W = np.random.randn(fan_in, fan_out) / np.sqrt(fan_in/2)
 ```
+
+# AdaGrad & RMSProp
+```
+#Adagrad update
+cache += dx**2
+x += - learning_rate * dx / (np.sqrt(cache) + 1e-7)
+```
+cache --- будет всегда положительным и всегда будет расти. Из-за чего learning_rate будет постоянно уменьшаться, пока не занулится. 
+
+```
+#rms prop
+cache += decay_rate * cache + (1-decay_rate) * dx**2
+x += - learning_rate * dx / (np.sqrt(cache) + 1e-7)
+```
+
+В этом случае у нас сохраняется основная функция Adagrad --- нормализация шага при градиентном спуске, но learning_rate не будет зануляться. 
+В определенных ситуациях Adagrad будет сходиться лучше. На практике лучше получается с Adam update:
+```
+# Adam
+m,v= #...initialize caches to zeros
+for t in xrange(0, big_number):
+    dx = #... evaluate gradient
+    m = beta1*m + (1-beta1)*dx #update first moment
+    v = beta2*v + (1-beta2)*(dx**2) # update second momentum
+    m /= 1-beta1**t # correct bias
+    v /= 1-beta2**t # correct bias
+    x += - learning_rate * m / (np.sqrt(v)+1e-7)
+```
+
+epoch --- это, когда все обучающие примеры вы рассмотрели один раз. 
+
+Надо иметь в виду, что в любом случае надо уменьшать learning_rate со временем. Можно использовать:
+* **step decay** --- уменьшение learning_rate на фиксированное число каждый epoch, к примеру, в два раза, 
+* **exponential decay** --- $$\alpha = \alpha_0\exp^{-kt}$$
+* **1/t decay** --- $$\alpha=\alpha_0/(1+kt)$$
