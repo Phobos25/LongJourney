@@ -8,4 +8,4 @@ Many data scientists hack together models without pipelines, but pipelines have 
 * **Fewer Bugs**: There are fewer opportunities to misapply a step or forget a preprocessing step.
 * **Easier to Productionize**: It can be surprisingly hard to transition a model from a prototype to something deployable at scale. We won't go into the many related concerns here, but pipelines can help.
 
-examples?
+âexamples?
