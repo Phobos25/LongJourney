@@ -7,5 +7,3 @@ Many data scientists hack together models without pipelines, but pipelines have 
 * **Cleaner Code:** Accounting for data at each step of preprocessing can get messy. With a pipeline, you won't need to manually keep track of your training and validation data at each step.
 * **Fewer Bugs**: There are fewer opportunities to misapply a step or forget a preprocessing step.
 * **Easier to Productionize**: It can be surprisingly hard to transition a model from a prototype to something deployable at scale. We won't go into the many related concerns here, but pipelines can help.
-
-
