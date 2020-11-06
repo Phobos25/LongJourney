@@ -20,3 +20,5 @@ If you want to insert images, this is how you do it:
 still working on dogs and cats images classifiers
 
 after initial testing I should. probably, start to use multiple class classifier instead of binary classifiers
+
+still testing. problems with resnet50
