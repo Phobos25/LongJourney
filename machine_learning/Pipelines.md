@@ -12,15 +12,20 @@ Many data scientists hack together models without pipelines, but pipelines have 
 
 # Step 1: Define Preprocessing Steps
 ```
+# this library allows us to transform columns of our data
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+# simple imputer allows us to deal with missing data. Both numerical and categorical
 from sklearn.impute import SimpleImputer
+# onehotencoder is another library to deal with missing data, categorical in this case
 from sklearn.preprocessing import OneHotEncoder
 
-# Preprocessing for numerical data
+# let's create our transformers for both numerical and categorical datatypes
+# Preprocessing for numerical data. strategy = constants means that we fill missing data with constant value
 numerical_transformer = SimpleImputer(strategy='constant')
 
-# Preprocessing for categorical data
+# Preprocessing for categorical data. We are going to two types of categorical transformers. Simple imputer for missing data and one hot encoder to deal with categorical data.
+# On general models can't work with categorical data so we have to transform it to numerical data, so our model can train on them
 categorical_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='most_frequent')),
     ('onehot', OneHotEncoder(handle_unknown='ignore'))
@@ -38,6 +43,7 @@ preprocessor = ColumnTransformer(
 ```
 from sklearn.ensemble import RandomForestRegressor
 
+# instantiate our model. n_estimators = 100 was optimal for the data this exmaple is using. For different data that value would be different.
 model = RandomForestRegressor(n_estimators=100, random_state=0)
 ```
 
