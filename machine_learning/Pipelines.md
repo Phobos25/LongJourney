@@ -43,7 +43,7 @@ preprocessor = ColumnTransformer(
 ```
 from sklearn.ensemble import RandomForestRegressor
 
-# instantiate our model. n_estimators = 100 was optimal for the data this exmaple is using. For different data that value would be different.
+# instantiate our model. n_estimators = 100 was optimal for the data this example is using. For different data that value would be different.
 model = RandomForestRegressor(n_estimators=100, random_state=0)
 ```
 
@@ -56,7 +56,7 @@ my_pipeline = Pipeline(steps=[('preprocessor', preprocessor),
                               ('model', model)
                              ])
 
-# Preprocessing of training data, fit model 
+# By one line code we first preprocess data by preprocessor, then fit with our model 
 my_pipeline.fit(X_train, y_train)
 
 # Preprocessing of validation data, get predictions
