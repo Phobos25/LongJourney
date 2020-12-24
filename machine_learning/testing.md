@@ -37,3 +37,5 @@ still testing. problems with resnet50
 
 16800 с чем то MAE, надо попробовать XGboost, вместо случайных деревьев. 
 testing
+
+не получилось,будем пытаться дальше
