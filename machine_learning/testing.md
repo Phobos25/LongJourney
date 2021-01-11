@@ -1,3 +1,4 @@
+keras 
 # Конспекты курса machine learning
  
 $$\int_\Omega \nabla u \cdot \nabla v~dx = \int_\Omega fv~dx$$
