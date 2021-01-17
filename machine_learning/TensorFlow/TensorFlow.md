@@ -1,5 +1,5 @@
 # Tensor Flow
- 
+  
 Tensor Flow это открытая библиотека для работы с deep learning. 
 
 # Computer vision
