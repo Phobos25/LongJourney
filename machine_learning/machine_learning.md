@@ -1,5 +1,6 @@
 # Конспекты курса machine learning
 
+machine learning review
 # Гипотеза компактности
 
 Задача классификации:
