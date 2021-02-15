@@ -1,2 +1,1 @@
-докончить data science
-и keras
+statistics update
