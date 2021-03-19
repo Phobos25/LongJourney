@@ -1,2 +1,2 @@
 statistics update 
-настроить google colab
+Google Colab done
