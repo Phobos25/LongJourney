@@ -1,5 +1,8 @@
 //TODO compare it with simulations
 
+20210323
+setting up a framework. Установил Atom для работы с mark down
+
 20210321
 stuff
 
@@ -18,13 +21,13 @@ stuff
 
 20210313
 doing stuff
- 
+
 20210307
 coordinate system review
- 
+
 20210306
 review
- 
+
 20210228
 review
 
@@ -33,7 +36,7 @@ added longitudinal distribution
 
 20210207
 added coordinate plot
- 
+
 20210206
 review
 
@@ -53,7 +56,7 @@ review
 исправление ошибок
 
 20210116
-Проверял сортировку файлов. 
+Проверял сортировку файлов.
 
 20210109
 надо проверить, считает ли программа в правильном порядке.
@@ -66,7 +69,7 @@ review
 testing
 
 20191122
-coding 
+coding
 
 20191120
 coding and simulations
@@ -160,7 +163,7 @@ working on simulations
 simulating
 
 20190928
-simulating 
+simulating
 
 20190927
 calculations. checking some results
@@ -217,7 +220,7 @@ making a plan for simulations
 messing with simulating program
 
 20190904
-working with input modifier 
+working with input modifier
 
 20190903
 finished working with plots
@@ -279,7 +282,7 @@ implemented reading from json
 further testing, need to implement reading from json properly
 
 20190703
-testing json 
+testing json
 
 20190702
 started to describe the algorithm on the paper
@@ -584,7 +587,7 @@ found a good one
 new approach
 
 20190214
-recalculated some of it, it's still a bit off. 
+recalculated some of it, it's still a bit off.
 
 20190212
 did overall, it's a bit off. Have to look over it again
@@ -676,7 +679,7 @@ sync
 
 20190102
 boop
-        
+
 20181230
 creating sketch
 
@@ -746,7 +749,7 @@ run some tests, apparently it's possible to have decent results if adjust it aro
 just revising what to do and what I did before
 
 20180930
-working on data processing. Probably need to process raw data and 
+working on data processing. Probably need to process raw data and
 create another method just for that. currently struggling with
 createing DataForm, need to pass 2d array
 
@@ -762,9 +765,9 @@ refactoring
 20180927
 без коррекции амплитуд для расстояний больше 200 м, получается значение 470
 после 566
-энергия до коррекции определяется более или менее правильно. 
+энергия до коррекции определяется более или менее правильно.
 наверное энергию можно было бы определить по амплитуда на другом расстоянии
-при +/- 10 м получается 613 
+при +/- 10 м получается 613
 
 TODO посмотреть для других энергий, только новую формулу (f)
 
