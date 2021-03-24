@@ -1,4 +1,6 @@
 //TODO compare it with simulations
+20210324
+Продолжаю разбираться с программой по трансформированию 
 
 20210323
 setting up a framework. Установил Atom для работы с mark down
