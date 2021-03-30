@@ -41,3 +41,35 @@ R: mean 1.9 Std 0.5
 3) рассчитать процент
 (#slope < - 0.023)/ <n>
 ```
+
+
+### Datablock API
+```
+bears = Datablock(
+    blocks=(ImageBlock, CategoryBlock),
+    get_items=get_image_files,
+    splitter=RandomSplitter(valid_pct=0.3,seed=42),
+    get_y=parent_label,
+    item_tfms=Resize(128)
+  )
+```
+в blocks:
+ImageBlock --- независимая переменная (input data)
+CategoryBlock --- зависимая переменная (labels)
+
+в get_items: (как получить список имен файлов). Надо передать название функции, которая будет использоваться для этой задачи.
+
+splitter --- как будем разделять данные.
+
+get_y --- названия категорий данных (label names), здесь используется функция parent_label, которая берет название родительской папки. Это самый распространенный способ хранения и организации данных в data vision.
+
+items_tfms --- items transform, трансформация данных, в данном случае рисунка.
+была использована функция Resize (128), т.е. 128х128
+
+**Алгоритм работы функции DataBlock**.
+1. get_items --- используется get_image_files
+2. get_x, get_y (getters) --- в данном примере у нас только get_y
+3. blocks[0].create, block[1].create --- создается ImageBlock и CategoryBlock
+4. item_tfms --- трансформируем наши рисунки
+5. Collate(DataLoader) --- DataLoader создает batch (по умолч. 64), это определенное число рисунков сшитых вместе, которые затем расчитываются видеокартой. Использование таких batch позволяет ускорить время обучения.
+6. batch_tfms
