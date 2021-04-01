@@ -71,5 +71,9 @@ items_tfms --- items transform, трансформация данных, в да
 2. get_x, get_y (getters) --- в данном примере у нас только get_y
 3. blocks[0].create, block[1].create --- создается ImageBlock и CategoryBlock
 4. item_tfms --- трансформируем наши рисунки
-5. Collate(DataLoader) --- DataLoader создает batch (по умолч. 64), это определенное число рисунков сшитых вместе, которые затем расчитываются видеокартой. Использование таких batch позволяет ускорить время обучения.
+5. Collate(DataLoader) --- DataLoader создает batch (по умолч. 64), это определенное число рисунков сшитых вместе, которые затем расчитываются видеокартой. Использование таких batch позволяет ускорить время обучения. DataLoades includes validation and training. A dataloader is a class which provides *batches* of a few items at a time to the GPU. We'll be learning a lot more about this class in the next chapter. When you loop through a DataLoader fastai will give you 64 (by default) items at a time, all stacked up into a single tensor. We can take a look at a few of those items by calling the show_batch method on a DataLoader
 6. batch_tfms
+
+В fastai есть уже готовая функция экспорта. Эта функция используется для того, чтобы можно было использовать обученную модель онлайн, в приложениях или где-то удаленно.
+Функция заключается в том, чтобы сохранить все веса (параметры) и архитектуру модели.
+В tensorflow тоже была такая функция.
