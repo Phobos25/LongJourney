@@ -1,4 +1,4 @@
 statistics update 
 Google Colab done 
 thinking in math
-testing jupyter
+ testing jupyter
