@@ -84,3 +84,4 @@ onehotencoder позволяет разделить разные базы данных одинаково, в отличие от get
 
 реализован onehotencoder и simpleimputer.
 Надо теперь реализовать xgbregressor
+
