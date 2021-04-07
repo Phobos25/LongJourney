@@ -1,4 +1,7 @@
 //TODO compare it with simulations
+20210407
+продолжаем работать
+
 20210406
 накидал todo
 
