@@ -1,4 +1,7 @@
 //TODO compare it with simulations
+20210428
+че то не получается
+
 20210424
 review
  
