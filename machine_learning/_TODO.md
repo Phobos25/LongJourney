@@ -1,5 +1,5 @@
 i should finish thinking in math asap
 thinking in math 8 
 now start to make assignments
-assignment 10.2 finished
+problem set 8 finished
 
