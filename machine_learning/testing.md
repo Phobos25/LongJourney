@@ -1,5 +1,4 @@
 keras 
-dfdf
  
 # Конспекты курса machine learning
  
@@ -19,13 +18,6 @@ If you want to insert images, this is how you do it:
 
 ![test_pic](pics/test_pic1.jpeg)
 
-
-still working on dogs and cats images classifiers
-
-after initial testing I should. probably, start to use multiple class classifier instead of binary classifiers
-
-still testing. problems with resnet50
-
 снова начал работать с machine learning, че то тензорфлоу не поддается, пока закреплю machine learning. 
 
 Надо попробовать использовать формы импульсов для достройки формы импульса. 
@@ -38,7 +30,3 @@ still testing. problems with resnet50
                                                
 Что с этим лучше справиться? линейная регрессия?
 
-16800 с чем то MAE, надо попробовать XGboost, вместо случайных деревьев. 
-testing
-
-не получилось,будем пытаться дальше
