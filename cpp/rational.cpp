@@ -1,95 +1,151 @@
 #include <iostream>
 #include <numeric>
 #include <sstream>
+#include <set>
+#include <map>
+#include <vector>
 using namespace std;
 
 class Rational {
 public:
-    Rational(){
-        fraction = Fraction();
-    };
-    Rational(int numerator, int denominator){       
-        if (numerator*denominator >= 0){
-            fraction = Fraction(abs(numerator), abs(denominator)) ;
-        }else {
-            fraction = Fraction(-abs(numerator), abs(denominator)) ;            
-        }        
-    };
+  Rational(){
+    fraction = Fraction();
+  };
+  Rational(int numerator, int denominator){
+    if (numerator*denominator >= 0){
+      fraction = Fraction(abs(numerator), abs(denominator)) ;
+    }else {
+      fraction = Fraction(-abs(numerator), abs(denominator)) ;
+    }
+  };
 
-    int Numerator() const{
-        return fraction.num;        
-    };
-    int Denominator() const{
-        return fraction.denom;        
-    };
+  int Numerator() const{
+    return fraction.num;
+  };
+  int Denominator() const{
+    return fraction.denom;
+  };
 
-    Rational operator+ (const Rational& rhs){
-        int numerator = fraction.num*rhs.fraction.denom + rhs.fraction.num*fraction.denom;        
-        int denominator = fraction.denom*rhs.fraction.denom;
-        return Rational(numerator, denominator);
-    };
-private:        
-    struct Fraction{
-        int num;
-        int denom;
-        Fraction(int p=0, int q = 1){
-            int gcd = std::gcd(p, q);
-            num = p/gcd;
-            denom = q/gcd;
-        }        
-    };
-    Fraction fraction;
+private:
+  struct Fraction{
+    int num;
+    int denom;
+    Fraction(int p=0, int q = 1){
+      int gcd = std::gcd(p, q); // @suppress("Function cannot be resolved")
+      num = p/gcd;
+      denom = q/gcd;
+    }
+  };
+  Fraction fraction;
 };
 
+Rational operator+ (const Rational& lhs, const Rational& rhs){
+  int numerator = lhs.Numerator()*rhs.Denominator() +
+                  rhs.Numerator()*lhs.Denominator();
+  int denominator = lhs.Denominator()*rhs.Denominator();
+  return Rational(numerator, denominator);
+};
+
+Rational operator-(const Rational& lhs, const Rational& rhs){
+  int numerator = lhs.Numerator()*rhs.Denominator() -
+                  rhs.Numerator()*lhs.Denominator();
+  int denominator = lhs.Denominator()*rhs.Denominator();
+  return Rational(numerator, denominator);
+}
+
+Rational operator* (const Rational& lhs, const Rational& rhs){
+  int numerator = lhs.Numerator()* rhs.Numerator();
+  int denominator = lhs.Denominator() * rhs.Denominator();
+  return Rational(numerator, denominator);
+};
+
+Rational operator/ (const Rational& lhs, const Rational& rhs){
+  int numerator = lhs.Numerator()* rhs.Denominator();
+  int denominator = lhs.Denominator() * rhs.Numerator();
+  return Rational(numerator, denominator);
+};
+
+
+bool operator== (const Rational& lhs, const Rational& rhs){
+    if (lhs.Denominator() == rhs.Denominator()){
+      return lhs.Numerator() == rhs.Numerator();
+    }
+    else {
+      return 0;
+    }
+  }
+
+istream& operator>> (istream& stream, Rational& rational){
+  int numerator = rational.Numerator();
+  int denominator = rational.Denominator();
+  string s1="";
+  getline(stream, s1, '/');
+  if (!s1.empty()){
+    numerator = stoi(s1);
+    string s2="";
+    getline(stream, s2, ' ');
+    if (!s2.empty()){
+      denominator = stoi(s2);
+      rational = Rational(numerator, denominator);
+    }
+  }
+  return stream;
+}
+
+ostream& operator<< (ostream& stream, const Rational& rational){
+  stream << rational.Numerator() << '/' << rational.Denominator();
+  return stream;
+}
+
+bool operator< (const Rational& lhs, const Rational& rhs){
+  return lhs.Numerator()*rhs.Denominator() < rhs.Numerator()*lhs.Denominator();
+}
+
+bool operator> (const Rational& lhs, const Rational& rhs){
+  return lhs.Numerator()*rhs.Denominator() > rhs.Numerator()*lhs.Denominator();
+}
+
+
 int main(){
-   
-    {
-        const Rational r(3, 10);
-        if (r.Numerator() != 3 || r.Denominator() != 10) {
-            cout << "Rational(3, 10) != 3/10" << endl;
-            return 1;
-        }
+  map<Rational, int> count;
+  ++count[{1, 2}];
+  ++count[{1, 2}];
+  ++count[{2, 3}];
+
+  for (const auto& item: count){
+    cout << item.first.Numerator() << '/' << item.first.Denominator()
+         << ':' << item.second << endl;
+  }
+
+  {
+    const set<Rational> rs = {{1, 2}, {1, 25}, {3, 4}, {3, 4}, {1, 2}};
+    if (rs.size() != 3) {
+      cout << "Wrong amount of items in the set" << endl;
+      return 1;
     }
 
-    {
-        const Rational r(8, 12);
-        if (r.Numerator() != 2 || r.Denominator() != 3) {
-            cout << "Rational(8, 12) != 2/3" << endl;
-            return 2;
-        }
+    vector<Rational> v;
+    for (auto x : rs) {
+      v.push_back(x);
     }
-
-    {
-        const Rational r(-4, 6);
-        if (r.Numerator() != -2 || r.Denominator() != 3) {
-            cout << "Rational(-4, 6) != -2/3" << endl;
-            return 3;
-        }
+    if (v != vector<Rational>{{1, 25}, {1, 2}, {3, 4}}) {
+      cout << "Rationals comparison works incorrectly" << endl;
+      return 2;
     }
+  }
 
-    {
-        const Rational r(4, -6);
-        if (r.Numerator() != -2 || r.Denominator() != 3) {
-            cout << "Rational(4, -6) != -2/3" << endl;
-            return 3;
-        }
+  {
+    map<Rational, int> count;
+    ++count[{1, 2}];
+    ++count[{1, 2}];
+
+    ++count[{2, 3}];
+
+    if (count.size() != 2) {
+      cout << "Wrong amount of items in the map" << endl;
+      return 3;
     }
-
-    {
-        const Rational r(0, 15);
-        if (r.Numerator() != 0 || r.Denominator() != 1) {
-            cout << "Rational(0, 15) != 0/1" << endl;
-            return 4;
-        }
-    }
-
-    {
-        const Rational defaultConstructed;
-        if (defaultConstructed.Numerator() != 0 || defaultConstructed.Denominator() != 1) {
-            cout << "Rational() != 0/1" << endl;
-            return 5;
-        }
-    }    
-    cout << "OK" << endl;
-    return 0;
+  }
+  cout << "OK" << endl;
+  return 0;
 }
