@@ -15,27 +15,29 @@ class Matrix{
 public:
   Matrix(){
     rows = 0;
-    cols = 0;
-    vector<vector<int>> new_vector(rows, vector<int> (cols));
-    v = new_vector;
+    cols = 0;    
   };
-  Matrix(int num_rows, int num_cols){
-    if (num_rows<0 || num_cols < 0){
-      throw out_of_range("out of range");
-    }
-    rows = num_rows;
-    cols = num_cols;
-    vector<vector<int>> new_vector(rows, vector<int> (cols));
-    v = new_vector;
+
+  Matrix(int num_rows, int num_cols){        
+    Reset(num_rows, num_cols);
   };
+
   void Reset (int num_rows, int num_cols){
     if (num_rows<0 || num_cols < 0){
       throw out_of_range("out of range");
     }
-    rows = num_rows;
-    cols = num_cols;
-    vector<vector<int>> new_vector(rows, vector<int> (cols));
-    v = new_vector;
+    if (num_rows == 0 || num_cols == 0){
+      rows = 0;
+      cols = 0;
+      vector<vector<int>> new_vector(rows, vector<int> (cols));
+      v = new_vector;
+    }else {
+      rows = num_rows;
+      cols = num_cols;
+      vector<vector<int>> new_vector(rows, vector<int> (cols));
+      v = new_vector;
+    }    
+    
   }
 
   int At (int row, int col) const{
