@@ -70,6 +70,15 @@ public:
     return cols;
   }
 
+  bool IsMatrixEmpty() const{
+    if (GetNumRows() == 0 || GetNumColumns() == 0){
+      return true;
+    }else {
+      return false;
+    }
+    
+  }
+
 private:
   int rows;
   int cols;
@@ -100,7 +109,13 @@ ostream& operator<< (ostream& stream, const Matrix& matrix){
   return stream;
 }
 
-bool operator==(const Matrix& lhs, const Matrix& rhs){
+bool operator==(const Matrix& lhs, const Matrix& rhs){  
+  if (lhs.IsMatrixEmpty()){
+    if (rhs.IsMatrixEmpty()){
+      return true;
+    }
+  }
+  
   if (lhs.GetNumColumns() == rhs.GetNumColumns() &&
       lhs.GetNumRows() == rhs.GetNumRows()){
     int rows = lhs.GetNumRows();
@@ -142,8 +157,8 @@ Matrix operator+ (const Matrix& lhs, const Matrix& rhs){
 int main(){
   Matrix one(2,2);
   Matrix two;
-
-  one.At(2,2) = 0;
+  cout << one << endl;
+  //one.At(2,2) = 0;
   return 0;
 }
 
