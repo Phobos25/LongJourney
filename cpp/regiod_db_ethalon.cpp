@@ -1,9 +1,8 @@
 #include <iostream>
-#include <tuple>
 #include <map>
-#include <string>
+#include <tuple>
 #include <vector>
-
+#include <string>
 using namespace std;
 
 enum class Lang {
@@ -17,56 +16,23 @@ struct Region {
   int64_t population;
 };
 
-auto GetRank(const Region& reg){
-    return tie(reg.std_name, reg.parent_std_name, reg.names);
+bool operator<(const Region& lhs, const Region& rhs) {
+  return tie(lhs.std_name, lhs.parent_std_name, lhs.names, lhs.population) <
+      tie(rhs.std_name, rhs.parent_std_name, rhs.names, rhs.population);
 }
 
-bool operator== (const Region& lhs, const Region& rhs){
-  if (GetRank(lhs) == GetRank(rhs)){
-    return lhs.population == rhs.population;
+int FindMaxRepetitionCount(const vector<Region>& regions) {
+  int result = 0;
+  map<Region, int> repetition_count;
+  for (const Region& region : regions) {
+    result = max(result, ++repetition_count[region]);
   }
-  return false;
+  return result;
 }
 
-bool operator< (const Region& lhs, const Region& rhs){
-  if (GetRank(lhs) == GetRank(rhs)){
-    return lhs.population < rhs.population;
-  }
-  return GetRank(lhs) < GetRank(rhs);
-}
+int main() {
 
-bool operator> (const Region& lhs, const Region& rhs){
-  if (GetRank(lhs) == GetRank(rhs)){
-    return lhs.population > rhs.population;
-  }
-  return GetRank(lhs) > GetRank(rhs);
-}
-
-int FindMaxRepetitionCount(const vector<Region>& regions){
-  map <Region, int> m;
-  if (regions.empty()){
-    return 0;
-  }
-  for (size_t i=0; i<regions.size(); ++i){
-    m[regions[i]]++;
-  }
-  int count = 0;
-  unsigned int max;  
-  for (auto [first, second]:m){
-    if (count == 0){
-      max = second;
-      ++count;
-    }
-    if (max < second){
-      max = second;
-    }
-  }
-  return max;
-}
-
-int main(){
-
-  cout << FindMaxRepetitionCount({
+    cout << FindMaxRepetitionCount({
       {
           "Moscow",
           "Russia",
@@ -123,8 +89,5 @@ int main(){
           31
       },
   }) << endl;
-  
   return 0;
 }
-
-
