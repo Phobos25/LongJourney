@@ -49,12 +49,11 @@ istream& operator >> (istream& is, Query& q) {
 }
 
 struct BusesForStopResponse {
-  string bus;
-  vector<string> stops;
-  BusesForStopResponse(string b, vector<string> s){
-    bus = b;
-    s = stops;
-  };
+  map <string, vector<string>> buses_for_stop;  
+  BusesForStopResponse(const string& bus, const vector<string>& stops){
+    buses_for_stop[bus] = stops;
+  }
+  BusesForStopResponse();
 };
 
 ostream& operator << (ostream& os, const BusesForStopResponse& r) {
@@ -63,12 +62,13 @@ ostream& operator << (ostream& os, const BusesForStopResponse& r) {
 }
 
 struct StopsForBusResponse {
-  // Наполните полями эту структуру
-  string stop;
-  vector<string> buses;
-  StopsForBusResponse(string s, string b){
-    stop = s;
-    buses.push_back(b);
+  map <string, vector<string>> stops_for_bus;
+  map <string, vector<string>> buses_for_stop;    
+  StopsForBusResponse(const string& stop, const string& bus){
+    stops_for_bus[stop].push_back(bus);    
+  }
+  size_t GetSize(){    
+    return stops_for_bus.size();
   }
 };
 
@@ -79,6 +79,8 @@ ostream& operator << (ostream& os, const StopsForBusResponse& r) {
 
 struct AllBusesResponse {
   // Наполните полями эту структуру
+  vector <string, vector<string>> stops_for_bus;
+  vector <string, vector<string>> buses_for_stop; 
 };
 
 ostream& operator << (ostream& os, const AllBusesResponse& r) {
@@ -90,15 +92,10 @@ class BusManager {
 public:
   void AddBus(const string& bus, const vector<string>& stops) {
     // Реализуйте этот метод
-    buses_to_stops.push_back(BusesForStopResponse(bus, stops));
-    for (const string stop:stops){
-      for (size_t i =0; i<stops_to_buses.size(); ++i){
-        if (stops_to_buses[i].stop == stop){
-          stops_to_buses[i].buses.push_back(bus);
-        }
-      }
-      stops_to_buses.push_back(StopsForBusResponse(stop, bus));
-    }
+    buses_for_stop = BusesForStopResponse(bus, stops);    
+    for (const string stop:stops){     
+      stops_for_bus.stops_for_bus[bus].push_back(stop);
+    }    
   }
 
   BusesForStopResponse GetBusesForStop(const string& stop) const {
@@ -113,8 +110,8 @@ public:
     // Реализуйте этот метод
   }
 private:
-  vector<BusesForStopResponse> buses_to_stops;
-  vector<StopsForBusResponse> stops_to_buses;
+  BusesForStopResponse buses_for_stop;
+  StopsForBusResponse stops_for_bus;  
 };
 
 // Не меняя тела функции main, реализуйте функции и классы выше
