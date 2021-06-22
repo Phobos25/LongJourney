@@ -49,7 +49,8 @@ istream& operator >> (istream& is, Query& q) {
 }
 
 struct BusesForStopResponse {
-  map <string, vector<string>> buses_for_stop;  
+  map <string, vector<string>> buses_for_stop; 
+  string stop; 
   BusesForStopResponse(const string& bus, const vector<string>& stops){
     buses_for_stop[bus] = stops;
   }
@@ -58,6 +59,7 @@ struct BusesForStopResponse {
 
 ostream& operator << (ostream& os, const BusesForStopResponse& r) {
   // Реализуйте эту функцию
+
   return os;
 }
 
@@ -79,8 +81,8 @@ ostream& operator << (ostream& os, const StopsForBusResponse& r) {
 
 struct AllBusesResponse {
   // Наполните полями эту структуру
-  vector <string, vector<string>> stops_for_bus;
-  vector <string, vector<string>> buses_for_stop; 
+  map <string, vector<string>> stops_for_bus;
+  map <string, vector<string>> buses_for_stop;    
 };
 
 ostream& operator << (ostream& os, const AllBusesResponse& r) {
@@ -90,28 +92,33 @@ ostream& operator << (ostream& os, const AllBusesResponse& r) {
 
 class BusManager {
 public:
+  BusManager();
+
   void AddBus(const string& bus, const vector<string>& stops) {
     // Реализуйте этот метод
     buses_for_stop = BusesForStopResponse(bus, stops);    
     for (const string stop:stops){     
       stops_for_bus.stops_for_bus[bus].push_back(stop);
-    }    
+    }   
+    all_buses.buses_for_stop = buses_for_stop.buses_for_stop;
+    all_buses.stops_for_bus = stops_for_bus.stops_for_bus; 
   }
 
   BusesForStopResponse GetBusesForStop(const string& stop) const {
-    // Реализуйте этот метод
+    return buses_for_stop;
   }
 
   StopsForBusResponse GetStopsForBus(const string& bus) const {
-    // Реализуйте этот метод
+    return stops_for_bus;
   }
 
-  AllBusesResponse GetAllBuses() const {
-    // Реализуйте этот метод
+  AllBusesResponse GetAllBuses() const {    
+    return all_buses;
   }
 private:
   BusesForStopResponse buses_for_stop;
   StopsForBusResponse stops_for_bus;  
+  AllBusesResponse all_buses;
 };
 
 // Не меняя тела функции main, реализуйте функции и классы выше
