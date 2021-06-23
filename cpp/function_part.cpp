@@ -2,8 +2,8 @@
  * mycode.cpp
  *
  *  Created on: Jun 7, 2021
- */
-
+*/
+  
 #include <iostream>
 #include <vector>
 #include <algorithm>
