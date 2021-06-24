@@ -254,10 +254,84 @@ void TestFirstName(){
         full_name = person.GetFullName(1960);
         AssertEqual(full_name, "Incognito");
     }
-}
-void TestLastName(){
 
+    {
+      Person person;
+      string full_name = person.GetFullName(1977);
+      AssertEqual(full_name, "Incognito");
+
+      person.ChangeFirstName(1970, "Sanya");
+      full_name = person.GetFullName(1977);
+      AssertEqual(full_name, "Sanya with unknown last name");
+
+      person.ChangeFirstName(1971, "Alex");
+      full_name = person.GetFullName(1977);
+      AssertEqual(full_name, "Alex with unknown last name");
+
+      person.ChangeFirstName(1978, "Alexander");
+      full_name = person.GetFullName(1977);
+      AssertEqual(full_name, "Alex with unknown last name");
+
+    }
 }
+
+
+void TestLastName(){
+  {
+    Person person;
+    Person person;
+    person.ChangeLastName(1970, "House");
+    person.ChangeLastName(1971, "Holmes");
+    person.ChangeLastName(1975, "Watson");    
+    string full_name = person.GetFullName(1970);        
+    AssertEqual(full_name, "House with unknown first name");
+
+    full_name = person.GetFullName(1974);
+    AssertEqual(full_name, "Holmes with unknown first name");
+
+    full_name = person.GetFullName(1977);
+    AssertEqual(full_name, "Watson with unknown first name");     
+
+    full_name = person.GetFullName(1960);
+    AssertEqual(full_name, "Incognito");     
+  }
+
+  {
+    Person person;
+    person.ChangeLastName(1970, "House");
+    person.ChangeLastName(1971, "Holmes");
+    person.ChangeLastName(1975, "Watson"); 
+    string full_name = person.GetFullName(1977);
+    AssertEqual(full_name, "Watson with unknown first name");
+
+    person.ChangeLastName(1983, "Yankovich");
+    person.ChangeLastName(1975, "Yankovich");
+    full_name = person.GetFullName(1977);
+    AssertEqual(full_name, "Watson with unknown first name");
+
+    full_name = person.GetFullName(1960);
+    AssertEqual(full_name, "Incognito");
+  }
+
+  {
+    Person person;
+    string full_name = person.GetFullName(1977);
+    AssertEqual(full_name, "Incognito");
+
+    person.ChangeLastName(1970, "Watson");
+    full_name = person.GetFullName(1977);
+    AssertEqual(full_name, "Watson with unknown first name");
+
+    person.ChangeLastName(1971, "Holmes");
+    full_name = person.GetFullName(1977);
+    AssertEqual(full_name, "Holmes with unknown first name");
+
+    person.ChangeLastName(1978, "Yankovich");
+    full_name = person.GetFullName(1977);
+    AssertEqual(full_name, "Holmes with unknown first name");
+  }
+}
+
 void TestFullName(){
 
 }
