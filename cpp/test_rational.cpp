@@ -128,13 +128,19 @@ private:
     }
   };
   Fraction fraction;
-  int gcd1(int a, int b) {
-      if (b == 0)
-        return a;
-      return gcd1(b, a % b);
-    }
-
 };
+
+void Test1(){
+  int p = 5;
+  int q = 10;
+  Rational r(p,q);
+  int common_denom = std::gcd(p, q);
+  int num = p/common_denom;
+  int denom = q/common_denom;
+  AssertEqual(r.Numerator(), num);
+  AssertEqual(r.Denominator(), denom);
+
+}
 
 int main() {
   TestRunner runner;
