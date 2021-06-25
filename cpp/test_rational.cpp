@@ -95,6 +95,7 @@ private:
 };
 
 class Rational {
+public:
   Rational(){
     fraction = Fraction();
   };
@@ -130,20 +131,86 @@ private:
   Fraction fraction;
 };
 
-void Test1(){
-  int p = 5;
-  int q = 10;
-  Rational r(p,q);
-  int common_denom = std::gcd(p, q);
-  int num = p/common_denom;
-  int denom = q/common_denom;
-  AssertEqual(r.Numerator(), num);
-  AssertEqual(r.Denominator(), denom);
+void TestCommonDenominator(){
+  {
+    int p = 5;
+    int q = 10;
+    Rational r(1,2);
+    int common_denom = std::gcd(p, q);
+    int num = p/common_denom;
+    int denom = q/common_denom;
+    AssertEqual(r.Numerator(), num);
+    AssertEqual(r.Denominator(), denom);
+
+    Rational r2(100,200);
+    AssertEqual(r2.Numerator(), num);
+    AssertEqual(r2.Denominator(), denom);
+  }
+
+  {
+    Rational r3(500,900);
+    int num = 5;
+    int denom = 9;
+    AssertEqual(r3.Numerator(), num);
+    AssertEqual(r3.Denominator(), denom);
+  }
+
+  {
+    Rational r(30,6);
+    AssertEqual(r.Numerator(), 5);
+    AssertEqual(r.Denominator(), 1);
+  }
+
+}
+
+void TestDefault(){
+  {
+    Rational r;
+    AssertEqual(r.Numerator(), 0);
+    AssertEqual(r.Denominator(), 1);
+  }
+  {
+    Rational r(0,2);
+    AssertEqual(r.Numerator(), 0);
+    AssertEqual(r.Denominator(), 1);
+  }
+  {
+    Rational r(0,10);
+    AssertEqual(r.Numerator(), 0);
+    AssertEqual(r.Denominator(), 1);
+  }
+}
+
+void TestNegative(){
+  {
+    Rational r(-1,10);
+    AssertEqual(r.Numerator(), -1);
+    AssertEqual(r.Denominator(), 10);
+  }
+  {
+    Rational r(1,-10);
+    AssertEqual(r.Numerator(), -1);
+    AssertEqual(r.Denominator(), 10);
+  }
+  {
+    Rational r(1,-2);
+    AssertEqual(r.Numerator(), -1);
+    AssertEqual(r.Denominator(), 2);
+  }
+  {
+    Rational r(-1,-10);
+    AssertEqual(r.Numerator(), 1);
+    AssertEqual(r.Denominator(), 10);
+  }
+
 
 }
 
 int main() {
   TestRunner runner;
+  runner.RunTest(TestCommonDenominator, "test common denominator");
+  runner.RunTest(TestDefault, "test default");
+  runner.RunTest(TestNegative, "test negative");
   // добавьте сюда свои тесты
   return 0;
 }
