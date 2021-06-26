@@ -2,6 +2,8 @@
     "files.associations": {
         "ostream": "cpp",
         "map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "stdexcept": "cpp",
+        "string": "cpp"
     }
 }
