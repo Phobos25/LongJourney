@@ -5,6 +5,7 @@
         "vector": "cpp",
         "stdexcept": "cpp",
         "string": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "algorithm": "cpp"
     }
 }
