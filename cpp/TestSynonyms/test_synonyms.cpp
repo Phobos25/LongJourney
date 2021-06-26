@@ -1,16 +1,13 @@
-#include "test_runner.h"
-#include <cassert>
+#include "synonyms.h"
+#include "tests.h"
 #include <exception>
 #include <vector>
 
 using namespace std;
-
-#include "synonyms.h"
-#include "tests.h"
-
+// comment
 int main() {
   TestAll();
-	int q ;
+	int q ; 
 	cin >> q;
 
 	map<string, set<string>> synonyms;
