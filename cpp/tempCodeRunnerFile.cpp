@@ -1,2 +1,2 @@
-
-  //one.At(2,2) = 0;
+ // auto border = find(begin(s), end(s), "Cpp");
+    // PrintRange(begin(s), border);

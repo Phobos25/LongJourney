@@ -12,10 +12,18 @@ void PrintVectorPart(const vector<int>& numbers){
         return num < 0;
     });
     // теперь мне надо вывести все значения в обратном порядке с отрицательного числа
-    cout << *it << endl;
+    while (it != begin(numbers)){
+        --it;
+        cout << *it << ' ';
+    }
 }
 
 int main() {
     PrintVectorPart({6, 1, 8, -5, 4});
+    cout << endl;
+    PrintVectorPart({-6, 1, 8, -5, 4});  // ничего не выведется
+    cout << endl;
+    PrintVectorPart({6, 1, 8, 5, 4});
+    cout << endl;
     return 0;
 }

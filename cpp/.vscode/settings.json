@@ -6,6 +6,8 @@
         "stdexcept": "cpp",
         "string": "cpp",
         "xstring": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "set": "cpp",
+        "xutility": "cpp"
     }
 }
