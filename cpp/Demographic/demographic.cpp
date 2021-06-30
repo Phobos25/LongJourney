@@ -2,16 +2,18 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include "compute.h"
+// #include "compute.h"
 
 using namespace std;
 
 void PrintStats(vector<Person> persons){  
+
+   
   cout << "Median age = "
        << ComputeMedianAge(begin(persons), end(persons)) << endl;
   auto it_all = partition(begin(persons), end(persons),
             [] (const Person& pers){
-                pers.gender == Gender::FEMALE;
+                return pers.gender == Gender::FEMALE;
             });
   cout << "Median age for females = "
        << ComputeMedianAge(begin(persons), it_all) << endl;
@@ -22,14 +24,14 @@ void PrintStats(vector<Person> persons){
   auto it_men = copy_if(begin(persons), end(persons),
               back_inserter(men),
               [] (const Person& pers){
-                pers.gender == Gender::FEMALE;
+                return pers.gender == Gender::MALE;
               } );
 
   persons.erase(it_all, end(persons));
 
   auto it_ewomen = partition(begin(persons), end(persons),
               [] (const Person& pers){
-                pers.is_employed == true;
+                return pers.is_employed == true;
               });
 
   cout << "Median age for employed females = "
@@ -39,7 +41,7 @@ void PrintStats(vector<Person> persons){
 
   auto it_emen = partition(begin(men), end(men),
               [] (const Person& pers){
-                pers.is_employed == true;
+                return pers.is_employed == true;
               });
   cout << "Median age for employed males = "
        << ComputeMedianAge(begin(men), it_emen) << endl;
