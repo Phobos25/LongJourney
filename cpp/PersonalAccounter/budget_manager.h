@@ -1,20 +1,34 @@
 #pragma once
-#include "overload.h"
-#include <map>
+#include <string>
+#include <sstream>
+#include <algorithm>
 
-struct Date{
-    int year;
-    int month;
-    int day;
-};
+std::pair<std::string, std::string> SplitTwoStrict(std::string s, std::string delimiter);
 
-class BudgetManager{
-public: 
+std::pair<std::string, std::string> SplitTwo(
+    std::string s, std::string delimiter);
 
-    void ComputeIncome(const Date& from, const Date& to);
+int ConvertToInt(std::string str);
 
-    void Earn(const Date& from, const Date& to, const double& value);
+std::string ReadToken(std::string& s, std::string delimiter);
+
+class Date {
+public:
+  static Date FromString(std::string str){
+    const int year = ConvertToInt(ReadToken(str, "-"));
+    const int month = ConvertToInt(ReadToken(str, "-"));
+    const int day = ConvertToInt(str);
+    return {year, month, day};
+  }
+
+  // Weird legacy, can't wait for chrono::year_month_day
+  time_t AsTimestamp() const;
 
 private:
-    std::map<Date, double> budget;
+  int year_;
+  int month_;
+  int day_;
+
+  Date(int year, int month, int day)
+    : year_(year), month_(month), day_(day) {}
 };
