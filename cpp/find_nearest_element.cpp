@@ -21,6 +21,9 @@ set<int>::const_iterator FindNearestElement(
         return prev(numbers.end());
     }
     
+    if (*numbers.begin() > border){
+        return numbers.begin();
+    }
     return it;
     }
 
