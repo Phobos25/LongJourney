@@ -6,19 +6,22 @@ using namespace std;
 set<int>::const_iterator FindNearestElement(
     const set<int>& numbers,
     int border){
-
-        auto it = numbers.lower_bound(border);
-        if (border < *it){
-            int a = 2*border - *it;            
-            if (numbers.count(a)){
-                return numbers.find(a);
-            }
+    
+    if (numbers.empty()){
+        return numbers.begin();
+    }
+    auto it = numbers.lower_bound(border);
+    if (border < *it){
+        int a = 2*border - *it;            
+        if (numbers.count(a)){
+            return numbers.find(a);
         }
-        if (*--numbers.end() < border){
-            return numbers.end();
-        }
-        
-        return it;
+    }
+    if (*prev(numbers.end()) < border){
+        return prev(numbers.end());
+    }
+    
+    return it;
     }
 
 
