@@ -15,44 +15,40 @@ pair<RandomIt, RandomIt> FindStartsWith(
     char prefix);
 
 
-//template <typename RandomIt>
-//pair<RandomIt, RandomIt> FindStartsWith(
-//    RandomIt range_begin, RandomIt range_end,
-//    char prefix){
-//
-//  if (range_begin == range_end){
-//    return {range_begin, range_end};
-//  }
-//
-//  vector<typename RandomIt::value_type> elements(range_begin, range_end);
-//
-//  auto it = lower_bound(range_begin, range_end, prefix,
-//      [prefix] (const string& s){
-//      return s[0] == prefix;
-//  });
-//
-//  if (it == range_end){
-//    return {range_begin, range_end};
-//  }
-//  return {{},{}};
-//}
+template <typename RandomIt>
+pair<RandomIt, RandomIt> FindStartsWith(
+   RandomIt range_begin, RandomIt range_end,
+   char prefix){
 
-//[&prefix](const string& lhs, const string& rhs) { return lhs.substr(0, prefix.size()) < rhs.substr(0, prefix.size()); }
+     string str = "";
+     str = prefix;
+
+     auto it = equal_range(range_begin, range_end, str,
+     [prefix](const string& lhs, const string& rhs){
+       return lhs[0] < rhs[0];
+     });     
+   
+     return it;
+}
+
+//[&prefix](const string& lhs, const string& rhs) {
+  //  return lhs.substr(0, prefix.size()) < rhs.substr(0, prefix.size()); }
 
 int main() {
-  const vector<string> sorted_strings = {"akko","babylon","moscow", "murmansk", "vologda"};
-  char prefix = 'm';
-  auto it = equal_range(begin(sorted_strings), end(sorted_strings),
-      &prefix);
+  const vector<string> sorted_strings = {"moscow", "murmansk", "vologda"};
+  string prefix = "m";
+  auto it = equal_range(begin(sorted_strings), end(sorted_strings),      
+      prefix, 
+      [&prefix] (const string& lhs, const string& rhs){
+        return lhs.substr(0,prefix.size()) < rhs.substr(0, prefix.size());      });
+  
   cout << *it.first << ' ' << *it.second << endl;
-  cout << ++prefix << endl;
-//  auto m_result = FindStartsWith(begin(sorted_strings), end(sorted_strings), 'm');
-//  const auto m_result =
-//      FindStartsWith(begin(sorted_strings), end(sorted_strings), 'm');
-//  for (auto it = m_result.first; it != m_result.second; ++it) {
-//      cout << *it << " ";
-//  }
-//  cout << endl;
+
+ const auto m_result =
+     FindStartsWith(begin(sorted_strings), end(sorted_strings), 'm');
+ for (auto it = m_result.first; it != m_result.second; ++it) {
+     cout << *it << " ";
+ }
 
 return 0;
 }

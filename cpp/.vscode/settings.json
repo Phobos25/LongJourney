@@ -54,6 +54,7 @@
         "xloctime": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "queue": "cpp"
     }
 }
