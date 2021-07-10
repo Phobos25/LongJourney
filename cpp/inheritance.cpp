@@ -32,19 +32,28 @@ struct Pineapple : public Fruit{
     }
 };
 
-class Animal {
+// class Animal {
+// public:    
+//     void Eat(const Fruit& f){
+//         cout << type <<" eats "<< f.type << ". " << f.health << " hp. " << endl;
+//     }
+// protected:
+//     string type = "animal";
+// };
+class Animal{
 public:
-    string type = "animal";
+    Animal(const string& t="animal"):type(t){}
     void Eat(const Fruit& f){
-        cout << type <<" eats "<< f.type << ". " << f.health << " hp. " << endl;
+        cout << type <<" eats "<< f.type << ". " << f.health << " hp. " << endl; 
     }
+protected:
+    const string type;
 };
+
 
 class Cat : public Animal{
 public:
-    Cat() {
-        type = "cat";
-    }
+    Cat() : Animal("cat") { }
 
     void Meow() const {
         cout << "meow! " << endl;
@@ -54,7 +63,7 @@ public:
 class Dog : public Animal{
 public:    
     Dog(){
-        type = "dog";
+        // type = "dog";
     }
 };
 
@@ -69,6 +78,6 @@ int main() {
     Orange o;
     Pineapple p;    
     Dog d;
-    DoMeal(d, p);
+    DoMeal(c, p);
     return 0;
 }
