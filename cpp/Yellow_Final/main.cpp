@@ -6,13 +6,28 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
 string ParseEvent(istream& is) {
   // Реализуйте эту функцию
+  string result;
+  getline(is, result);
+  return result;
 }
 
+string ParseDate(istream& is){
+  stringstream stream;
+  int year, month, day;
+  stream >> year;
+  stream.ignore(1);
+  stream >> month;
+  stream.ignore(1);
+  stream >> day;
+  return stream.str();
+}
 void TestAll();
 
 int main() {
