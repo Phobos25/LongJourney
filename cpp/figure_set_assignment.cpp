@@ -4,10 +4,12 @@
 #include <sstream>
 #include <memory>
 #include <cmath>
+#include <iomanip>
 
 using namespace std;
 
 class Figure{
+public:
   virtual string Name() = 0;
   virtual double Perimeter() = 0;
   virtual double Area() = 0;
@@ -33,7 +35,7 @@ public:
 
   double Area() override{
     double p = 0.5 * Perimeter();
-    double result =p*(p-a_)*(p-b_)*(p-c_)
+    double result =p*(p-a_)*(p-b_)*(p-c_);
     return sqrt(result);
   }
 
@@ -56,7 +58,7 @@ public:
   }
 
   double Perimeter() override{
-    return 2*(width_ + height_)
+    return 2*(width_ + height_);
   }
 
   double Area() override{
@@ -81,11 +83,11 @@ public:
   }
 
   double Perimeter() override{
-    return M_PI * radius_;
+    return 2 * 3.14 * radius_;
   }
 
   double Area() override{
-    return M_PI * radius_ * radius_;
+    return 3.14 * radius_ * radius_;
   }
 
 private:
