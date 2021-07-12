@@ -18,16 +18,6 @@ string ParseEvent(istream& is) {
   return result;
 }
 
-string ParseDate(istream& is){
-  stringstream stream;
-  int year, month, day;
-  stream >> year;
-  stream.ignore(1);
-  stream >> month;
-  stream.ignore(1);
-  stream >> day;
-  return stream.str();
-}
 void TestAll();
 
 int main() {

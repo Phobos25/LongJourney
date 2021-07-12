@@ -10,7 +10,7 @@ public:
   std::string FindIf(std::shared_ptr<Node>&  predicate );
 };
 
-void Database::Add (const string& date, const string& event){
+void Database::Add (const Date& date, const string& event){
 //add
 }
 
