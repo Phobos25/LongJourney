@@ -4,14 +4,14 @@ using namespace std;
 
 class Node{
 public:
-  virtual int Evaluate(Date& date, const string& event) = 0;
+  int Evaluate(const Date& date, const string& event);
 };
 
 class EmptyNode: public Node{
 
 };
 
-class DateComparsionNode: public Node{
+class DateComparisonNode: public Node{
 
 };
 
