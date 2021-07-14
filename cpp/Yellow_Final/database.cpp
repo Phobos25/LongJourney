@@ -8,11 +8,11 @@ void Database::Print(const ostream& os) const{
 //  print
 }
 
-int Database::RemoveIf(shared_ptr<Node>& predicate){
+int Database::RemoveIf(const bool& predicate){
   return 1;
 }
 
-string Database::FindIf(shared_ptr<Node>& predicate){
+string Database::FindIf(const bool& predicate){
   return "FindIf";
 }
 

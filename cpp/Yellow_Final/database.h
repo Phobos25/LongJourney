@@ -13,7 +13,7 @@ class Database{
 public:
   void Add(const Date& date, const string& event);
   void Print(const ostream& os) const;
-  int RemoveIf(shared_ptr<Node>&  predicate );
-  string FindIf(shared_ptr<Node>&  predicate );
+  int RemoveIf(const bool&  predicate );
+  string FindIf(const bool&  predicate );
   string Last(const Date& date);
 };
