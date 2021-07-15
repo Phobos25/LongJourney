@@ -3,6 +3,7 @@
 #include "condition_parser.h"
 #include "node.h"
 #include "test_runner.h"
+#include "condition_parser_test.h"
 
 #include <iostream>
 #include <stdexcept>
