@@ -13,7 +13,22 @@ class Database{
 public:
   void Add(const Date& date, const string& event);
   void Print(const ostream& os) const;
-  int RemoveIf(const bool&  predicate );
-  string FindIf(const bool&  predicate );
+  
+  template <typename T> 
+  int RemoveIf(const T&  t );
+
+  template <typename T>
+  string FindIf(const T&  t );
+
   string Last(const Date& date);
 };
+
+template <typename T>
+int Database::RemoveIf(const T& t){
+  return 1;
+}
+
+template <typename T>
+string Database::FindIf(const T& t){
+  return "FindIf";
+}

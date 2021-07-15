@@ -25,4 +25,5 @@ ostream& operator<<(ostream& stream, const Date& date){
     stream << date.year_ << '-'
            << setw(2) << date.month_
            << setw(2) << date.day_;
+    return stream;
 }
