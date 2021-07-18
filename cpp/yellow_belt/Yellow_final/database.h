@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <sstream>
 
 using namespace std;
 
@@ -35,7 +36,7 @@ private:
 };
 
 template <typename T>
-int Database::RemoveIf(const T& t){
+int Database::RemoveIf(const T& t){ 
   return 1;
 }
 

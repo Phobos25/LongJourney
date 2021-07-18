@@ -1,7 +1,11 @@
 #include "database.h"
 
 void Database::Add (const Date& date, const string& event){
-//add
+// private map <Date, Events> db_;
+  if (db_[date].s.count(event) == 0){
+    db_[date].s.insert(event);
+    db_[date].v.push_back(event);
+  }  
 }
 
 void Database::Print(ostream& os){
@@ -14,7 +18,16 @@ void Database::Print(ostream& os){
 }
 
 string Database::Last(const Date& date){
-  auto it = db_.lower_bound(date);
-
+  auto it = db_.upper_bound(date);
+  if (it != db_.begin()){
+    stringstream stream; 
+    stream << (*prev(it)).first;    
+    stream << ' ';
+    stream << (*prev(it)).second.v.back();
+    return stream.str();
+  }else {
+    return "No entries";
+  }
+  
   return "Last";
 }

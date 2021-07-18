@@ -9,15 +9,13 @@ Date::Date(int year, int month, int day){
 }
 
 Date ParseDate(istream& is){
-  stringstream stream;
   int year, month, day;
-  stream >> year;
-  stream.ignore(1);
-  stream >> month;
-  stream.ignore(1);
-  stream >> day;
-  Date date = Date(year, month, day);
-  return date;
+  is >> year;
+  is.ignore(1);
+  is >> month;
+  is.ignore(1);
+  is >> day;
+  return Date(year, month, day);
 }
 
 ostream& operator<<(ostream& stream, const Date& date){
