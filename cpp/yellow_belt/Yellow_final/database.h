@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <sstream>
 
 using namespace std;
 
@@ -16,6 +17,18 @@ struct Events{
   set <string> s;
   vector <string> v;
 };
+
+struct Entry{
+  Date date;
+  string str;
+};
+
+ostream& operator << (ostream& stream, const Entry& entry){
+  stream << entry.date;
+  stream << ' ';
+  stream << entry.str;
+  return stream;
+}
 
 class Database{
 public:
@@ -28,7 +41,7 @@ public:
   int RemoveIf(const T&  t );
 
   template <typename T>
-  string FindIf(const T&  t );
+  vector<Entry> FindIf(const T&  predicate );
 
 private:
   map <Date, Events> db_;
@@ -40,6 +53,17 @@ int Database::RemoveIf(const T& t){
 }
 
 template <typename T>
-string Database::FindIf(const T& t){
-  return "FindIf";
+vector<Entry> Database::FindIf(const T& predicate){
+  vector <Entry> entries;
+  for (auto& [key, value]: db_){
+    for (auto& it:value.v){
+      if (predicate(key, it)){
+        Entry entry;
+        entry.date = key;
+        entry.str = it;
+        entries.push_back(entry);
+      }
+    }
+  }
+  return entries;
 }
