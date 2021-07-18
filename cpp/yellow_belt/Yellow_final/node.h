@@ -26,6 +26,7 @@ public:
 class EmptyNode: public Node{
 public:
   EmptyNode() = default;
+
   bool Evaluate(const Date& date, const string& event) override;
 };
 
@@ -53,15 +54,20 @@ private:
   string value_;
 };
 
-class LogicalOperatorNode: public Node{
+class LogicalOperationNode: public Node{
 public:
-  LogicalOperatorNode() = default;
-  LogicalOperatorNode(LogicalOperation& op, const shared_ptr<Node>& ptr1, const shared_ptr<Node>& ptr2);
+  LogicalOperationNode() = default;
+  LogicalOperationNode(const LogicalOperation op,
+      const shared_ptr<Node>& ptr1,
+      const shared_ptr<Node>& ptr2)
+      : op_(op){
+      ptr1_ = ptr1;
+      ptr2_ = ptr2;};
 
   bool Evaluate(const Date& date, const string& event) override;
 
 private:
-  LogicalOperation op_;
+  const LogicalOperation op_;
   shared_ptr<Node> ptr1_, ptr2_;
 };
 

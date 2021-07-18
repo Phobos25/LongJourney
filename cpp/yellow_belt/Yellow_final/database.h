@@ -6,13 +6,23 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <vector>
+#include <map>
+#include <set>
 
 using namespace std;
+
+struct Events{
+  set <string> s;
+  vector <string> v;
+};
 
 class Database{
 public:
   void Add(const Date& date, const string& event);
-  void Print(const ostream& os) const;
+  void Print(ostream& os);
+
+  string Last(const Date& date);
 
   template <typename T>
   int RemoveIf(const T&  t );
@@ -20,7 +30,8 @@ public:
   template <typename T>
   string FindIf(const T&  t );
 
-  string Last(const Date& date);
+private:
+  map <Date, Events> db_;
 };
 
 template <typename T>

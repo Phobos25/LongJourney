@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <algorithm>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ string ParseEvent(istream& is) {
   // Реализуйте эту функцию
   string result;
   getline(is, result);
+//  find(result.begin, __last, __val)
   return result;
 }
 
