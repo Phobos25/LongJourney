@@ -1,11 +1,39 @@
 #include "node.h"
 
 bool EmptyNode :: Evaluate(const Date& date, const string& event){
-    return 0;
+  return true;
 }
 
 bool DateComparisonNode :: Evaluate(const Date& date, const string& event){
-    return 0;
+  return true;
+}
+
+bool EventComparisonNode :: Evaluate(
+                        const Date& date,
+                        const string& event){
+
+  if (cmp_ == Comparison::Equal){
+    return value_ == event;
+  }
+  if (cmp_ == Comparison::Greater){
+    return value_ > event;
+  }
+  if (cmp_ == Comparison::GreaterOrEqual){
+    return value_ >= event;
+  }
+  if (cmp_ == Comparison::Less){
+    return value_ < event;
+  }
+  if (cmp_ == Comparison::LessOrEqual){
+    return value_ <= event;
+  }
+  else{
+    return value_ != event;
+  }
+}
+
+bool LogicalOperationNode :: Evaluate(const Date& date, const string& event){
+  return true;
 }
 
 DateComparisonNode::DateComparisonNode(
@@ -20,12 +48,4 @@ EventComparisonNode::EventComparisonNode(
                     const string& value){
   cmp_ = cmp;
   value_ = value;
-}
-
-bool EventComparisonNode :: Evaluate(const Date& date, const string& event){
-    return 0;
-}
-
-bool LogicalOperationNode :: Evaluate(const Date& date, const string& event){
-    return 0;
 }

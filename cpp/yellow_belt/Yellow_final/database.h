@@ -23,12 +23,7 @@ struct Entry{
   string str;
 };
 
-ostream& operator << (ostream& stream, const Entry& entry){
-  stream << entry.date;
-  stream << ' ';
-  stream << entry.str;
-  return stream;
-}
+ostream& operator << (ostream& stream, const Entry& entry);
 
 class Database{
 public:

@@ -1,5 +1,13 @@
 #include "database.h"
 
+
+ostream& operator << (ostream& stream, const Entry& entry){
+  stream << entry.date;
+  stream << ' ';
+  stream << entry.str;
+  return stream;
+}
+
 void Database::Add (const Date& date, const string& event){
 //private  map <Date, Events> db_;
   if (db_[date].s.count(event) == 0){
