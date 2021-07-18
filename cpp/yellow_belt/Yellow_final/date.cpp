@@ -2,6 +2,12 @@
 #include <sstream>
 #include <iomanip>
 
+Date::Date(){
+  year_ = 0;
+  month_ = 0;
+  day_ = 0;
+}
+
 Date::Date(int year, int month, int day){
     year_ = year;
     month_ = month;
