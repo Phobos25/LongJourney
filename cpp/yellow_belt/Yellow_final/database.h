@@ -14,6 +14,11 @@
 using namespace std;
 
 struct Entry{
+  Entry(Date d, string s){
+    date = d;
+    str = s;
+  }
+  Entry() = default;
   Date date;
   string str;
 };
@@ -46,7 +51,7 @@ int Database::RemoveIf(const T& predicate){
   for (auto& [key, values]:db_){
     for (auto& it: values.v){
       if (predicate(key, it)){
-        db_[key].first.erase(*it);
+        db_[key].v.erase(it);
         
         ++count;
       }
@@ -64,7 +69,7 @@ Entry Database::FindIf(const T& predicate){
   for (auto& [key, values]:db_){
     for (auto& it:values.v){
       if (predicate(key, it)){
-        Entry entry = (key, it);
+        Entry entry(key, it);
         entries.push_back(entry);
       }      
     }

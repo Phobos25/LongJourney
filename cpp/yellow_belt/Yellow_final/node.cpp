@@ -4,8 +4,25 @@ bool EmptyNode :: Evaluate(const Date& date, const string& event){
   return true;
 }
 
-bool DateComparisonNode :: Evaluate(const Date& date, const string& event){
-  return true;
+bool DateComparisonNode :: Evaluate(const Date& date,
+                              const string& event){
+  if (cmp_ == Comparison::Equal){
+    return date_ == date;
+  }
+  if (cmp_ == Comparison::Greater){
+    return date_ > date;
+  }
+  if (cmp_ == Comparison::GreaterOrEqual){
+    return date_ >= date;
+  }
+  if (cmp_ == Comparison::Less){
+    return date_ < date;
+  }
+  if (cmp_ == Comparison::LessOrEqual){
+    return date_ <= date;
+  }else{
+    return date_ != date;
+  }
 }
 
 bool EventComparisonNode :: Evaluate(
@@ -33,7 +50,11 @@ bool EventComparisonNode :: Evaluate(
 }
 
 bool LogicalOperationNode :: Evaluate(const Date& date, const string& event){
-  return true;
+  if (op_ == LogicalOperation::And){
+    return ptr1_->Evaluate(date, event) && ptr2_->Evaluate(date, event);
+  }else {
+    return ptr1_->Evaluate(date, event) || ptr2_->Evaluate(date, event);
+  }
 }
 
 DateComparisonNode::DateComparisonNode(
