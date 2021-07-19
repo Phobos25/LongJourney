@@ -13,17 +13,15 @@
 
 using namespace std;
 
-struct Events{
-  set <string> s;
-  vector <string> v;
-};
-
 struct Entry{
   Date date;
   string str;
 };
 
-ostream& operator << (ostream& stream, const Entry& entry);
+struct Events{
+  set <string> s;
+  vector <string> v;
+};
 
 class Database{
 public:
@@ -36,28 +34,39 @@ public:
   int RemoveIf(const T&  t );
 
   template <typename T>
-  vector<Entry> FindIf(const T&  predicate );
+  Entry FindIf(const T&  t );
 
 private:
   map <Date, Events> db_;
 };
 
 template <typename T>
-int Database::RemoveIf(const T& t){ 
-  return 1;
+int Database::RemoveIf(const T& predicate){ 
+  int count = 0;
+  for (auto& [key, values]:db_){
+    for (auto& it: values.v){
+      if (predicate(key, it)){
+        db_[key].first.erase(*it);
+        
+        ++count;
+      }
+    }
+    if (values.v.size() == 0){
+      key = db_.erase(key);
+    }
+  }
+  return count;
 }
 
 template <typename T>
-vector<Entry> Database::FindIf(const T& predicate){
-  vector <Entry> entries;
-  for (auto& [key, value]: db_){
-    for (auto& it:value.v){
+Entry Database::FindIf(const T& predicate){
+  vector<Entry> entries;
+  for (auto& [key, values]:db_){
+    for (auto& it:values.v){
       if (predicate(key, it)){
-        Entry entry;
-        entry.date = key;
-        entry.str = it;
+        Entry entry = (key, it);
         entries.push_back(entry);
-      }
+      }      
     }
   }
   return entries;
