@@ -28,6 +28,8 @@ struct Events{
   vector <string> v;
 };
 
+ostream& operator <<(ostream& stream, const Entry& entry);
+
 class Database{
 public:
   void Add(const Date& date, const string& event);
@@ -39,7 +41,7 @@ public:
   int RemoveIf(const T&  t );
 
   template <typename T>
-  Entry FindIf(const T&  t );
+  vector<Entry> FindIf(const T&  t );
 
 private:
   map <Date, Events> db_;
@@ -48,29 +50,30 @@ private:
 template <typename T>
 int Database::RemoveIf(const T& predicate){ 
   int count = 0;
+  map <Date, Events> new_db;
   for (auto& [key, values]:db_){
     for (auto& it: values.v){
-      if (predicate(key, it)){
-        db_[key].v.erase(it);
-        
+      if (!predicate(key, it)){               
+        new_db[key].s.insert(it);
+        new_db[key].v.push_back(it);        
+      }else{
         ++count;
       }
-    }
-    if (values.v.size() == 0){
-      key = db_.erase(key);
-    }
+    }    
   }
+  db_ = move(new_db);
   return count;
 }
 
 template <typename T>
-Entry Database::FindIf(const T& predicate){
+vector<Entry> Database::FindIf(const T& predicate){
   vector<Entry> entries;
   for (auto& [key, values]:db_){
     for (auto& it:values.v){
       if (predicate(key, it)){
         Entry entry(key, it);
         entries.push_back(entry);
+                
       }      
     }
   }

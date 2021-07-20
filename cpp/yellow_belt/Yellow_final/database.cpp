@@ -1,6 +1,5 @@
 #include "database.h"
 
-
 ostream& operator << (ostream& stream, const Entry& entry){
   stream << entry.date;
   stream << ' ';

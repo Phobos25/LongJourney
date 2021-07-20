@@ -21,9 +21,8 @@ string ParseEvent(istream& is) {
 void TestAll();
 
 int main() {
-  TestAll();
-
-  Database db;
+  // TestAll();
+  Database db;  
 
   for (string line; getline(cin, line); ) {
     istringstream is(line);
