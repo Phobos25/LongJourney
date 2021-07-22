@@ -59,8 +59,7 @@ public:
   LogicalOperationNode() = default;
   LogicalOperationNode(const LogicalOperation& op, 
         const shared_ptr<Node> ptr1,
-        const shared_ptr<Node> ptr2)
-        : op_(op){};
+        const shared_ptr<Node> ptr2);
 
   bool Evaluate(const Date& date, const string& event) override;
 

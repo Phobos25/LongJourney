@@ -1,17 +1,90 @@
 #include "node.h"
 
 bool EmptyNode :: Evaluate(const Date& date, const string& event){
-    return 0;
+    return true;
 }
+
+DateComparisonNode::DateComparisonNode(const Comparison& cmp, 
+        const Date& date)
+        : cmp_(cmp)
+        , date_(date)
+        {}
 
 bool DateComparisonNode :: Evaluate(const Date& date, const string& event){
-    return 0;
+    if (cmp_ == Comparison::Equal)
+	{
+		return date_ == date;
+	}
+	else if (cmp_ == Comparison::Greater)
+	{
+		return date_ < date;
+	}
+	else if (cmp_ == Comparison::GreaterOrEqual)
+	{
+		return date_ <= date;
+	}
+	else if (cmp_ == Comparison::Less)
+	{
+		return date_ > date;
+	}
+	else if (cmp_ == Comparison::LessOrEqual)
+	{
+		return date_ >= date;
+	}
+	else
+	{
+		return date_ != date;
+	}
 }
+
+EventComparisonNode::EventComparisonNode(
+        const Comparison& cmp, 
+        const string& value)
+        : cmp_(cmp)
+        , value_(value)
+        {}
 
 bool EventComparisonNode :: Evaluate(const Date& date, const string& event){
-    return 0;
+    if (cmp_ == Comparison::Equal)
+	{
+		return value_ == event;
+	}
+	else if (cmp_ == Comparison::Greater)
+	{
+		return value_ < event;
+	}
+	else if (cmp_ == Comparison::GreaterOrEqual)
+	{
+		return value_ <= event;
+	}
+	else if (cmp_ == Comparison::Less)
+	{
+		return value_ > event;
+	}
+	else if (cmp_ == Comparison::LessOrEqual)
+	{
+		return value_ >= event;
+	}
+	else
+	{
+		return value_ != event;
+	}
 }
 
+LogicalOperationNode::LogicalOperationNode(const LogicalOperation& op, 
+        const shared_ptr<Node> ptr1,
+        const shared_ptr<Node> ptr2)
+        :op_(op)
+        ,ptr1_(ptr1)
+        ,ptr2_(ptr2)
+        {}
+
 bool LogicalOperationNode :: Evaluate(const Date& date, const string& event){
-    return 0;
+    if (op_ == LogicalOperation::And){
+        return ptr1_ ->Evaluate(date, event) && ptr2_->Evaluate(date,event);
+    }
+    if (op_ == LogicalOperation::Or){
+        return ptr1_ ->Evaluate(date, event) || ptr2_->Evaluate(date,event);
+    }
+	return false;
 }

@@ -10,6 +10,7 @@
 #include <map>
 #include <set>
 #include <sstream>
+#include <utility>
 
 using namespace std;
 
@@ -38,10 +39,10 @@ public:
   string Last(const Date& date);
 
   template <typename T>
-  int RemoveIf(const T&  t );
+  int RemoveIf(const T&  predicate );
 
   template <typename T>
-  vector<Entry> FindIf(const T&  t );
+  vector<Entry> FindIf(const T&  predicate );
 
 private:
   map <Date, Events> db_;

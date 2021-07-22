@@ -2,10 +2,64 @@
 #include <sstream>
 #include <iomanip>
 
-Date::Date(int year, int month, int day){
-    year_ = year;
-    month_ = month;
-    day_ = day;
+Date::Date(int year, int month, int day)
+          : year_(year)
+          , month_(month)
+          , day_ (day)
+{}
+
+int Date::GetYear() const{return year_;}
+
+int Date::GetMonth() const{return month_;}
+
+int Date::GetDay() const{return day_;}
+
+bool operator < (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() < rhs.GetDay();
+    }
+    return lhs.GetMonth() < rhs.GetMonth();
+  }
+  return lhs.GetYear() < rhs.GetYear();
+}
+
+bool operator <= (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() <= rhs.GetDay();
+    }
+    return lhs.GetMonth() <= rhs.GetMonth();
+  }
+  return lhs.GetYear() <= rhs.GetYear();
+}
+
+bool operator > (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() > rhs.GetDay();
+    }
+    return lhs.GetMonth() > rhs.GetMonth();
+  }
+  return lhs.GetYear() > rhs.GetYear();
+}
+
+bool operator >= (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() >= rhs.GetDay();
+    }
+    return lhs.GetMonth() >= rhs.GetMonth();
+  }
+  return lhs.GetYear() >= rhs.GetYear();
+}
+
+bool operator == (const Date& lhs, const Date& rhs){
+  return lhs.GetYear() == rhs.GetYear() && lhs.GetMonth() == rhs.GetMonth() && lhs.GetDay() == rhs.GetDay();
+}
+
+bool operator != (const Date& lhs, const Date& rhs){
+  return lhs.GetYear() != rhs.GetYear() || lhs.GetMonth() != rhs.GetMonth() || lhs.GetDay() != rhs.GetDay();
 }
 
 Date ParseDate(istream& is){
@@ -21,9 +75,7 @@ Date ParseDate(istream& is){
 }
 
 ostream& operator<<(ostream& stream, const Date& date){
-    stream << setfill('0');
-    stream << date.year_ << '-'
-           << setw(2) << date.month_
-           << setw(2) << date.day_;
-    return stream;
+    return stream << std::setw(4) << std::setfill('0') << date.GetYear() << '-'
+			   << std::setw(2) << std::setfill('0') << date.GetMonth() << '-'
+			   << std::setw(2) << std::setfill('0') << date.GetDay();
 }

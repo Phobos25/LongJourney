@@ -36,7 +36,7 @@ bool operator <(const Date& lhs, const Date& rhs){
   if (lhs.year_ == rhs.year_){
     if (lhs.month_ == rhs.month_){
       return lhs.day_ < rhs.day_;
-    }else {lhs.month_ < rhs.month_;}
+    }else {return lhs.month_ < rhs.month_;}
   }else {return lhs.year_ < rhs.year_; }
 }
 
@@ -44,7 +44,7 @@ bool operator >(const Date& lhs, const Date& rhs){
   if (lhs.year_ == rhs.year_){
     if (lhs.month_ == rhs.month_){
       return lhs.day_ > rhs.day_;
-    }else {lhs.month_ > rhs.month_;}
+    }else {return lhs.month_ > rhs.month_;}
   }else {return lhs.year_ > rhs.year_; }
 }
 
@@ -52,7 +52,30 @@ bool operator ==(const Date& lhs, const Date& rhs){
   if (lhs.year_ == rhs.year_){
     if (lhs.month_ == rhs.month_){
       return lhs.day_ == rhs.day_;
-    }else {lhs.month_ == rhs.month_;}
-  }else {lhs.year_ == rhs.year_;}
+    }else {return lhs.month_ == rhs.month_;}
+  }else {return lhs.year_ == rhs.year_;}
 }
 
+bool operator <=(const Date& lhs, const Date& rhs){
+  if (lhs.year_ == rhs.year_){
+    if (lhs.month_ == rhs.month_){
+      return lhs.day_ <= rhs.day_;
+    }else {return lhs.month_ <= rhs.month_;}
+  }else {return lhs.year_ <= rhs.year_; }
+}
+
+bool operator >=(const Date& lhs, const Date& rhs){
+  if (lhs.year_ == rhs.year_){
+    if (lhs.month_ == rhs.month_){
+      return lhs.day_ >= rhs.day_;
+    }else {return lhs.month_ >= rhs.month_;}
+  }else {return lhs.year_ >= rhs.year_; }
+}
+
+bool operator !=(const Date& lhs, const Date& rhs){
+  if (lhs.year_ == rhs.year_){
+    if (lhs.month_ == rhs.month_){
+      return lhs.day_ != rhs.day_;
+    }else {return lhs.month_ != rhs.month_;}
+  }else {return lhs.year_ != rhs.year_;}
+}

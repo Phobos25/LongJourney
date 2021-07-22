@@ -8,27 +8,32 @@
 #include <stdexcept>
 #include <sstream>
 #include <string>
-#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 string ParseEvent(istream& is) {
-  // Реализуйте эту функцию
-  string result;
-  getline(is, result);
-  return result;
+ string event;
+ getline(is, event);
+ return string(find_if(event.begin(), event.end(), [](const char& c) 
+    { 
+        return !isspace(c); 
+    }), 
+          event.end());
 }
 
-void TestParseCondition();
+template <typename F, typename S>
+ostream& operator<< (ostream& stream, const pair<F, S>& p){
+  return stream << p.first << ' ' << p.second;
+}
 
 void TestAll();
 
 int main() {
-  // TestAll();
-
+  TestAll();
+  cout << "run successfully" << endl;
   Database db;
 
-<<<<<<< HEAD
   for (string line; getline(cin, line); ) {
     istringstream is(line);
 
@@ -53,33 +58,6 @@ int main() {
         return condition->Evaluate(date, event);
       };
 
-=======
-
-  for (string line; getline(cin, line); ) {
-    istringstream is(line);
-
-    string command;
-    is >> command;
-    if (command == "Add") {
-      const auto date = ParseDate(is);
-      const auto event = ParseEvent(is);
-      db.Add(date, event);
-    } else if (command == "Print") {
-      db.Print(cout);
-    } else if (command == "Del") {
-      auto condition = ParseCondition(is);
-      auto predicate = [condition](const Date& date, const string& event) {
-        return condition->Evaluate(date, event);
-      };
-      int count = db.RemoveIf(predicate);
-      cout << "Removed " << count << " entries" << endl;
-    } else if (command == "Find") {
-      auto condition = ParseCondition(is);
-      auto predicate = [condition](const Date& date, const string& event) {
-        return condition->Evaluate(date, event);
-      };
-
->>>>>>> 263201521b1941171ef81c9e03a6e0542ba4386b
       const auto entries = db.FindIf(predicate);
       for (const auto& entry : entries) {
         cout << entry << endl;

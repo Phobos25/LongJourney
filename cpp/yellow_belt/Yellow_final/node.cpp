@@ -7,21 +7,21 @@ bool EmptyNode :: Evaluate(const Date& date, const string& event){
 bool DateComparisonNode :: Evaluate(const Date& date,
                               const string& event){
   if (cmp_ == Comparison::Equal){
-    return date_ == date;
+    return date == date_;
   }
   if (cmp_ == Comparison::Greater){
-    return date_ > date;
+    return date > date_;
   }
   if (cmp_ == Comparison::GreaterOrEqual){
-    return date_ >= date;
+    return date >= date_;
   }
   if (cmp_ == Comparison::Less){
-    return date_ < date;
+    return date < date_;
   }
   if (cmp_ == Comparison::LessOrEqual){
-    return date_ <= date;
+    return date <= date_;
   }else{
-    return date_ != date;
+    return date != date_;
   }
 }
 
@@ -30,22 +30,22 @@ bool EventComparisonNode :: Evaluate(
                         const string& event){
 
   if (cmp_ == Comparison::Equal){
-    return value_ == event;
+    return event == value_;
   }
   if (cmp_ == Comparison::Greater){
-    return value_ > event;
+    return event > value_;
   }
   if (cmp_ == Comparison::GreaterOrEqual){
-    return value_ >= event;
+    return event >= value_;
   }
   if (cmp_ == Comparison::Less){
-    return value_ < event;
+    return event < value_;
   }
   if (cmp_ == Comparison::LessOrEqual){
-    return value_ <= event;
+    return event <= value_;
   }
   else{
-    return value_ != event;
+    return event != value_;
   }
 }
 

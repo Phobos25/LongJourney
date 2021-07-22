@@ -10,18 +10,24 @@
 
 using namespace std;
 
-string ParseEvent(istream& is) {
-  // Реализуйте эту функцию
-  string result;
-  getline(is, result);
-//  find(result.begin, __last, __val)
-  return result;
+string Trim(const std::string& line)
+{
+    const char* WhiteSpace = " \t";
+    size_t start = line.find_first_not_of(WhiteSpace);
+    size_t end = line.size();
+    return start == end ? std::string() : line.substr(start, end - start + 1);
+}
+
+string ParseEvent(istream& is) {  
+  string str;
+  getline(is, str);  
+  return Trim(str);
 }
 
 void TestAll();
 
 int main() {
-  // TestAll();
+  TestAll();
   Database db;  
 
   for (string line; getline(cin, line); ) {
