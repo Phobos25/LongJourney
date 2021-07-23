@@ -8,24 +8,24 @@ int main(){
 	string c = "month";
 */
 	string a, b, c;
+	string result = "";
 	cin >> a >> b >> c;
-	if (a <= b){
+
+	if (a <= b){ 
 		if (a <= c){
-			cout << a;
-		} 
-	} 
-
-	if (b < a){
-		if (b< c){
-			cout << b;
-		}
+			result = a;
+			} 
 	}
-
-	if (c < b){
-		if (c < a){
-			cout << c;
-		}
+	if (b <= a){
+		if (b<= c){	
+			result = b;
+			}
 	}
-
+	if (c <= b){
+		if (c <= a){
+			result = c;
+			}
+	}
+	cout << result;
 	return 0;
 }
