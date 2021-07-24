@@ -26,7 +26,7 @@ int main(){
 	  	else{		  					
 	  		for (const auto& route:bus_routes){
 	  			if (route.second == new_route){
-	  				cout << "Already exist for " << route.first << endl;
+	  				cout << "Already exists for " << route.first << endl;
 	  				flag = 1;
 	  				break;
 	  			}	

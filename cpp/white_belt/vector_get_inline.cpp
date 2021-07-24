@@ -59,7 +59,7 @@ int main(){
 			cin >> n;
 		}
 		else {
-			cout << WorryCount(worry);
+			cout << WorryCount(worry) << endl;
 		}
 		if (command == "COME"){
 			if (n > 0){

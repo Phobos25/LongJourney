@@ -1,21 +1,14 @@
-
 #include <iostream>
 #include <vector>
+#include <set>
+
 using namespace std;
 
 int main() {
-	vector <int> x;
-	int n, ostatok;
-    cin >> n;
+	set <int> s = {1, 2, 3};
+	int x = 4;
+	s.erase(x);
+	s.insert(x);
 
-	ostatok = n ;
-	while (ostatok >= 2){
-		x.push_back(ostatok%2);
-		ostatok /= 2;
-	}
-	cout << 1;
-	for (auto it = x.rbegin(); it != x.rend(); ++ it){
-		cout << *it;
-	}
-	return 0;
+	cout << s.size();
 }

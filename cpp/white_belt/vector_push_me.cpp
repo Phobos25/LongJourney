@@ -64,6 +64,7 @@ int main (){
 		else if(command == "DUMP"){
 			cin >> i;
 			Dump(todo[i-1]);
+			cout << "\n";
 		}
 		else if(command == "ADD"){
 			cin >> i >> s;
