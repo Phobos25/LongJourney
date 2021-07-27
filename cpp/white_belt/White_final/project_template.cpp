@@ -6,6 +6,7 @@
 #include <set>
 #include <iomanip>
 #include <sstream>
+#include <exception>
 
 using namespace std;
 // Реализуйте функции и методы классов и при необходимости добавьте свои
@@ -21,6 +22,7 @@ public:
     year_ = year;
     month_ = month;
     day_ = day;
+    
   }
   int GetYear() const{
     return year_;
@@ -114,8 +116,16 @@ Date ParseDate(string& date){
   is >> year;
   is.ignore(1);
   is >> month;
+  if (month <= 0 || month > 12){                
+      string error_msg = "Month value is invalid: " + to_string(month);
+      throw runtime_error(error_msg);      
+    } 
   is.ignore(1);
   is >> day;
+  if (day <= 0 || day > 31){       
+      string error_msg = "Day value is invalid: " + to_string(day);
+      throw runtime_error(error_msg);        
+    }      
   return Date(year, month, day);
 }
 
@@ -123,35 +133,51 @@ int main() {
   Database db;
   string command;
   while (getline(cin, command)) {
-    string com, date, event;
+    string com, strDate, event;
     stringstream ss(command);
     ss >> com;
     // Считайте команды с потока ввода и обработайте каждую
     if (com == "Add"){      
-      ss >> date >> event;
-      db.AddEvent(ParseDate(date), event);
+      ss >> strDate >> event;      
+      Date date = ParseDate(strDate);
+      db.AddEvent(date, event);
     } else if (com == "Print"){
       db.Print();
     } else if (com == "Del"){
-      ss >> date >> event;
+      ss >> strDate >> event;      
       if (event.empty()){
-        int num = db.DeleteDate(ParseDate(date));
-        cout << "Deleted " << num << " events" << endl;
+        try {
+          Date date = ParseDate(strDate);
+          int num = db.DeleteDate(date);
+          cout << "Deleted " << num << " events" << endl;
+        } catch (exception& ex){
+          cout << ex.what() << "\n";
+        }        
       } else {
-        const bool b = db.DeleteEvent(ParseDate(date), event);
-        if (b){
-          cout << "Deleted successfully" << endl;
-        }else {
-          cout << "Event not found" << endl;
-        }
+        try {
+          Date date = ParseDate(strDate);
+          const bool b = db.DeleteEvent(date, event);
+          if (b){
+            cout << "Deleted successfully" << endl;
+          }else {
+            cout << "Event not found" << endl;
+          }} catch (exception& ex){
+          cout << ex.what() << "\n";  
+          }        
       }  
     } else if (com == "Find"){
-      ss >> date;
-      db.Find(ParseDate(date));
-    } else {
+      ss >> strDate;
+      try{
+        Date date = ParseDate(strDate);
+        db.Find(date);
+      } catch (exception& ex){
+        cout << ex.what() << "\n";  
+      }        
+    } else if (com.empty()){
+    } 
+     else{
       cout << "Unknown command: "<< com << endl;
     }
-
   }
 
   return 0;
