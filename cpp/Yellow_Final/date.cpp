@@ -75,7 +75,9 @@ Date ParseDate(istream& is){
 }
 
 ostream& operator<<(ostream& stream, const Date& date){
-    return stream << std::setw(4) << std::setfill('0') << date.GetYear() << '-'
-			   << std::setw(2) << std::setfill('0') << date.GetMonth() << '-'
-			   << std::setw(2) << std::setfill('0') << date.GetDay();
+    stream << setfill('0');
+    stream << setw(4) << date.GetYear() << '-'
+           << setw(2) << date.GetMonth()<< '-'
+           << setw(2) << date.GetDay();
+    return stream;
 }

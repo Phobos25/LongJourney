@@ -100,5 +100,5 @@ void TestParseEvent() {
 void TestAll() {
   TestRunner tr;
   tr.RunTest(TestParseEvent, "TestParseEvent");
-  // tr.RunTest(TestParseCondition, "TestParseCondition");
+  tr.RunTest(TestParseCondition, "TestParseCondition");
 }
