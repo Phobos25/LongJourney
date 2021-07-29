@@ -1,10 +1,11 @@
 #pragma once
 #include "date.h"
-#include <memory>
 
+#include <memory>
+#include <string>
 using namespace std;
 
-enum class Comparison {
+enum class Comparison{
   Less,
   LessOrEqual,
   Greater,
@@ -48,7 +49,6 @@ public:
   EventComparisonNode(const Comparison& cmp, const string& value);
 
   bool Evaluate(const Date& date, const string& event) override;
-
 private:
   Comparison cmp_;
   string value_;
@@ -57,12 +57,9 @@ private:
 class LogicalOperationNode: public Node{
 public:
   LogicalOperationNode() = default;
-  LogicalOperationNode(const LogicalOperation op,
-      const shared_ptr<Node>& ptr1,
-      const shared_ptr<Node>& ptr2)
-      : op_(op){
-      ptr1_ = ptr1;
-      ptr2_ = ptr2;};
+  LogicalOperationNode(const LogicalOperation& op, 
+        const shared_ptr<Node> ptr1,
+        const shared_ptr<Node> ptr2);
 
   bool Evaluate(const Date& date, const string& event) override;
 
@@ -70,5 +67,3 @@ private:
   const LogicalOperation op_;
   shared_ptr<Node> ptr1_, ptr2_;
 };
-
-

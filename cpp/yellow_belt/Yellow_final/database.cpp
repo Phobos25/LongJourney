@@ -1,40 +1,42 @@
 #include "database.h"
 
-ostream& operator << (ostream& stream, const Entry& entry){
-  stream << entry.date;
-  stream << ' ';
-  stream << entry.str;
-  return stream;
+#include <sstream>
+#include <algorithm>
+
+void Database::Add(const Date& date, const std::string& event)
+{
+	Data& tmp = storage[date];
+
+	if (tmp.st_.count(event) == 0)
+	{
+		tmp.st_.insert(event);
+		tmp.vec_.push_back(event);
+	}
 }
 
-void Database::Add (const Date& date, const string& event){
-// private map <Date, Events> db_;
-  if (db_[date].s.count(event) == 0){
-    db_[date].s.insert(event);
-    db_[date].v.push_back(event);
-  }  
+void Database::Print(std::ostream& out) const
+{
+	for (const auto& [key, value] : storage)
+	{
+		for (const auto& j : value.vec_)
+		{
+			out << key << ' ' << j << '\n';
+		}
+	}
 }
 
-void Database::Print(ostream& os){
-// private map <Date, Events> db_;
-  for (const auto& it:db_){
-    for (const auto& v:it.second.v){
-      os << it.first << ' ' << v << "\n";
-    }
-  }
-}
+std::string Database::Last(const Date& date) const
+{
+	auto it = storage.upper_bound(date);
+	
+	if (it == storage.begin())
+	{
+		return "No entries";
+	}
 
-string Database::Last(const Date& date){
-  auto it = db_.upper_bound(date);
-  if (it != db_.begin()){
-    stringstream stream; 
-    stream << (*prev(it)).first;    
-    stream << ' ';
-    stream << (*prev(it)).second.v.back();
-    return stream.str();
-  }else {
-    return "No entries";
-  }
-  
-  return "Last";
+	std::stringstream ss;
+
+	ss << (--it)->first << ' ' << it->second.vec_.back();
+
+	return ss.str();
 }

@@ -63,13 +63,12 @@ bool operator != (const Date& lhs, const Date& rhs){
 }
 
 Date ParseDate(istream& is){
-  stringstream stream;
   int year, month, day;
-  stream >> year;
-  stream.ignore(1);
-  stream >> month;
-  stream.ignore(1);
-  stream >> day;
+  is >> year;
+  is.ignore(1);
+  is >> month;
+  is.ignore(1);
+  is >> day;
   Date date = Date(year, month, day);
   return date;
 }

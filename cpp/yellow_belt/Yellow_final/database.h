@@ -1,82 +1,80 @@
 #pragma once
 
 #include "date.h"
-#include "node.h"
 
 #include <string>
-#include <iostream>
-#include <memory>
 #include <vector>
 #include <map>
 #include <set>
-#include <sstream>
+#include <ostream>
 #include <utility>
 
-using namespace std;
-
-struct Entry{
-  Entry(Date d, string s){
-    date = d;
-    str = s;
-  }
-  Entry() = default;
-  Date date;
-  string str;
+struct Data
+{
+	std::set<std::string> st_;
+	std::vector<std::string> vec_;
 };
 
-struct Events{
-  set <string> s;
-  vector <string> v;
-};
-
-ostream& operator <<(ostream& stream, const Entry& entry);
-
-class Database{
+class Database
+{
 public:
-  void Add(const Date& date, const string& event);
-  void Print(ostream& os);
+	void Add(const Date& date, const std::string& event);
+	void Print(std::ostream& out) const;
 
-  string Last(const Date& date);
+	template <typename L>
+	int RemoveIf(const L predicate);
 
-  template <typename T>
-  int RemoveIf(const T&  predicate );
+	template <typename L>
+	std::vector<std::pair<Date, std::string>> FindIf(const L predicate) const;
 
-  template <typename T>
-  vector<Entry> FindIf(const T&  predicate );
+	std::string Last(const Date& date) const;
 
 private:
-  map <Date, Events> db_;
+	std::map<Date, Data> storage;
 };
 
-template <typename T>
-int Database::RemoveIf(const T& predicate){ 
-  int count = 0;
-  map <Date, Events> new_db;
-  for (auto& [key, values]:db_){
-    for (auto& it: values.v){
-      if (!predicate(key, it)){               
-        new_db[key].s.insert(it);
-        new_db[key].v.push_back(it);        
-      }else{
-        ++count;
-      }
-    }    
-  }
-  db_ = move(new_db);
-  return count;
+template <typename L>
+int Database::RemoveIf(const L predicate)
+{
+	int counter = 0;
+	std::map<Date, Data> new_map;
+	for (auto& [key, value] : storage)
+	{
+		for (auto& i : value.vec_)
+		{
+			if (!predicate(key, i))
+			{
+				Data& tmp = new_map[key];
+				tmp.st_.insert(i);
+				tmp.vec_.push_back(std::move(i));
+			}
+			else
+			{
+				counter++;
+			}
+		}
+	}
+
+	storage = std::move(new_map);
+
+	return counter;
 }
 
-template <typename T>
-vector<Entry> Database::FindIf(const T& predicate){
-  vector<Entry> entries;
-  for (auto& [key, values]:db_){
-    for (auto& it:values.v){
-      if (predicate(key, it)){
-        Entry entry(key, it);
-        entries.push_back(entry);
-                
-      }      
-    }
-  }
-  return entries;
+template <typename L>
+std::vector<std::pair<Date, std::string>> Database::FindIf(const L predicate) const
+{
+	std::vector<std::pair<Date, std::string>> result;
+
+	for (auto& [key, value] : storage)
+	{
+		for (std::size_t i = 0; i < value.vec_.size(); i++)
+		{
+			if (predicate(key, value.vec_[i]))
+			{
+				result.push_back(std::make_pair(key, value.vec_[i]));
+			}
+		}
+	}
+
+	return result;
 }

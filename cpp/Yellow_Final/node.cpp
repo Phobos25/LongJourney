@@ -11,29 +11,22 @@ DateComparisonNode::DateComparisonNode(const Comparison& cmp,
         {}
 
 bool DateComparisonNode :: Evaluate(const Date& date, const string& event){
-    if (cmp_ == Comparison::Equal)
-	{
-		return date_ == date;
+   if (cmp_ == Comparison::Equal){
+		return date == date_;
 	}
-	else if (cmp_ == Comparison::Greater)
-	{
-		return date_ < date;
+	if (cmp_ == Comparison::Greater){
+		return date > date_;
 	}
-	else if (cmp_ == Comparison::GreaterOrEqual)
-	{
-		return date_ <= date;
+	if (cmp_ == Comparison::GreaterOrEqual){
+		return date >= date_;
 	}
-	else if (cmp_ == Comparison::Less)
-	{
-		return date_ > date;
+	if (cmp_ == Comparison::Less){
+		return date < date_;
 	}
-	else if (cmp_ == Comparison::LessOrEqual)
-	{
-		return date_ >= date;
-	}
-	else
-	{
-		return date_ != date;
+	if (cmp_ == Comparison::LessOrEqual){
+		return date <= date_;
+	}else{
+		return date != date_;
 	}
 }
 
@@ -45,29 +38,23 @@ EventComparisonNode::EventComparisonNode(
         {}
 
 bool EventComparisonNode :: Evaluate(const Date& date, const string& event){
-    if (cmp_ == Comparison::Equal)
-	{
-		return value_ == event;
+    if (cmp_ == Comparison::Equal){
+    return event == value_;
 	}
-	else if (cmp_ == Comparison::Greater)
-	{
-		return value_ < event;
+	if (cmp_ == Comparison::Greater){
+		return event > value_;
 	}
-	else if (cmp_ == Comparison::GreaterOrEqual)
-	{
-		return value_ <= event;
+	if (cmp_ == Comparison::GreaterOrEqual){
+		return event >= value_;
 	}
-	else if (cmp_ == Comparison::Less)
-	{
-		return value_ > event;
+	if (cmp_ == Comparison::Less){
+		return event < value_;
 	}
-	else if (cmp_ == Comparison::LessOrEqual)
-	{
-		return value_ >= event;
+	if (cmp_ == Comparison::LessOrEqual){
+		return event <= value_;
 	}
-	else
-	{
-		return value_ != event;
+	else{
+		return event != value_;
 	}
 }
 

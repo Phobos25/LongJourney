@@ -6,29 +6,32 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
+#include <string>
 #include <algorithm>
 
 using namespace std;
 
-string Trim(const std::string& line)
-{
-    const char* WhiteSpace = " \t";
-    size_t start = line.find_first_not_of(WhiteSpace);
-    size_t end = line.size();
-    return start == end ? std::string() : line.substr(start, end - start + 1);
+string ParseEvent(istream& is) {
+ string event;
+ getline(is, event);
+ return string(find_if(event.begin(), event.end(), [](const char& c) 
+    { 
+        return !isspace(c); 
+    }), 
+          event.end());
 }
 
-string ParseEvent(istream& is) {  
-  string str;
-  getline(is, str);  
-  return Trim(str);
+template <typename F, typename S>
+ostream& operator<< (ostream& stream, const pair<F, S>& p){
+  return stream << p.first << ' ' << p.second;
 }
 
 void TestAll();
 
 int main() {
   TestAll();
-  Database db;  
+  Database db;
 
   for (string line; getline(cin, line); ) {
     istringstream is(line);

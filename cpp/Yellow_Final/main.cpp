@@ -31,7 +31,6 @@ void TestAll();
 
 int main() {
   TestAll();
-  cout << "run successfully" << endl;
   Database db;
 
   for (string line; getline(cin, line); ) {

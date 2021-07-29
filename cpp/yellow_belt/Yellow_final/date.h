@@ -5,21 +5,23 @@ using namespace std;
 
 class Date{
 public:
-    Date();
+    Date() = delete;
     Date(int year, int month, int day);
-    int year_;
-    int month_;
-    int day_;
+    
+    int GetYear() const;
+    int GetMonth() const;
+    int GetDay() const;
+private:
+    int year_, month_, day_;
 };
+
+bool operator <  (const Date& lhs, const Date& rhs);
+bool operator <= (const Date& lhs, const Date& rhs);
+bool operator == (const Date& lhs, const Date& rhs);
+bool operator != (const Date& lhs, const Date& rhs);
+bool operator >  (const Date& lhs, const Date& rhs);
+bool operator >= (const Date& lhs, const Date& rhs);
 
 Date ParseDate(istream& is);
 
-ostream& operator << (ostream& stream, const Date& date);
-
-bool operator <  (const Date& lhs, const Date& rhs);
-bool operator >  (const Date& lhs, const Date& rhs);
-bool operator == (const Date& lhs, const Date& rhs);
-bool operator <= (const Date& lhs, const Date& rhs);
-bool operator >= (const Date& lhs, const Date& rhs);
-bool operator != (const Date& lhs, const Date& rhs);
-
+ostream& operator<<(ostream& stream, const Date& date);

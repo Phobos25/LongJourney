@@ -13,9 +13,7 @@ void MergeSort(RandomIt range_begin, RandomIt range_end){
     vector<typename RandomIt::value_type> elements(range_begin, range_end);
         
     // Разбить вектор на две равные части. 
-    size_t half = elements.size()/2;     
-    cout << "Size/3: " << half<< endl;
-    cout << *begin(elements) << endl;    
+    size_t half = elements.size()/2;    
     // Вызвать функцию MergeSort от каждой половины вектора.
     MergeSort(begin(elements), begin(elements)+half);
     MergeSort(begin(elements)+half, end(elements));

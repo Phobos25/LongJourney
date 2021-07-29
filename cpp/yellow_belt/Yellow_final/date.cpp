@@ -2,16 +2,64 @@
 #include <sstream>
 #include <iomanip>
 
-Date::Date(){
-  year_ = 0;
-  month_ = 0;
-  day_ = 0;
+Date::Date(int year, int month, int day)
+          : year_(year)
+          , month_(month)
+          , day_ (day)
+{}
+
+int Date::GetYear() const{return year_;}
+
+int Date::GetMonth() const{return month_;}
+
+int Date::GetDay() const{return day_;}
+
+bool operator < (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() < rhs.GetDay();
+    }
+    return lhs.GetMonth() < rhs.GetMonth();
+  }
+  return lhs.GetYear() < rhs.GetYear();
 }
 
-Date::Date(int year, int month, int day){
-    year_ = year;
-    month_ = month;
-    day_ = day;
+bool operator <= (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() <= rhs.GetDay();
+    }
+    return lhs.GetMonth() <= rhs.GetMonth();
+  }
+  return lhs.GetYear() <= rhs.GetYear();
+}
+
+bool operator > (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() > rhs.GetDay();
+    }
+    return lhs.GetMonth() > rhs.GetMonth();
+  }
+  return lhs.GetYear() > rhs.GetYear();
+}
+
+bool operator >= (const Date& lhs, const Date& rhs){
+  if (lhs.GetYear() == rhs.GetYear()){
+    if (lhs.GetMonth() == rhs.GetMonth()){
+      return lhs.GetDay() >= rhs.GetDay();
+    }
+    return lhs.GetMonth() >= rhs.GetMonth();
+  }
+  return lhs.GetYear() >= rhs.GetYear();
+}
+
+bool operator == (const Date& lhs, const Date& rhs){
+  return lhs.GetYear() == rhs.GetYear() && lhs.GetMonth() == rhs.GetMonth() && lhs.GetDay() == rhs.GetDay();
+}
+
+bool operator != (const Date& lhs, const Date& rhs){
+  return lhs.GetYear() != rhs.GetYear() || lhs.GetMonth() != rhs.GetMonth() || lhs.GetDay() != rhs.GetDay();
 }
 
 Date ParseDate(istream& is){
@@ -21,61 +69,14 @@ Date ParseDate(istream& is){
   is >> month;
   is.ignore(1);
   is >> day;
-  return Date(year, month, day);
+  Date date = Date(year, month, day);
+  return date;
 }
 
 ostream& operator<<(ostream& stream, const Date& date){
     stream << setfill('0');
-    stream << setw(4) << date.year_ << '-'
-           << setw(2) << date.month_<< '-'
-           << setw(2) << date.day_;
+    stream << setw(4) << date.GetYear() << '-'
+           << setw(2) << date.GetMonth()<< '-'
+           << setw(2) << date.GetDay();
     return stream;
-}
-
-bool operator <(const Date& lhs, const Date& rhs){
-  if (lhs.year_ == rhs.year_){
-    if (lhs.month_ == rhs.month_){
-      return lhs.day_ < rhs.day_;
-    }else {return lhs.month_ < rhs.month_;}
-  }else {return lhs.year_ < rhs.year_; }
-}
-
-bool operator >(const Date& lhs, const Date& rhs){
-  if (lhs.year_ == rhs.year_){
-    if (lhs.month_ == rhs.month_){
-      return lhs.day_ > rhs.day_;
-    }else {return lhs.month_ > rhs.month_;}
-  }else {return lhs.year_ > rhs.year_; }
-}
-
-bool operator ==(const Date& lhs, const Date& rhs){
-  if (lhs.year_ == rhs.year_){
-    if (lhs.month_ == rhs.month_){
-      return lhs.day_ == rhs.day_;
-    }else {return lhs.month_ == rhs.month_;}
-  }else {return lhs.year_ == rhs.year_;}
-}
-
-bool operator <=(const Date& lhs, const Date& rhs){
-  if (lhs.year_ == rhs.year_){
-    if (lhs.month_ == rhs.month_){
-      return lhs.day_ <= rhs.day_;
-    }else {return lhs.month_ <= rhs.month_;}
-  }else {return lhs.year_ <= rhs.year_; }
-}
-
-bool operator >=(const Date& lhs, const Date& rhs){
-  if (lhs.year_ == rhs.year_){
-    if (lhs.month_ == rhs.month_){
-      return lhs.day_ >= rhs.day_;
-    }else {return lhs.month_ >= rhs.month_;}
-  }else {return lhs.year_ >= rhs.year_; }
-}
-
-bool operator !=(const Date& lhs, const Date& rhs){
-  if (lhs.year_ == rhs.year_){
-    if (lhs.month_ == rhs.month_){
-      return lhs.day_ != rhs.day_;
-    }else {return lhs.month_ != rhs.month_;}
-  }else {return lhs.year_ != rhs.year_;}
 }
