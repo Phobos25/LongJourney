@@ -6,7 +6,6 @@
 #include <vector>
 using namespace std;
 
-
 bool operator < (const Date& lhs, const Date& rhs){
     return vector<int> {lhs.year, lhs.month, lhs.day} < 
            vector<int> {rhs.year, rhs.month, rhs.day};
