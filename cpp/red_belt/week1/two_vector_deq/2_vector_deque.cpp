@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <exception>
 
 using namespace std;
 
@@ -17,54 +18,63 @@ public:
     }
 
     size_t Size() const{
-        return front_.size() + back_.size();
+        return deque_.size();
     }
 
     T& operator[](size_t index){
-        return front_[index];
+        return deque_[index];
     }
 
     const T& operator[](size_t index) const{
-        return front_[index];
+        return deque_[index];
     }
 
     T& At(size_t index){
-        if (index >= front_.size()){
-            throw exception("Out of range");
+        if (index >= deque_.size()-1){
+            throw runtime_error("Out of range");
         }
-        return front_.at(index);
+        return deque_.at(index);
     }
 
     const T& At(size_t index) const{
-        if (index >= front_.size()){
-            throw exception("Out of range");
+        if (index >= deque_.size()-1){
+            throw runtime_error("Out of range");
         }
-        return front_.at(index);
+        return deque_.at(index);
     }
 
     typename vector<T>::iterator Front(){
-        return front_.begin();
+        return deque_.begin();
     }
     const typename vector<T>::iterator Front() const{
-        return front_.begin();
+        return deque_.begin();
     }
 
     typename vector<T>::iterator Back(){
-        return back_.begin();
+        return deque_.end();
     }
     const typename vector<T>::iterator Back() const{
-        return back_.begin();
+        return deque_.end();
     }
 
     void PushFront(const T value){
         front_.push_back(value);
+        UpdateDeque();
     }
     void PushBack(const T value){
         back_.push_back(value);
+        UpdateDeque();
     }
+
 private:
     vector<T> front_;
     vector<T> back_;
+    vector<T> deque_;
+void UpdateDeque(){
+    deque_.clear();
+    deque_.insert(deque_.end(), front_.begin(), front_.end());
+    deque_.insert(deque_.end(), back_.begin(), back_.end());
+}    
 };
 
 int main() {
@@ -72,9 +82,25 @@ int main() {
     if (d.Empty())     {
         cout << "Deque is empty" << endl;
     }
+    
+    for (int i =0; i<10; ++i){
+        d.PushBack(i);
+    }
 
-    d.PushFront(1);
-    d.PushBack(2);
-    cout << d.Size() << endl;
+    for (int i =0; i<10; ++i){
+        d.PushFront(-i);
+    }
+    
+    int num = d.Size();
+    cout << num << endl;
+
+    for (int i=0; i<num; ++i){
+        cout << d[i] << ' ';
+    }
+    cout << endl;
+
+    d[0] = 100;
+    cout << d.At(0);
+    // cout << d.At(0) << endl;    
     return 0;
 }

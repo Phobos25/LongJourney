@@ -4,24 +4,19 @@
 using namespace std;
 
 int main() {
-    vector<vector<int>> v = {{1,2}, 
-                             {3,4},
-                             {5,6}};
-    cout << "Original matrix: " << endl;
-    for (int i = 0; i< v.size(); ++i){
-        for (int j = 0; j<v[i].size(); ++j){
-            cout << v[i][j] << ' ';
-        }
-        cout << endl;
+    vector <int> v1 = {1,2,3};
+    vector <int> v2 = {3,2,1};
+
+    vector<int> combined;
+    combined.clear();
+    combined.insert(combined.end(), v1.begin(), v1.end());
+    combined.insert(combined.end(), v2.begin(), v2.end());
+
+    for (const auto item: combined){
+        cout << item << ' ';
     }
     
-    v.resize(4);
-    cout << "After resize" << endl;
-    for (int i = 0; i< v.size(); ++i){
-        for (int j = 0; j<v[i].size(); ++j){
-            cout << v[i][j] << ' ';
-        }
-        cout << endl;
-    }
-    return 0;
+    cout << endl;
+
+    cout << combined.size();
 }
