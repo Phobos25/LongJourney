@@ -1,22 +1,29 @@
 #include <iostream>
 #include <vector>
+#include <utility>
 
 using namespace std;
 
+template <typename Iterator>
+class IteratorRange{
+private:
+    Iterator first, last;
+public:
+    IteratorRange( Iterator f, Iterator l)
+        : first(f)
+        , last(l)
+        {
+
+        }
+};
+
 int main() {
-    vector <int> v1 = {1,2,3};
-    vector <int> v2 = {3,2,1};
+    vector<int> v = {1,2,3,4,5};
+    pair p(1, false);
+    cout << p.first << ' ' << p.second << endl;
+    IteratorRange second_half(v.begin() + v.size() / 2, v.end());
 
-    vector<int> combined;
-    combined.clear();
-    combined.insert(combined.end(), v1.begin(), v1.end());
-    combined.insert(combined.end(), v2.begin(), v2.end());
-
-    for (const auto item: combined){
-        cout << item << ' ';
+    for (auto x: second_half){
+        cout << x << ' ';
     }
-    
-    cout << endl;
-
-    cout << combined.size();
 }
