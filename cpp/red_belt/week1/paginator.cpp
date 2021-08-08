@@ -2,47 +2,66 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
 template <typename Iterator>
 class Paginator{
 private:
-    Iterator begin_, end_;
-    size_t page_size_;
-    size_t num_pages;
-public:
-    Paginator(Iterator b, Iterator e, size_t p_s)   
-        : begin_(b)
-        , end_ (e)
-        , page_size_(p_s)
-        {
-        }
-
-    size_t size() const {
-        return num_pages;
+  Iterator begin_, end_;
+  size_t page_size_;
+  size_t num_pages;
+  void CountPages(){
+    int pages = end_ - begin_;
+    if (pages % page_size_ != 0){
+      ++num_pages;
+    } else {
+      num_pages = pages / page_size_;
     }
-
-    Iterator begin() const {
-        return begin_;
-    }
-    Iterator end() const {
-        return end_;
-    }
-};
- 
-template <typename C> ??? Paginate(C& c, size_t page_size)
-
-vector<vector<Application>> DistributeAmongScreens(const vector<Application>& apps) {  
-  vector<vector<Application>> result;  
-  for (const auto& page : Paginate(apps, 20)) {
-    result.push_back({page.begin(), page.end()});
   }
-  // result[0] - все приложения, которые попадают на первый экран,
-  // result[1] - все приложения, которые попадают на второй экран и т.д.
-  return result;
-}
+public:
+  Paginator(Iterator b, Iterator e, size_t p_s)
+  : begin_(b)
+  , end_ (e)
+  , page_size_(p_s)
+  {
+    num_pages = 0;
+    CountPages();
+  }
+
+  size_t size() const {
+    return num_pages;
+  }
+
+  Iterator begin() const {
+    return begin_;
+  }
+  Iterator end() const {
+    return end_;
+  }
+};
+
+template <typename C>
+auto Paginate(C& c, size_t page_size){
+  Paginator<typename C :: iterator>  page(c.begin(), c.end(), page_size);
+  return page;
+};
 
 int main() {
+  vector<int> v(15);
+  cout << "Paginate 1 " << Paginate(v,1).size() << endl;
+  cout << "Paginate 5 " << Paginate(v,5).size() << endl;
+  cout << "Paginate 10 " << Paginate(v,10).size() << endl;
+
+  iota(begin(v), end(v), 1);
+
+  Paginator<vector<int>::iterator> paginate_v(v.begin(), v.end(), 6);
+  for (const auto& page : paginate_v) {
+    for (int x : page) {
+      cout << x << ' ';
+    }
+    cout << '\n';
+  }
 
 }
