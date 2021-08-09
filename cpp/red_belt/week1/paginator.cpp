@@ -7,31 +7,44 @@
 using namespace std;
 
 template <typename Iterator>
+class IteratorRange {
+private:    
+    Iterator first, last;
+public:
+    IteratorRange (Iterator f, Iterator l)
+        : first(f)
+        , last(l)
+        {            
+        }
+    Iterator begin() const {
+        return first;
+    }
+    Iterator end() const {
+        return last;
+    }
+    size_t size() const {
+      return last - first;
+    }
+};
+
+template <typename Iterator>
 class Paginator{
 private:
   Iterator begin_, end_;
   size_t page_size_;
-  size_t num_pages;
-  void CountPages(){
-    int pages = end_ - begin_;
-    if (pages % page_size_ != 0){
-      ++num_pages;
-    } else {
-      num_pages = pages / page_size_;
-    }
-  }
 public:
   Paginator(Iterator b, Iterator e, size_t p_s)
   : begin_(b)
   , end_ (e)
   , page_size_(p_s)
   {
-    num_pages = 0;
-    CountPages();
+    auto min_value = [&](Iterator it) {
+      return min(distance(it, end), page_size);
+    }
   }
 
   size_t size() const {
-    return num_pages;
+    return end_ - begin_;
   }
 
   Iterator begin() const {
@@ -44,8 +57,15 @@ public:
 
 template <typename C>
 auto Paginate(C& c, size_t page_size){
-  Paginator<typename C :: iterator>  page(c.begin(), c.end(), page_size);
-  return page;
+  vector<Paginator<typename C :: iterator>> result;
+  auto begin = c.begin();
+  auto end = c.begin() + page_size;
+  while (end <= c.end()){
+    result.push_back(Paginator(begin, end, page_size));
+    begin = end;
+    end += page_size;
+  }
+  return result;
 };
 
 int main() {
@@ -57,11 +77,11 @@ int main() {
   iota(begin(v), end(v), 1);
 
   Paginator<vector<int>::iterator> paginate_v(v.begin(), v.end(), 6);
+  
   for (const auto& page : paginate_v) {
     for (int x : page) {
       cout << x << ' ';
     }
     cout << '\n';
   }
-
 }
