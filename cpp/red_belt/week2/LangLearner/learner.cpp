@@ -11,24 +11,21 @@ using namespace std;
 
 class Learner {
  private:
-  vector<string> dict;
-  set<string> vocab;
+  set<string> dict;
  public:
   int Learn(const vector<string>& words) {
     int newWords = 0;
     for (const auto& word : words) {
-      if (vocab.count(word) == 0) {
-        ++newWords;
-        dict.push_back(word);
-        vocab.insert(word);
+      if (dict.count(word) == 0) {
+        ++newWords;        
+        dict.insert(word);
       }
     }
     return newWords;
   }
   
-  vector<string> KnownWords() {    
-    sort(dict.begin(), dict.end());
-    return dict;
+  vector<string> KnownWords() {        
+    return {dict.begin(), dict.end()};
   }
 };
 
