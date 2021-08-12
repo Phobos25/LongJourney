@@ -1,3 +1,5 @@
+#include "profile.h"
+
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -33,14 +35,23 @@ IteratorRange <typename vector<T>:: iterator> Head (vector<T>& v, size_t top){
 }
 
 int main() {
-    vector<int> v = {1,2,3,4,5};
-    
-    IteratorRange second_half{
-        v.begin() + v.size() /2, v.end()
-    };
-
-    for (int it: second_half)   {
-        cout << it << ' ';
+    cin.tie(nullptr);
+    {
+        LOG_DURATION("not endl");
+        for (int i = 0; i< 10000; ++i){
+            int x;
+            cin >> x;
+            cout << x << "\n";
+        }
     }
-    
+
+    {
+        LOG_DURATION("endl");
+        for (int i = 0; i< 10000; ++i){
+            int x;
+            cin >> x;
+            cout << x << endl;
+        }
+    }
+    return 0;
 }
