@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <set>
 #include <utility>
 #include <algorithm>
 
@@ -35,23 +36,16 @@ IteratorRange <typename vector<T>:: iterator> Head (vector<T>& v, size_t top){
 }
 
 int main() {
-    cin.tie(nullptr);
-    {
-        LOG_DURATION("not endl");
-        for (int i = 0; i< 10000; ++i){
-            int x;
-            cin >> x;
-            cout << x << "\n";
-        }
+    vector<int> v;
+    int input=0;
+    for (int i=0; i<5; ++i){
+        input += i;
+        v.push_back(input);
+    }
+    if (v[5] == 0){
+        v[6] = 1;
     }
 
-    {
-        LOG_DURATION("endl");
-        for (int i = 0; i< 10000; ++i){
-            int x;
-            cin >> x;
-            cout << x << endl;
-        }
-    }
+    cout << v.size()<< endl;
     return 0;
 }
