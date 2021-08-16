@@ -71,6 +71,29 @@ private:
     swap(sorted_users_[lhs_position], sorted_users_[rhs_position]);
     swap(user_positions_[lhs_id], user_positions_[rhs_id]);
   }
+  int SearchPos(int lhs){
+    bool flag = false;
+    int rhs = sorted_users_[GetUserCount()-1];
+    int mid;
+    int key = user_page_counts_[lhs];
+    while ((lhs <= rhs) && ( flag != true)){
+      mid = (lhs + rhs) /2;
+      if (user_page_counts_[mid] < key ){
+        if (user_page_counts_[mid-1] == key){
+          flag = true;
+          --mid;
+        } else {
+          rhs = mid - 1;
+        }
+      }
+      if (user_page_counts_[mid] == key){
+        lhs = mid -1;
+      } else {
+        ++lhs;
+      }
+    }
+    return mid;
+  }
 };
 
 
