@@ -60,7 +60,7 @@ CHEER 1
 
 ##### Правильное, но медленное решение #####
 
-[slow.cpp](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/source/slow.cpp)
+[slow.cpp](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/source/ebook_slow.cpp)
 
 ##### Подсказки #####
 
