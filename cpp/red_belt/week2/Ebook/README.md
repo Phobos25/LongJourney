@@ -60,7 +60,7 @@ CHEER 1
 
 ##### Правильное, но медленное решение #####
 
-[slow.cpp](/source/slow.cpp)
+[slow.cpp](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/source/ebook_slow.cpp)
 
 ##### Подсказки #####
 
@@ -68,12 +68,12 @@ CHEER 1
 
 Не нужно открывать все подсказки сразу. Используйте их последовательно.
 
-[ebook-1.pdf](ebook-1.pdf)
+[ebook-1.pdf](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/ebook-1.pdf)
 
-[ebook-2.pdf](ebook-2.pdf)
+[ebook-2.pdf](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/ebook-2.pdf)
 
-[ebook-3.pdf](ebook-3.pdf)
+[ebook-3.pdf](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/ebook-3.pdf)
 
-[ebook-4.pdf](ebook-4.pdf)
+[ebook-4.pdf](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/ebook-4.pdf)
 
-[ebook-5.pdf](ebook-5.pdf)
+[ebook-5.pdf](https://github.com/Phobos25/LongJourney/blob/master/cpp/red_belt/week2/Ebook/ebook-5.pdf)
