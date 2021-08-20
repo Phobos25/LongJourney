@@ -2,18 +2,23 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <queue>
+#include <set>
 using namespace std;
 
+struct test
+{
+    string name;
+};
+
 int main(){
-    map<int, string> m;
-    vector<int> v = {1,2,3,4};
-    m[0] = "zero";
-    m[1] = "one";
+    // time id room
+    map<string, map<int, string>> m;
+    m["one"][0] = "zero";
+    m["two"][0] = "zero";
 
     for (auto& it: m){
-        cout << it.second << endl;
-        break;
+        cout << it.first << endl;
     }
-    
     return 0;
 }

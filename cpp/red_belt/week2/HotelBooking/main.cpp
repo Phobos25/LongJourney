@@ -2,6 +2,8 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <queue>
+
 using namespace std;
 
 struct User{
@@ -15,66 +17,41 @@ struct User{
 
 class Hotel{
 public:
-    Hotel(long long t, string hotel_name, int id, int count)        
-        : name(hotel_name)        
-        {            
-        }
-
-    void BookRoom(long long t, int id, int count){
-        users[t] = User(id, count);
-        CheckTime(t);
+    Hotel(){}
+    
+    void BookRoom(int64_t time, string hotel_name, uint64_t id, int room_count){        
+        clients_[hotel_name][time][id] += room_count;
+        curr_time = time;
+        DelAllKeepLastDay();
     }
 
-    int ShowClients(){
-        return users.size();
+    uint64_t ShowClients(string hotel_name){
+        return clients_[hotel_name][curr_time].size();
     }
 
-    int ShowRooms(){
+    int ShowRooms(string hotel_name){
         int result = 0;
-        for (auto& [key,value]: users){
-            result += value.count;
+        for (const auto& [id, room]: clients_[hotel_name][curr_time]){
+            result += room;
         }
         return result;
     }
-    string GetHotelName() const{
-        return name;
-    }
-private:
-    static const int ONE_DAY = 86400;
-    static const int ROOM_COUNT = 1000;
-    map<long long, User> users;
     
-    const string name;    
-    void CheckTime(const long long& t){
-        long long old_time;
-        for (auto& it : users){
-            old_time = it.first;
-            break;
-        }
-        if ((t - old_time)> ONE_DAY){
-            auto it = users.begin();
-            users.erase(it);
+private:
+    static const int ONE_DAY_IN_SECONDS = 86'400;
+    map<string, map<int64_t, map<uint64_t, int>>> clients_;
+    int64_t curr_time;
+
+    void DelAllKeepLastDay(string hotel_name){
+        for (auto& m: clients_.at(hotel_name)){
+            if (curr_time - ONE_DAY_IN_SECONDS >= m.first){
+                
+            }
         }
     }
 };
 
 int main() {
-    int qu;
-    string com;
-    string name;
-    long long time;
-    int id;
-    int rooms;
-    for (int i=0; i<qu; ++i){
-        cin >> com;
-        if (com == "BOOK"){
-            cin >> time >> name >> id >> rooms;
-            
-        } else if (com =="ROOMS"){
-
-        } else if (com == "CLIENTS"){
-
-        }
-    }
+    
     return 0;
 }
