@@ -2,56 +2,101 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <set>
 #include <queue>
 
 using namespace std;
 
-struct User{
-    int id;
-    int count;
-    User(int i, int c){
-        id = i;
-        count = c;
-    }
+struct Book{
+    int64_t time;
+    int client;
+    int rooms;
 };
 
 class Hotel{
-public:
-    Hotel(){}
-    
-    void BookRoom(int64_t time, string hotel_name, uint64_t id, int room_count){        
-        clients_[hotel_name][time][id] += room_count;
-        curr_time = time;
-        DelAllKeepLastDay();
+public:    
+    void ReserveRoom(const Book& booking){
+        bookings.push(booking);        
+        room_count += booking.rooms;        
     }
 
-    uint64_t ShowClients(string hotel_name){
-        return clients_[hotel_name][curr_time].size();
+    int GetRoomNumbers(const int64_t& curr_time) {      
+        RemoveOldBookings(curr_time);
+        return room_count;
     }
 
-    int ShowRooms(string hotel_name){
-        int result = 0;
-        for (const auto& [id, room]: clients_[hotel_name][curr_time]){
-            result += room;
-        }
-        return result;
+    int GetClientsNumbers(const int64_t& curr_time){
+        RemoveOldBookings(curr_time);                   
+        return client_room.size();    
     }
-    
+
 private:
-    static const int ONE_DAY_IN_SECONDS = 86'400;
-    map<string, map<int64_t, map<uint64_t, int>>> clients_;
-    int64_t curr_time;
-
-    void DelAllKeepLastDay(string hotel_name){
-        for (auto& m: clients_.at(hotel_name)){
-            if (curr_time - ONE_DAY_IN_SECONDS >= m.first){
-                
+    const int ONE_DAY_IN_SECONDS = 86'400;
+    queue<Book> bookings;
+    map<int, int> client_room;    
+    int room_count = 0;
+    void RemoveOldBookings(const int64_t& curr_time){
+        while (!bookings.empty() && bookings.front().time <= curr_time - ONE_DAY_IN_SECONDS)
+        {
+            room_count -= bookings.front().rooms;
+            client_room[bookings.front().client] -= bookings.front().rooms;
+            if (client_room[bookings.front().client] <= 0){
+                client_room.erase(bookings.front().client);
             }
+            bookings.pop();
         }
-    }
+    }    
 };
 
-int main() {
+class HotelManager{
+public:
+    void ReserveRoom(const string& hotel_name, const int64_t& time, int id, int rooms) {
+       Book book;       
+       book.time = time;
+       book.client = id;
+       book.rooms = rooms;              
+       hotels[hotel_name].ReserveRoom(book);    
+       curr_time = time;
+    }
+
+    int GetClientNumbers(const string& hotel_name){
+        return hotels[hotel_name].GetClientsNumbers(curr_time);
+    }
     
+    int GetRoomNumbers(const string& hotel_name){
+        return hotels[hotel_name].GetRoomNumbers(curr_time);
+    }
+
+private:
+    int64_t curr_time;
+    map<string, Hotel> hotels;
+};
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    HotelManager manager;
+    int query_count;
+    cin >> query_count;   
+    for (int i=0; i<query_count; ++i){
+        string query;
+        cin >> query;
+        if (query == "BOOK") {
+            int64_t time;
+            string hotel_name;
+            int client_id, room_count;
+            cin >> time >> hotel_name >> client_id >> room_count;
+            manager.ReserveRoom(hotel_name, time, client_id, room_count);
+        } else if (query == "CLIENTS") {
+            string hotel_name;
+            cin >> hotel_name;
+            cout << manager.GetClientNumbers(hotel_name) << '\n';
+        } else if (query == "ROOMS") {
+            string hotel_name;
+            cin >> hotel_name;
+            cout << manager.GetRoomNumbers(hotel_name) << '\n';                            
+        }
+    }
     return 0;
 }
