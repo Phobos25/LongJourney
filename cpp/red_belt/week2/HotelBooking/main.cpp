@@ -17,7 +17,12 @@ class Hotel{
 public:    
     void ReserveRoom(const Book& booking){
         bookings.push(booking);        
-        room_count += booking.rooms;        
+        room_count += booking.rooms;
+        if (client_room.count(booking.client) == 0){
+          client_room[booking.client] = booking.rooms;
+        } else {
+          client_room[booking.client] += booking.rooms;
+        }
     }
 
     int GetRoomNumbers(const int64_t& curr_time) {      
@@ -40,6 +45,7 @@ private:
         {
             room_count -= bookings.front().rooms;
             client_room[bookings.front().client] -= bookings.front().rooms;
+            auto temp =  client_room[bookings.front().client];
             if (client_room[bookings.front().client] <= 0){
                 client_room.erase(bookings.front().client);
             }
@@ -99,4 +105,7 @@ int main() {
         }
     }
     return 0;
+//    BOOK 10 Hilton 1 2
+//    CLIENTS Hilton
+//    ROOMS Hilton
 }
