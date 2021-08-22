@@ -65,7 +65,11 @@ ROOMS Marriott
 
 ### Подсказки
 [booking-1.pdf](booking-1.pdf)
+
 [booking-2.pdf](booking-2.pdf)
+
 [booking-3.pdf](booking-3.pdf)
+
 [booking-4.pdf](booking-4.pdf)
+
 [booking-5.pdf](booking-5.pdf)
