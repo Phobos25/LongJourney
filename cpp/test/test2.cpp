@@ -1,24 +1,36 @@
 #include <deque>
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
+template <typename T>
+void Swap(T* first, T* second){
+  auto temp = *first;
+  *first = *second;
+  *second = temp;
+}
+
+template <typename T>
+void ReversedCopy(T* source, size_t count, T* destination){
+  for ( auto i = 0; i<count; ++i){
+    destination = *source + i;
+  }  
+}
 int main() {
-    deque <int*> my_deque; 
+   const size_t count = 7;
 
-    int *p1 = new int(1);
-    int *p2 = new int(2);
-    int *p3 = new int(3);
+    int* source = new int[count];
+    int* dest = new int[count];
 
-    my_deque.push_back(p1);
-    my_deque.push_back(p2);
-    my_deque.push_back(p3);
-    while( !my_deque.empty() ) {
-        cout << my_deque.front() << ": " << *my_deque.front() << endl;
-            delete my_deque.front();        
-        auto it = find(my_deque.begin(), my_deque.end(), my_deque.front());
-        my_deque.erase(it);
-        }
+    for (size_t i = 0; i < count; ++i) {
+        source[i] = i + 1;
+    }
+
+    ReversedCopy(source, count, dest);
+    cout << dest[0] << endl;
+    cout << dest[1] << endl;
+
     return 0;
 }
