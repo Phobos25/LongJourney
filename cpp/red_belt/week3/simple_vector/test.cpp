@@ -1,14 +1,29 @@
 #include "simple_vector.h"
+#include "test_runner.h"
 
 #include <iostream>
 
 using namespace std;
 
-int main() {
+template <typename T>
+void Print(const SimpleVector<T>& v){
+  for (auto i = v.begin(); i!= v.end(); ++i){
+    cout << i << ':' << *i << endl;
+  }
+}
 
-    SimpleVector<int> sv(3);
-    cout << sv.Size() << endl;
-    SimpleVector<int> zero_v;
-    cout << zero_v.Size() << endl;
-
+int main2() {   
+   
+    SimpleVector<string> five_strings(5);
+    ASSERT_EQUAL(five_strings.Size(), 5u);
+    cout << five_strings.Size() << endl;
+    ASSERT(five_strings.Size() <= five_strings.Capacity());
+    cout << five_strings.Size()<< " <= " << five_strings.Capacity() << endl;
+    for (auto& item : five_strings) {
+      ASSERT(item.empty());
+      cout << "empty: " << item << endl;
+    }
+    five_strings[2] = "Hello";
+    ASSERT_EQUAL(five_strings[2], "Hello");
+    cout << five_strings[2] << endl;
 }
