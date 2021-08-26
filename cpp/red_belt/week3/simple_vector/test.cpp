@@ -2,6 +2,8 @@
 #include "test_runner.h"
 
 #include <iostream>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -12,18 +14,17 @@ void Print(const SimpleVector<T>& v){
   }
 }
 
-int main2() {   
-   
-    SimpleVector<string> five_strings(5);
-    ASSERT_EQUAL(five_strings.Size(), 5u);
-    cout << five_strings.Size() << endl;
-    ASSERT(five_strings.Size() <= five_strings.Capacity());
-    cout << five_strings.Size()<< " <= " << five_strings.Capacity() << endl;
-    for (auto& item : five_strings) {
-      ASSERT(item.empty());
-      cout << "empty: " << item << endl;
-    }
-    five_strings[2] = "Hello";
-    ASSERT_EQUAL(five_strings[2], "Hello");
-    cout << five_strings[2] << endl;
+int main2() {      
+   SimpleVector<int> sv;
+   sv.PushBack(1);
+   sv.PushBack(2);
+   cout << "Size: " << sv.Size() << endl;
+   cout << "Capacity: " << sv.Capacity() << endl;
+   Print(sv);
+
+   sv.PushBack(3);
+   sv.PushBack(4);
+   cout << "Size: " << sv.Size() << endl;
+   cout << "Capacity: " << sv.Capacity() << endl;
+   Print(sv);
 }

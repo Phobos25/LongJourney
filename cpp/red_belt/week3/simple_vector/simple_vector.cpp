@@ -1,4 +1,4 @@
-#include "simple_vector.h"
+#include "simple_vector2.h"
 #include "test_runner.h"
 
 #include <algorithm>
