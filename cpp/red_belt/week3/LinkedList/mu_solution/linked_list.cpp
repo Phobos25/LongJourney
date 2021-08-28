@@ -26,6 +26,70 @@ private:
 };
 
 template <typename T>
+void LinkedList<T>::PushFront(const T& value){
+  auto curr_node = GetHead();
+  auto new_node = new Node;
+  if (head == nullptr) {
+    new_node->value = value;
+    new_node->next = nullptr;  
+  } else {
+    new_node->value = value;
+    new_node->next = curr_node;  
+  }  
+  head = new_node;
+}
+
+template <typename T>
+void LinkedList<T>::InsertAfter(Node* node, const T& value){
+  if (node == nullptr){
+    PushFront(value);
+  } else {
+    auto next_node = node->next;
+    auto new_node = new Node;
+    new_node->value = value;
+    new_node->next = next_node;
+    node->next = new_node;
+  }
+  
+}
+
+template <typename T>
+void LinkedList<T>::RemoveAfter(Node* node){
+  if (node == nullptr){
+    PopFront();
+  } else {
+    auto next_node = node->next;
+    auto after_next_node = next_node->next;
+    node->next = after_next_node;
+    delete next_node;
+  }
+  
+}
+
+template <typename T>
+void LinkedList<T>::PopFront(){
+  if (head != nullptr){
+    auto next_node = GetHead()->next;  
+    delete head;
+    head = next_node;
+  }   
+}
+
+template <typename T>
+LinkedList<T>:: ~LinkedList(){  
+  // delete all chain list recursively  
+  if (head != nullptr){
+    auto next_node = GetHead()->next;
+    while (next_node != nullptr){
+      next_node = GetHead()->next;
+      delete head;
+      head = next_node;
+    }  
+  }
+  
+}
+
+template <typename T>
 vector<T> ToVector(const LinkedList<T>& list) {
   vector<T> result;
   for (auto node = list.GetHead(); node; node = node->next) {
@@ -38,10 +102,13 @@ void TestPushFront() {
   LinkedList<int> list;
 
   list.PushFront(1);
+  
   ASSERT_EQUAL(list.GetHead()->value, 1);
   list.PushFront(2);
+  
   ASSERT_EQUAL(list.GetHead()->value, 2);
   list.PushFront(3);
+  
   ASSERT_EQUAL(list.GetHead()->value, 3);
 
   const vector<int> expected = {3, 2, 1};
@@ -100,7 +167,8 @@ void TestPopFront() {
 }
 
 int main() {
-  TestRunner tr;
+  TestRunner tr; 
+
   RUN_TEST(tr, TestPushFront);
   RUN_TEST(tr, TestInsertAfter);
   RUN_TEST(tr, TestRemoveAfter);
