@@ -8,6 +8,9 @@ template <typename T, size_t N>
 class StackVector {
 public:
   explicit StackVector(size_t a_size = 0) {
+    if (a_size > N){
+      throw invalid_argument("invalid argument");
+    }
     size_ = a_size;
     capacity_ = N;
   }
@@ -56,7 +59,7 @@ size_t StackVector<T, N> :: Capacity() const {
 template <typename T, size_t N>
 void StackVector<T, N> :: PushBack(const T& value) {
   if (size_ >= capacity_) {
-    throw exception();
+    throw overflow_error("overflow error");
   }
   if (index_ >= size_){
     ++size_;
@@ -66,6 +69,9 @@ void StackVector<T, N> :: PushBack(const T& value) {
 
 template <typename T, size_t N>
 T StackVector<T, N> :: PopBack(){
+  if (size_ == 0){
+    throw underflow_error("underflow error");
+  }
   --index_;
   return size_--;
 }
