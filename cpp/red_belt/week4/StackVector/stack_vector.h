@@ -18,10 +18,10 @@ public:
   T& operator[](size_t index);
   const T& operator[](size_t index) const;
 
-  T* begin();
-  T* end();
-  const T* begin() const;
-  const T* end() const;
+  auto begin();
+  auto end();
+  const auto begin() const;
+  const auto end() const;
 
   size_t Size() const;
   size_t Capacity() const;
@@ -57,6 +57,25 @@ size_t StackVector<T, N> :: Capacity() const {
 }
 
 template <typename T, size_t N>
+auto StackVector<T, N> :: begin() {
+  return arr.begin();
+}
+
+template <typename T, size_t N>
+auto StackVector<T, N> :: end() {
+  return arr.begin() + size_;
+}
+
+template <typename T, size_t N>
+const auto StackVector<T, N> :: begin() const{
+  return arr.begin();
+}
+
+template <typename T, size_t N>
+const auto StackVector<T, N> :: end() const {
+  return arr.begin() + size_;
+}
+template <typename T, size_t N>
 void StackVector<T, N> :: PushBack(const T& value) {
   if (size_ >= capacity_) {
     throw overflow_error("overflow error");
@@ -73,5 +92,5 @@ T StackVector<T, N> :: PopBack(){
     throw underflow_error("underflow error");
   }
   --index_;
-  return size_--;
+  return arr[--size_];
 }
