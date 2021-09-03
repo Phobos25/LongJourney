@@ -1,39 +1,38 @@
-#include <deque>
 #include <iostream>
-#include <algorithm>
+#include <string_view>
+#include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-template <typename T>
-void Swap(T* first, T* second){
-  auto temp = *first;
-  *first = *second;
-  *second = temp;
-}
-
-template <typename T>
-void ReversedCopy(T* source, size_t count, T* destination){  
-  size_t index = 0;
-  while (index != count){
-    destination[index] = *(source - index);
-    ++index;
-  }
+vector<string_view> Split(const string& s) {
+  string_view str = s;
   
-}
-int main() {
-  const size_t count = 7;
+  vector<string_view> result;
+  size_t pos = 0;  //string view не дружит с итераторами
+  const size_t pos_end = str.npos; //работает только с подряд идущими строками
 
-  int* source = new int[count];
-  int* dest = new int[count];
+  while (true){
+    size_t space = str.find(' ', pos); // ищем пустую строку с позиции pos
+    
+    result.push_back(
+      space == pos_end
+      ? str.substr(pos)
+      : str.substr(pos, space-pos)
+    );
 
-  for (size_t i = 0; i < count; ++i) {
-      source[i] = i + 1;
+    if (space == pos_end){
+      break;
+    } else {
+      pos = space + 1;
+    }
   }
+  return result;
+}
 
-  ReversedCopy(source, count, dest);
-  cout << dest[0] << endl;
-  cout << dest[1] << endl;
-
-    return 0;
+int main() {
+  string words = "two words";
+  const auto word = Split("a b c");
+  cout << word[0] << endl; 
 }
