@@ -20,11 +20,14 @@ private:
 };
 
 void Translator::Add (string_view source, string_view target) {
-  if (vocabulary.count(source) != 0|| vocabulary.count(target) !=0){
-
-  } else {
+  if (vocabulary.count(source) == 0){
+    vocabulary.insert(source);
     rus_dict.push_back(source);
     eng_dict.push_back(target);
+  } else {
+    auto it = find(rus_dict.begin(), rus_dict.end(), source);    
+    size_t index = it - rus_dict.begin();
+    eng_dict[index] = target;
   }
 }
 
@@ -64,8 +67,23 @@ void TestSimple() {
 }
 
 int main() {
-  TestRunner tr;
-  RUN_TEST(tr, TestSimple);
+  // TestRunner tr;
+  // RUN_TEST(tr, TestSimple);
+  Translator trans;
+  string rus = "dom";
+  string eng = "house";
+  trans.Add(rus, eng);
+  cout << trans.TranslateForward(rus) << "\n";
+  cout << trans.TranslateBackward(eng) << "\n";
 
+  eng = "home";
+  cout << "test after eng string has changed" << "\n";
+  cout << trans.TranslateForward(rus) << "\n";
+  cout << trans.TranslateBackward(eng) << "\n";
+  
+  trans.Add(rus, eng);
+  cout << "test after adding a new word to our vector" << "\n";
+  cout << trans.TranslateForward(rus) << "\n";
+  cout << trans.TranslateBackward(eng) << "\n";
   return 0;
 }
