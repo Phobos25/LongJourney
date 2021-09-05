@@ -31,7 +31,7 @@ vector<string_view> Split(const string& s) {
   return result;
 }
 
-int main() {
+int main2() {
   string words = "two words";
   const auto word = Split("a b c");
   cout << word[0] << endl; 
