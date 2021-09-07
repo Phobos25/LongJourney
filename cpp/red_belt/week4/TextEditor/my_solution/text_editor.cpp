@@ -1,5 +1,9 @@
 #include <string>
 #include "test_runner.h"
+
+#include <vector>
+#include <list>
+#include <algorithm>
 using namespace std;
 
 class Editor {
@@ -13,7 +17,86 @@ class Editor {
   void Copy(size_t tokens = 1);
   void Paste();
   string GetText() const;
+private:
+  int i = 0;
+  size_t size = 0;
+  bool isCut = false;
+  vector<list<char>::iterator> buffer_;
+  list<char> text_;
+  list<char>::iterator cursor_;
 };
+
+Editor::Editor(){
+  cursor_ = text_.end(); //т.к. list пустой, мы устанавливаем курсор на конец
+}
+
+void Editor::Left() {
+  if (cursor_ != text_.begin()){
+    --cursor_;
+  }
+}
+
+void Editor::Right(){
+  if (cursor_ != text_.end()){
+    ++cursor_;
+  }
+}
+
+void Editor::Insert(char token){
+  text_.insert(cursor_, token);
+}
+
+void Editor:: Cut(size_t tokens = 1){
+  buffer_.clear();
+  isCut = true;
+  for (size_t i = 0; i < tokens; ++i){    
+    buffer_.push_back(cursor_);    
+    if (cursor_ == text_.end()){
+      break;
+    } else {
+      Right();
+    }    
+  }
+}
+
+void Editor:: Copy(size_t tokens = 1){
+  buffer_.clear();
+  isCut = false;
+  for (size_t i = 0; i < tokens; ++i){    
+    buffer_.push_back(cursor_);
+    if (cursor_ == text_.end()){
+      break;
+    } else {
+      Right();
+    }    
+  }
+}
+
+void Editor::Paste(){
+  // вставляем скопированные объекты
+  for (auto it:buffer_){
+    text_.insert(cursor_, *it);
+  }
+  // если мы вырезаем, а не копируем
+  if (isCut){
+    // не забываем менять булеву переменную на false
+    isCut = false;
+    // берем первый элемент вектора
+    auto it = buffer_[0];
+    for (int i = 0; i < buffer_.size(); ++i){
+      // т.к. итераторы у нас идут подряд, просто вызываем erase,  buffer_.size() раз
+      text_.erase(it);
+    }
+  }
+}
+
+string Editor::GetText() const{
+  string result = "";
+  for (auto it:text_){
+     result += it;
+  }
+  return result;
+}
 
 void TypeText(Editor& editor, const string& text) {
   for(char c : text) {
