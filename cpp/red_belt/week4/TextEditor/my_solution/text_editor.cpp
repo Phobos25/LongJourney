@@ -17,10 +17,7 @@ class Editor {
   void Copy(size_t tokens = 1);
   void Paste();
   string GetText() const;
-private:
-  int i = 0;
-  size_t size = 0;
-  bool isCut = false;
+private:    
   vector<list<char>::iterator> buffer_;
   list<char> text_;
   list<char>::iterator cursor_;
@@ -46,9 +43,8 @@ void Editor::Insert(char token){
   text_.insert(cursor_, token);
 }
 
-void Editor:: Cut(size_t tokens = 1){
-  buffer_.clear();
-  isCut = true;
+void Editor:: Cut(size_t tokens){
+  buffer_.clear();  
   for (size_t i = 0; i < tokens; ++i){    
     buffer_.push_back(cursor_);    
     if (cursor_ == text_.end()){
@@ -56,12 +52,20 @@ void Editor:: Cut(size_t tokens = 1){
     } else {
       Right();
     }    
+  }  
+  //TODO поменять буффер на обычные элементы char, а не итераторы
+  // итераторы не нужны, т.к. я удаляю элементы прямо внутри метода cut
+  // для удаления, я могу либо сохранить первйы итератор, либо использовать
+  // алгоритм find
+  if (!buffer_.empty()){    
+    for (auto it:buffer_){
+      text_.erase(it);
+    }
   }
 }
 
-void Editor:: Copy(size_t tokens = 1){
-  buffer_.clear();
-  isCut = false;
+void Editor:: Copy(size_t tokens){
+  buffer_.clear();  
   for (size_t i = 0; i < tokens; ++i){    
     buffer_.push_back(cursor_);
     if (cursor_ == text_.end()){
@@ -75,19 +79,8 @@ void Editor:: Copy(size_t tokens = 1){
 void Editor::Paste(){
   // вставляем скопированные объекты
   for (auto it:buffer_){
-    text_.insert(cursor_, *it);
-  }
-  // если мы вырезаем, а не копируем
-  if (isCut){
-    // не забываем менять булеву переменную на false
-    isCut = false;
-    // берем первый элемент вектора
-    auto it = buffer_[0];
-    for (int i = 0; i < buffer_.size(); ++i){
-      // т.к. итераторы у нас идут подряд, просто вызываем erase,  buffer_.size() раз
-      text_.erase(it);
-    }
-  }
+    Insert(*it);
+  }  
 }
 
 string Editor::GetText() const{
@@ -97,6 +90,7 @@ string Editor::GetText() const{
   }
   return result;
 }
+
 
 void TypeText(Editor& editor, const string& text) {
   for(char c : text) {
@@ -187,11 +181,33 @@ void TestEmptyBuffer() {
   ASSERT_EQUAL(editor.GetText(), "example");
 }
 
+void MyTest(){
+  Editor editor;
+  const size_t text_len = 12;
+  const size_t first_part_len = 7;
+  TypeText(editor, "hello, world");
+  for(size_t i = 0; i < text_len; ++i) {
+    editor.Left();
+  } 
+  editor.Cut(first_part_len);
+  for(size_t i = 0; i < text_len - first_part_len; ++i) {
+    editor.Right();
+  }
+  TypeText(editor, ", ");
+  editor.Paste();
+  editor.Left();
+  editor.Left();
+  editor.Cut(3);
+  
+  cout << editor.GetText() << '\n';
+}
+
 int main() {
-  TestRunner tr;
-  RUN_TEST(tr, TestEditing);
-  RUN_TEST(tr, TestReverse);
-  RUN_TEST(tr, TestNoText);
-  RUN_TEST(tr, TestEmptyBuffer);
+  MyTest();
+  // TestRunner tr;
+  // RUN_TEST(tr, TestEditing);
+  // RUN_TEST(tr, TestReverse);
+  // RUN_TEST(tr, TestNoText);
+  // RUN_TEST(tr, TestEmptyBuffer);
   return 0;
 }
