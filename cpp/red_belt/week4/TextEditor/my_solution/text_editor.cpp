@@ -18,7 +18,7 @@ class Editor {
   void Paste();
   string GetText() const;
 private:    
-  vector<list<char>::iterator> buffer_;
+  vector<char> buffer_;
   list<char> text_;
   list<char>::iterator cursor_;
 };
@@ -45,29 +45,23 @@ void Editor::Insert(char token){
 
 void Editor:: Cut(size_t tokens){
   buffer_.clear();  
-  for (size_t i = 0; i < tokens; ++i){    
-    buffer_.push_back(cursor_);    
+  buffer_.reserve(tokens);
+  for (size_t i = 0; i < tokens; ++i){        
     if (cursor_ == text_.end()){
       break;
     } else {
-      Right();
+      buffer_.push_back(*cursor_);    
+      text_.erase(cursor_++);
     }    
-  }  
-  //TODO поменять буффер на обычные элементы char, а не итераторы
-  // итераторы не нужны, т.к. я удаляю элементы прямо внутри метода cut
-  // для удаления, я могу либо сохранить первйы итератор, либо использовать
-  // алгоритм find
-  if (!buffer_.empty()){    
-    for (auto it:buffer_){
-      text_.erase(it);
-    }
-  }
+  }   
+
 }
 
 void Editor:: Copy(size_t tokens){
   buffer_.clear();  
+  buffer_.reserve(tokens);
   for (size_t i = 0; i < tokens; ++i){    
-    buffer_.push_back(cursor_);
+    buffer_.push_back(*cursor_);
     if (cursor_ == text_.end()){
       break;
     } else {
@@ -79,16 +73,12 @@ void Editor:: Copy(size_t tokens){
 void Editor::Paste(){
   // вставляем скопированные объекты
   for (auto it:buffer_){
-    Insert(*it);
+    Insert(it);
   }  
 }
 
-string Editor::GetText() const{
-  string result = "";
-  for (auto it:text_){
-     result += it;
-  }
-  return result;
+string Editor::GetText() const{  
+  return {text_.begin(), text_.end()};
 }
 
 
@@ -181,33 +171,11 @@ void TestEmptyBuffer() {
   ASSERT_EQUAL(editor.GetText(), "example");
 }
 
-void MyTest(){
-  Editor editor;
-  const size_t text_len = 12;
-  const size_t first_part_len = 7;
-  TypeText(editor, "hello, world");
-  for(size_t i = 0; i < text_len; ++i) {
-    editor.Left();
-  } 
-  editor.Cut(first_part_len);
-  for(size_t i = 0; i < text_len - first_part_len; ++i) {
-    editor.Right();
-  }
-  TypeText(editor, ", ");
-  editor.Paste();
-  editor.Left();
-  editor.Left();
-  editor.Cut(3);
-  
-  cout << editor.GetText() << '\n';
-}
-
 int main() {
-  MyTest();
-  // TestRunner tr;
-  // RUN_TEST(tr, TestEditing);
-  // RUN_TEST(tr, TestReverse);
-  // RUN_TEST(tr, TestNoText);
-  // RUN_TEST(tr, TestEmptyBuffer);
+  TestRunner tr;
+  RUN_TEST(tr, TestEditing);
+  RUN_TEST(tr, TestReverse);
+  RUN_TEST(tr, TestNoText);
+  RUN_TEST(tr, TestEmptyBuffer);
   return 0;
 }
