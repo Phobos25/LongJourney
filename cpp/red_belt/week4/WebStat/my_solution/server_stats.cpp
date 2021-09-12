@@ -9,7 +9,6 @@ using namespace std;
 Stats ServeRequests(istream& input) {
   Stats result;
   for (string line; getline(input, line); ) {
-    cout << "line: "<<line << endl;
     const HttpRequest req = ParseRequest(line);
     result.AddUri(req.uri);
     result.AddMethod(req.method);

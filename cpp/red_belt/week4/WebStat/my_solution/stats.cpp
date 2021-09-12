@@ -10,7 +10,6 @@ Stats::Stats(){
 }
 
 void Stats::AddMethod(string_view method){
-    cout << method << endl;
     if (method_stats.find(method) != method_stats.end()){
         ++method_stats[method];
     } else {
@@ -59,10 +58,7 @@ vector<string_view> Split(const string_view& str) {
 }
 
 HttpRequest ParseRequest(string_view line){
-//     POST /product HTTP/1.1
-//     GET /order HTTP/1.1
-//     PUT /product HTTP/1.1
-    str.remove_prefix(min(str.find_first_not_of(" "), str.size()));
+    line.remove_prefix(min(line.find_first_not_of(" "), line.size()));
     HttpRequest request;
     const auto words = Split(line);
     if (!words.empty()){
