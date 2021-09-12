@@ -62,6 +62,7 @@ HttpRequest ParseRequest(string_view line){
 //     POST /product HTTP/1.1
 //     GET /order HTTP/1.1
 //     PUT /product HTTP/1.1
+    str.remove_prefix(min(str.find_first_not_of(" "), str.size()));
     HttpRequest request;
     const auto words = Split(line);
     if (!words.empty()){
