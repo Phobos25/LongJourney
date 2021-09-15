@@ -1,62 +1,34 @@
-#include <list>
+#include <cstdint>
+#include <iterator>
+#include <numeric>
 #include <vector>
 #include <iostream>
-#include <algorithm>
-#include <map>
-#include <string_view>
-#include <string>
+#include <utility>
+
 using namespace std;
 
-vector<string_view> Split(const string_view& str) {  
-  
-  vector<string_view> result;
-  size_t pos = 0;  //string view не дружит с итераторами
-  const size_t pos_end = str.npos; //работает только с подряд идущими строками
-
-  while (true){
-    size_t space = str.find(' ', pos); // ищем пустую строку с позиции pos
-    
-    result.push_back(
-      space == pos_end
-      ? str.substr(pos)
-      : str.substr(pos, space-pos)
-    );
-
-    if (space == pos_end){
+template <typename RandomIt>
+void MakeJosephusPermutation(RandomIt first, RandomIt last, uint32_t step_size) {  
+  auto beg = first;
+  size_t cur_pos = 0;
+  size_t size = last - first;
+  while (size != 0) {    
+    *(first++) = *(beg + cur_pos);    
+    --size;
+    if (size == 0) {
       break;
-    } else {
-      pos = space + 1;
     }
+    cur_pos = (cur_pos + step_size - 1) % size;
   }
-  return result;
 }
 
-void AddMethod(map<string_view, int>& method_stats, string_view method){
-    if (method_stats.find(method) != method_stats.end()){
-        ++method_stats[method];
-    } else {
-        ++method_stats["UNKNOWN"];
-    }
-}
-
-int main(){
-  map<string_view, int> data;
-  data = {{"GET", 0}, {"POST", 0}, 
-          {"PUT", 0}, {"DELETE", 0}, 
-          {"UNKNOWN", 0}};
- 
-  const string first = "GET / HTTP/1.1";
-  const string second = "PUT / HTTP/1.1";
-  const string third = "DELETE / HTTP/1.1";
-  const string fourth = "POST / HTTP/1.1";
-  auto it = Split(first);
-  AddMethod(data, it[0]);
-  AddMethod(data, Split(second)[0]);
-  AddMethod(data, Split(third) [0]);
-  AddMethod(data, Split(fourth)[0]);
-
-  for (auto [key, value]: data){
-    cout << key << ": " << value << endl;
+int main() {
+  vector<int> v = {1,2,3,4,5};
+  MakeJosephusPermutation(begin(v), end(v), 2);
+  for (auto i:v){
+    cout << i << ' ';
   }
+  cout << endl;
   return 0;
+
 }
