@@ -5,13 +5,12 @@
 #include <numeric>
 #include <vector>
 #include <iostream>
-#include <utility>
 
 using namespace std;
 
 template <typename RandomIt>
 void MakeJosephusPermutation(RandomIt first, RandomIt last, uint32_t step_size) {
-  vector<typename RandomIt::value_type> pool(first, last);  
+  vector<typename RandomIt::value_type> pool(first, last);
   size_t cur_pos = 0;
   while (!pool.empty()) {
     *(first++) = pool[cur_pos];
