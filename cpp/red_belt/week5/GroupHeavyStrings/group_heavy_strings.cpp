@@ -1,9 +1,9 @@
+#include "test_runner.h"
+
 #include <algorithm>
 #include <string>
 #include <vector>
 #include <set>
-#include <map>
-#include <iostream>
 
 using namespace std;
 
@@ -24,55 +24,40 @@ using Char = typename String::value_type;
 template <typename String>
 vector<Group<String>> GroupHeavyStrings(vector<String> strings) {
   // Напишите реализацию функции,
-  set<char> s;
-  map<set<char>, int> group;
-
+  set<String> s;
   for (const auto& c: strings[0]){
     if (s.count(c) == 0){
       s.insert(c);
     }
   }
-  group[s] = 1;
-
-  s.clear();
-  for (const auto& c: strings[1]){
-    if (s.count(c) == 0){
-      s.insert(c);
-    }
-  }
-
-  if (group.count(s) == 0){
-    group[s] = 1;
-  } else {
-    ++group[s];
-  }
-
-  s.clear();
-  for (const auto& c: strings[2]){
-    if (s.count(c) == 0){
-      s.insert(c);
-    }
-  }
-
-  if (group.count(s) == 0){
-    group[s] = 1;
-  } else {
-    ++group[s];
-  }
   
-  cout << group.size();
-  // for (auto c: s) {
-  //   cout << c << ' ';
-  // }
-  // cout << '\n';
-
-  vector<Group<String>> result;
-  return result;
   // использовав не более 1 копирования каждого символа
 }
 
-int main (){
+
+void TestGroupingABC() {
   vector<string> strings = {"caab", "abc", "cccc", "bacc", "c"};
   auto groups = GroupHeavyStrings(strings);
+  ASSERT_EQUAL(groups.size(), 2);
+  sort(begin(groups), end(groups));  // Порядок групп не имеет значения
+  ASSERT_EQUAL(groups[0], vector<string>({"caab", "abc", "bacc"}));
+  ASSERT_EQUAL(groups[1], vector<string>({"cccc", "c"}));
+}
+
+void TestGroupingReal() {
+  vector<string> strings = {"law", "port", "top", "laptop", "pot", "paloalto", "wall", "awl"};
+  auto groups = GroupHeavyStrings(strings);
+  ASSERT_EQUAL(groups.size(), 4);
+  sort(begin(groups), end(groups));  // Порядок групп не имеет значения
+  ASSERT_EQUAL(groups[0], vector<string>({"laptop", "paloalto"}));
+  ASSERT_EQUAL(groups[1], vector<string>({"law", "wall", "awl"}));
+  ASSERT_EQUAL(groups[2], vector<string>({"port"}));
+  ASSERT_EQUAL(groups[3], vector<string>({"top", "pot"}));
+}
+
+int main() {
+  TestRunner tr;
+  RUN_TEST(tr, TestGroupingABC);
+  RUN_TEST(tr, TestGroupingReal);
   return 0;
 }
