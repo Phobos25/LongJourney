@@ -1,3 +1,6 @@
+20211130
+continue on weekly todos
+
 20211124
 working on plan
 
