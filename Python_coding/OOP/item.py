@@ -12,19 +12,26 @@ class Item:
         assert quantity >= 0, f"Quantity {quantity} is not greater than zero"
         
         # Assign to self object
-        self.name = name
+        self.__name = name # __ for private variable
         self.price = price
         self.quantity = quantity
         
         # Actions to execute
         Item.all.append(self)
         
-    def calculate_total_price(self):
-        return self.price * self.quantity;
+    @property
+    # Property decorator = read-only decorator
+    def name(self):
+        return self.__name          
     
-    def apply_discount(self):
-        self.price = self.price * self.pay_rate
-    
+    @name.setter
+    # allows to set a name
+    def name(self, value):
+        if len(value) > 10:
+            raise Exception("The name is too long")
+        else:
+            self.__name = value
+
     # class method
     @classmethod
     def instantiate_from_csv(cls, filename):
@@ -51,6 +58,12 @@ class Item:
             return True
         else:
             return False
-        
+    
+    def calculate_total_price(self):
+        return self.price * self.quantity;
+    
+    def apply_discount(self):
+        self.price = self.price * self.pay_rate
+
     def __repr__(self):
         return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
