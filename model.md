@@ -1,3 +1,6 @@
+20220113
+New beginning
+
 20211130
 continue on weekly todos
 
