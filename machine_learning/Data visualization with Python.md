@@ -1,4 +1,5 @@
 # Data visualization
+ 
 
 Since it's not always easy to decide how to best tell the story behind your data, we've broken the chart types into three broad categories to help with this.
  

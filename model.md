@@ -1,3 +1,6 @@
+20220203
+review of current situation
+
 20220113
 New beginning
 
