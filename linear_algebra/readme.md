@@ -30,7 +30,67 @@ Test 2.2. Матрица линейного оператора (done)
 Тест 2.4. Метод Гаусса (done)
 
 Бонус- 2.11. О принцессах, драконе и шахматной доске
-Video•. Duration: 11 minutes11 min
+Video•. Duration: 11 minutes11 min (done)
 
 Задачи на программирование к лекции 2
+Practice Programming Assignment•. Duration: 3 hours3h (done)
+
+Week #3
+Видео 3.1. Геометрическая идея определителя (done)
+Video•. Duration: 11 minutes11 min
+
+Видео 3.2. Свойства определителя (done)
+Video•. Duration: 12 minutes12 min
+
+Видео 3.3. Пример вычисления определителя
+Video•. Duration: 5 minutes5 min
+. Click to resume
+
+Тест 3.1. Определитель линейного оператора
+Due, Feb 28, 4:59 PM KST
+Quiz•4 questions
+
+•Grade: --
+
+Видео 3.4. Определитель и транспонирование
+Video•. Duration: 8 minutes8 min
+
+Тест 3.2. Транспонирование и определитель
+Due, Feb 28, 4:59 PM KST
+Quiz•4 questions
+
+•Grade: --
+
+Видео 3.5. Нахождение обратной матрицы методом Гаусса
+Video•. Duration: 5 minutes5 min
+
+Видео 3.6. Решение системы уравнений методом Крамера
+Video•. Duration: 7 minutes7 min
+
+Видео 3.7. Обращение матрицы методом Крамера
+Video•. Duration: 7 minutes7 min
+
+Видео 3.8. Поиск обратной матрицы: итоги
+Video•. Duration: 6 minutes6 min
+
+Тест 3.3. Метод Крамера и обратная матрица
+Due, Feb 28, 4:59 PM KST
+Quiz•4 questions
+
+•Grade: --
+
+Видео 3.9. LU-разложение
+Video•. Duration: 10 minutes10 min
+
+Тест 3.4. LU-разложение
+Due, Feb 28, 4:59 PM KST
+Quiz•4 questions
+
+•Grade: --
+
+Бонус-видео 3.10. Первый взгляд на комплексные числа
+Video•. Duration: 9 minutes9 min
+
+Задачи на программирование к лекции 3
 Practice Programming Assignment•. Duration: 3 hours3h
+
