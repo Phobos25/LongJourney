@@ -38,7 +38,6 @@ Practice Programming Assignment•. Duration: 3 hours3h (done)
 Week #3
 Видео 3.1. Геометрическая идея определителя (done)
 
-
 Видео 3.2. Свойства определителя (done)
 
 
