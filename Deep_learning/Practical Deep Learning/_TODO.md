@@ -1,7 +1,5 @@
 3:24:00      
 
-
-
 ссылки:
 
 https://github.com/fastai/fastbook
