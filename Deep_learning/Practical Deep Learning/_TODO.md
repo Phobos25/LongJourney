@@ -1,4 +1,4 @@
-5:23:00
+5:56:00
 ссылки:
 
 https://github.com/fastai/fastbook
