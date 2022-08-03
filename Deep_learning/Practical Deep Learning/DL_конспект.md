@@ -1,5 +1,6 @@
 The State of Deep Learning
 
+
 ### Vision
 * Detection; Classification
 
