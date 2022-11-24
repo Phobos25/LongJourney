@@ -1,0 +1,186 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Nested and Repeated data.md</title><script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ltypRK1wzjefh434yXiCJAFOUcaZXLyHOAoUhZ1syI7qRkZoAvcyAeoGHhfS6h44-lmwBjS-0mBylqaF1qKTZQ" charset="UTF-8"></script><style></style><script type="text/javascript" nonce="edd58eafc3494b91aec4a8a7d3c" src="//local.adguard.org?ts=1669328542877&amp;type=content-script&amp;dmn=dillinger.io&amp;pth=%2Ffactory%2Ffetch_html&amp;app=firefox.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script>
+<script type="text/javascript" nonce="edd58eafc3494b91aec4a8a7d3c" src="//local.adguard.org?ts=1669328542877&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head><body id="preview">
+<h1 class="code-line" data-line-start=0 data-line-end=1><a id="Nested_and_Repeated_data_0"></a>Nested and Repeated data</h1>
+<p class="has-line-data" data-line-start="2" data-line-end="3">До сих пор мы рассматривали простые таблицы. Это таблицы у которых в столбцах одинаковое количество данных:</p>
+<pre><code class="has-line-data" data-line-start="4" data-line-end="10">pets table                  toys   table       
+ID Name     Age  Animal     ID  Name     Type    Pet_ID
+1  Moon      9   Dog        1   McFly   Frisbee  1
+2  Ripley    7   Cat        2   Fluffy  Feather  2
+3  Napoleon  1   Fish       3   Eddy    Castle   3
+</code></pre>
+<p class="has-line-data" data-line-start="11" data-line-end="12">Другой вариант хранения данных это когда эти две таблицы объединены в общую таблицу pets_and_toys</p>
+<h1 class="code-line" data-line-start=14 data-line-end=15><a id="__14"></a>Вложенные данные</h1>
+<pre><code class="has-line-data" data-line-start="16" data-line-end="22">pets_and_toys table
+ID Name     Age  Animal   Toy
+1  Moon      9   Dog      {Name: McFly,  Type: Frisbee}
+2  Ripley    7   Cat      {Name: Fluffy, Type: Feather}
+3  Napoleon  1   Fish     {Name: Eddy,   Type: Castle }
+</code></pre>
+<p class="has-line-data" data-line-start="23" data-line-end="24">В этом случае, вся информация из таблицы toys была помещена в столбец Toy. Такой столбец называется <strong>вложенным</strong> (nested) и столбцы “Name” и “Type” вложены внутри.</p>
+<p class="has-line-data" data-line-start="25" data-line-end="26">Вложенные столбцы имеют тип <strong>STRUCT</strong> (или тип <strong>RECORD</strong>).</p>
+<p class="has-line-data" data-line-start="27" data-line-end="28">Чтобы получить к ним доступ мы должны указать название столбца и типа данных, которых хотим вызвать.</p>
+<ul>
+<li class="has-line-data" data-line-start="28" data-line-end="29"><a href="http://Toy.Name">Toy.Name</a> - вызывает данные из <strong>Name</strong> в столбце <strong>Toy</strong></li>
+<li class="has-line-data" data-line-start="29" data-line-end="31">Toy.Type - вызывает данные из <strong>Type</strong> в столбце <strong>Toy</strong></li>
+</ul>
+<pre><code class="has-line-data" data-line-start="32" data-line-end="39">query = &quot;&quot;&quot;
+        SELECT   Name AS Pet_Name,
+                 Toy.Name AS Toy_Name,
+                 Toy.Type AS Toy_Type
+        FROM     `bigquery-public-data.pet_records.pet_and_toys`
+        &quot;&quot;&quot;
+</code></pre>
+<h1 class="code-line" data-line-start=40 data-line-end=41><a id="__40"></a>Повторяющиеся данные</h1>
+<p class="has-line-data" data-line-start="41" data-line-end="42"><strong>Повторяющиеся данные</strong>. Давайте рассмотрим более реалистичную таблицу, когда у питомцев по несколько игрушек:</p>
+<pre><code class="has-line-data" data-line-start="44" data-line-end="50">pets_and_toys table
+ID Name     Age  Animal   Toy
+1  Moon      9   Dog      [Frisbee, Bone, Rope]
+2  Ripley    7   Cat      [Feather, Ball]
+3  Napoleon  1   Fish     [Castle] 
+</code></pre>
+<p class="has-line-data" data-line-start="50" data-line-end="52">В этом случае столбец “Toys” содержит <strong>повторяющиеся данные</strong> (repeated data), потому что содержит более одного значения на каждой строке.<br>
+Данные представляют собой массив (<strong>ARRAY</strong>), или упорядоченный список одного типа.</p>
+<p class="has-line-data" data-line-start="53" data-line-end="54">Для вызова таких данные мы должны использовать функцию <strong>UNNEST()</strong></p>
+<pre><code class="has-line-data" data-line-start="55" data-line-end="62">query = &quot;&quot;&quot;
+        SELECT   Name AS Pet_Name,
+                 Toy_Type
+        FROM     `bigquery-public-data.pet_records.pets_and_toys_type`
+                 UNNEST(Toys) AS Toy_Type
+        &quot;&quot;&quot;
+</code></pre>
+<p class="has-line-data" data-line-start="63" data-line-end="64">По существу, эта функция разглаживает столбец с повторяющимися данными и у нас получается по одному элементу на каждой строке:</p>
+<pre><code class="has-line-data" data-line-start="65" data-line-end="73">Pet_Name    Toy_Type
+Moon        Frisbee
+Moon        Bone 
+Moon        Rope
+Ripley      Feather
+Ripley      Ball
+Napoleon    Castle
+</code></pre>
+<h1 class="code-line" data-line-start=74 data-line-end=75><a id="____74"></a>Вложенные и повторяющиеся данные</h1>
+<p class="has-line-data" data-line-start="76" data-line-end="77">Что делать, если у питомцев по несколько игрушек и мы хотели бы записать и имя и тип игрушки. В этом случае, столбец “Toys” будет одновременно и вложенным, и повторяющимся.</p>
+<pre><code class="has-line-data" data-line-start="79" data-line-end="88">pets_and_toys table
+ID Name     Age  Animal   Toys
+1  Moon      9   Dog      [{Name: McFly, Type: Frisbee},
+                           {Name: Scully, Type: Bone}, 
+                           {Name: Pusheen, Type: Rope}]
+2  Ripley    7   Cat      [{Name: Fluffy, Type: Feather},
+                            {Name: Robert, Type: Ball}]
+3  Napoleon  1   Fish     [{Name: Eddy, Type: Castle}] 
+</code></pre>
+<p class="has-line-data" data-line-start="89" data-line-end="90">Пример:</p>
+<pre><code class="has-line-data" data-line-start="91" data-line-end="99">query = &quot;&quot;&quot;
+        SELECT   Name AS Pet_Name,
+                 t.Name AS Toy_Name,
+                 t.Type AS Toy_Type
+        FROM     `bigquery-public-data.pet_records.more_pets_and_toys`,
+                 UNNEST(Toys) AS t
+        &quot;&quot;&quot;
+</code></pre>
+<p class="has-line-data" data-line-start="100" data-line-end="101">Т.к. столбец “Toys” содержит вложенные данные, мы разглаживаем его функцией <strong>UNNEST()</strong>. И т.к. мы дали разглаженному столбцу обозначение t, мы можем вызывать “Name” и “Toys” при помощи t.</p>
+<h1 class="code-line" data-line-start=102 data-line-end=103><a id="Writing_efficient_queries_102"></a>Writing efficient queries</h1>
+<p class="has-line-data" data-line-start="104" data-line-end="105">Время от времени нам бывают нужно написать эффективный запрос. Если мы работаме с маленькой базой данных, или посылаем запрос только один раз, то особой необходимости в написании эффективных запросов нет. Нужна в них появляется при определенных условиях, например, если мы отправляем данные на сайт, мы не хотим, чтобы юзер очень долго ждал, пока сайт прогрузится. Или если у нас база данных колоссальных размеров, то неэффективный запрос может стоить бизнесу больших денег.</p>
+<p class="has-line-data" data-line-start="106" data-line-end="107">Большинство баз данных используют различнго рода оптимизаторы, чтобы попытаться оптимизировать вам неэффективный запрос. Но определенные стратегии, которые вы можете применить сами, позволяют сильно сократить время обработки вашего запроса.</p>
+<p class="has-line-data" data-line-start="108" data-line-end="109">Если хотите оценить эффективность вашего запроса вы можете использовать следующие команды/функции:</p>
+<ul>
+<li class="has-line-data" data-line-start="109" data-line-end="110">show_amount_of_data_scanned() — показывает размер данных, которые использует ваш запрос</li>
+<li class="has-line-data" data-line-start="110" data-line-end="112">show_time_to_run() — выводит длительность обработки вашего запроса</li>
+</ul>
+<h1 class="code-line" data-line-start=112 data-line-end=113><a id="_____112"></a>Стратегии для написания эффективного запроса</h1>
+<ol>
+<li class="has-line-data" data-line-start="113" data-line-end="115"><strong>Выбирайте только те столбцы, которые вам нужны.</strong></li>
+</ol>
+<p class="has-line-data" data-line-start="115" data-line-end="116">Давайте рассмотрим пример:</p>
+<pre><code class="has-line-data" data-line-start="117" data-line-end="123">star_query = &quot;SELECT * FROM    `bigquery-public-data.github_repos.contents&quot;
+show_amount_of_data_scanned(star_query)
+
+basic_query = &quot;SELECT size, binary FROM `bigquery-public-data.github_repos.contents`&quot;
+show_amount_of_data_scanned(basic_query)
+</code></pre>
+<p class="has-line-data" data-line-start="123" data-line-end="124">на выходе получаем:</p>
+<pre><code class="has-line-data" data-line-start="125" data-line-end="128">Data processed: 2504.697 GB
+Data processed: 2.396 GB
+</code></pre>
+<p class="has-line-data" data-line-start="128" data-line-end="129">как мы видим, разница в 1000 раз.</p>
+<ol start="2">
+<li class="has-line-data" data-line-start="130" data-line-end="132"><strong>Читаем меньше данных</strong></li>
+</ol>
+<p class="has-line-data" data-line-start="132" data-line-end="133">Для примера рассмотрим два запроса одних и тех же данных. Данные представляют собой среднюю длительность (в секундах) путешествия на велосипеде в Сан-Франциско.</p>
+<pre><code class="has-line-data" data-line-start="135" data-line-end="157">more_data_query = &quot;&quot;&quot;
+                  SELECT MIN(start_station_name) AS start_station_name,
+                      MIN(end_station_name) AS end_station_name,
+                      AVG(duration_sec) AS avg_duration_sec
+                  FROM `bigquery-public-data.san_francisco.bikeshare_trips`
+                  WHERE start_station_id != end_station_id 
+                  GROUP BY start_station_id, end_station_id
+                  LIMIT 10
+                  &quot;&quot;&quot;
+show_amount_of_data_scanned(more_data_query)
+
+less_data_query = &quot;&quot;&quot;
+                  SELECT start_station_name,
+                      end_station_name,
+                      AVG(duration_sec) AS avg_duration_sec                  
+                  FROM `bigquery-public-data.san_francisco.bikeshare_trips`
+                  WHERE start_station_name != end_station_name
+                  GROUP BY start_station_name, end_station_name
+                  LIMIT 10
+                  &quot;&quot;&quot;
+show_amount_of_data_scanned(less_data_query)
+</code></pre>
+<pre><code class="has-line-data" data-line-start="159" data-line-end="162">Data processed: 0.076 GB
+Data processed: 0.06 Gb
+</code></pre>
+<p class="has-line-data" data-line-start="163" data-line-end="165">По сути station ID и station name это одно и то же — уникальные названия остановок, нам не надо использовать start_station_id и end_station_id<br>
+Мы можем использовать start_station_name и end_station_name, который уже используется для расчета времени путешествия.</p>
+<ol start="3">
+<li class="has-line-data" data-line-start="166" data-line-end="168"><strong>Избегайте N:N JOIN</strong></li>
+</ol>
+<p class="has-line-data" data-line-start="168" data-line-end="169">Почти все соединения таблиц, который мы рассмотрели представляли собой 1:1 JOIN, т.е. каждая строка, каждой таблицы совпадала максимум с одной строкой из другой таблицы.</p>
+<p class="has-line-data" data-line-start="170" data-line-end="171">Другой тип — это N:1 JOIN, это когда каждая строка одной таблицы потенциально совпадает со множеством строк другой таблицы.</p>
+<p class="has-line-data" data-line-start="172" data-line-end="173">Третий тип — это N:N JOIN, это когда группа строк одной таблицы может совпадать с группой строк другой таблицы.</p>
+<p class="has-line-data" data-line-start="174" data-line-end="175">Для сравнения, рассмотрим пример:</p>
+<pre><code class="has-line-data" data-line-start="176" data-line-end="215">big_join_query = &quot;&quot;&quot;
+                 SELECT repo,
+                     COUNT(DISTINCT c.committer.name) as num_committers,
+                     COUNT(DISTINCT f.id) AS num_files
+                 FROM `bigquery-public-data.github_repos.commits` AS c,
+                     UNNEST(c.repo_name) AS repo
+                 INNER JOIN `bigquery-public-data.github_repos.files` AS f
+                     ON f.repo_name = repo
+                 WHERE f.repo_name IN ( 'tensorflow/tensorflow', 'facebook/react', 'twbs/bootstrap', 'apple/swift', 'Microsoft/vscode', 'torvalds/linux')
+                 GROUP BY repo
+                 ORDER BY repo
+                 &quot;&quot;&quot;
+show_time_to_run(big_join_query)
+
+small_join_query = &quot;&quot;&quot;
+                   WITH commits AS
+                   (
+                   SELECT COUNT(DISTINCT committer.name) AS num_committers, repo
+                   FROM `bigquery-public-data.github_repos.commits`,
+                       UNNEST(repo_name) as repo
+                   WHERE repo IN ( 'tensorflow/tensorflow', 'facebook/react', 'twbs/bootstrap', 'apple/swift', 'Microsoft/vscode', 'torvalds/linux')
+                   GROUP BY repo
+                   ),
+                   files AS 
+                   (
+                   SELECT COUNT(DISTINCT id) AS num_files, repo_name as repo
+                   FROM `bigquery-public-data.github_repos.files`
+                   WHERE repo_name IN ( 'tensorflow/tensorflow', 'facebook/react', 'twbs/bootstrap', 'apple/swift', 'Microsoft/vscode', 'torvalds/linux')
+                   GROUP BY repo
+                   )
+                   SELECT commits.repo, commits.num_committers, files.num_files
+                   FROM commits 
+                   INNER JOIN files
+                       ON commits.repo = files.repo
+                   ORDER BY repo
+                   &quot;&quot;&quot;
+
+show_time_to_run(small_join_query)
+</code></pre>
+<p class="has-line-data" data-line-start="215" data-line-end="216">Output:</p>
+<pre><code class="has-line-data" data-line-start="217" data-line-end="220">Time to run: 9.06 seconds
+Time to run: 10.798 seconds
+</code></pre>
+</body></html>
