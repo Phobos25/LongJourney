@@ -18,7 +18,7 @@ IF(логическое_выражение, выражение_1, выражен
 ```SQL
 SELECT title, amount, price,
     IF(amount<4, price*0.5, price*0.7) AS sale
-FROM book;
+  FROM book;
 ```
 *Результат:*
 ```
