@@ -3,22 +3,22 @@
 Оператор UNION используется для объединения двух и более SQL запросов, его синтаксис:
 ```SQL
 SELECT столбец_1_1, столбец_1_2, ...
-FROM 
+FROM
   ...
 UNION
 SELECT столбец_2_1, столбец_2_2, ...
-FROM 
+FROM
   ...
 ```
 или
 
 ```SQL
 SELECT столбец_1_1, столбец_1_2, ...
-FROM 
+FROM
   ...
 UNION ALL
 SELECT столбец_2_1, столбец_2_2, ...
-FROM 
+FROM
   ...
 ```
 
@@ -35,13 +35,13 @@ FROM
 С UNION клиенты будут выведены без повторений:
 ```SQL
 SELECT name_client
-FROM 
+FROM
     buy_archive
     INNER JOIN client USING(client_id)
 UNION
 SELECT name_client
-FROM 
-    buy 
+FROM
+    buy
     INNER JOIN client USING(client_id)
 ```
 ```    
@@ -59,13 +59,13 @@ Affected rows: 4
 C ```UNION ALL``` будут выведены клиенты с повторением (для тех, кто заказывал книги в обоих годах, а также несколько раз в одном году)
 ```SQL
 SELECT name_client
-FROM 
+FROM
     buy_archive
     INNER JOIN client USING(client_id)
 UNION ALL
 SELECT name_client
-FROM 
-    buy 
+FROM
+    buy
     INNER JOIN client USING(client_id)
 
 ```
@@ -98,14 +98,14 @@ Affected rows: 14
 Запрос:
 ```SQL
 SELECT buy_id, client_id, book_id, date_payment, amount, price
-FROM 
+FROM
     buy_archive
 UNION ALL
 SELECT buy.buy_id, client_id, book_id, date_step_end, buy_book.amount, price
-FROM 
-    book 
+FROM
+    book
     INNER JOIN buy_book USING(book_id)
-    INNER JOIN buy USING(buy_id) 
+    INNER JOIN buy USING(buy_id)
     INNER JOIN buy_step USING(buy_id)
     INNER JOIN step USING(step_id)                  
 WHERE  date_step_end IS NOT Null and name_step = "Оплата"  
@@ -138,12 +138,12 @@ WHERE  date_step_end IS NOT Null and name_step = "Оплата"
 В результат включены сначала записи архивной таблицы, а затем информация об оплаченных заказах  текущего года. Для того, чтобы изменить порядок следования записей в объединенном запросе, можно использовать сортировку по всем объединенным записям. В этом случае ключевые слова ORDER BY указываются после последнего запроса: 
 ```SQL
 SELECT buy_id, client_id, book_id, date_payment, amount, price
-FROM 
+FROM
     buy_archive
 UNION ALL
 SELECT buy.buy_id, client_id, book_id, date_step_end, buy_book.amount, price
-FROM 
-    book 
+FROM
+    book
     INNER JOIN buy_book USING(book_id)
     INNER JOIN buy USING(buy_id) 
     INNER JOIN buy_step USING(buy_id)
@@ -175,4 +175,41 @@ ORDER BY client_id
 | 3      | 4         | 5       | 2019-03-05   | 2      | 480.90 |
 | 3      | 4         | 4       | 2019-03-05   | 4      | 780.90 |
 +--------+-----------+---------+--------------+--------+--------+
+```
+
+*Запрос*
+```SQL
+SELECT YEAR(date_payment) AS Год,
+       MONTHNAME(date_payment) AS Месяц,
+       SUM(buy_archive.amount*buy_archive.price) AS Сумма
+  FROM
+       buy_archive
+ GROUP BY Месяц, Год       
+ UNION ALL
+SELECT YEAR(date_step_end) AS Год,
+       MONTHNAME(date_step_end) AS Месяц,
+       SUM(buy_book.amount*book.price) AS Сумма
+  FROM
+       book
+       INNER JOIN buy_book USING(book_id)
+       INNER JOIN buy USING(buy_id) 
+       INNER JOIN buy_step USING(buy_id)
+       INNER JOIN step USING(step_id)                  
+ WHERE date_step_end IS NOT Null and name_step = "Оплата"
+ GROUP BY Месяц, Год
+ ORDER BY Месяц, Год
+```
+
+**Результат**
+```
+Query result:
++------+----------+---------+
+| Год  | Месяц    | Сумма   |
++------+----------+---------+
+| 2019 | February | 5626.30 |
+| 2020 | February | 3309.37 |
+| 2019 | March    | 6857.50 |
+| 2020 | March    | 2131.49 |
++------+----------+---------+
+Affected rows: 4
 ```
