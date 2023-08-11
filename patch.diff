@@ -1,0 +1,27 @@
+From 96a2e17b43b8748a85b691350e33c95adfe49d2d Mon Sep 17 00:00:00 2001
+From: "IGORWORK\\igor" <fydte@mail.ru>
+Date: Fri, 11 Aug 2023 12:07:22 +0900
+Subject: [PATCH] 1
+
+---
+ ds_combined.md | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/ds_combined.md b/ds_combined.md
+index 28f7562..adf9c79 100644
+--- a/ds_combined.md
++++ b/ds_combined.md
+@@ -1,5 +1,10 @@
++<<<<<<< HEAD
++
++
+ 20230807
+ исправления
++=======
++>>>>>>> parent of b6d1192 (dissert 58)
+ 
+ 20230804
+ исправления
+-- 
+2.35.0.windows.1
+
