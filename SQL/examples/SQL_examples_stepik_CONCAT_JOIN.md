@@ -37,3 +37,54 @@ SELECT CONCAT(module_id, ' ', LEFT(module_name, 14), '...') AS Модуль,
  WHERE step_name LIKE "%вложенн%"
    AND step_name LIKE "%запрос%"
 ```
+
+
+### Задание
+
+Заполнить таблицу step_keyword следующим образом: если ключевое слово есть в названии шага, то включить в step_keyword строку с id шага и id ключевого слова. 
+
+```SQL
+INSERT INTO step_keyword(step_id, keyword_id)
+SELECT step_id, keyword_id
+  FROM step CROSS JOIN keyword
+ WHERE CONCAT("\\b",step_name, "\\b") REGEXP CONCAT('\\b',keyword_name,'\\b');
+```
+
+#### Результат
+
+```
+Affected rows: 27
+
+Query result:
++---------+------------+
+| step_id | keyword_id |
++---------+------------+
+| 38      | 1          |
+| 81      | 3          |
+| 82      | 4          |
+| 82      | 5          |
+| 82      | 6          |
+| 81      | 7          |
+| 82      | 7          |
+| 83      | 7          |
+| 83      | 8          |
+| 47      | 10         |
+| 47      | 11         |
+| 42      | 15         |
+| 43      | 16         |
+| 44      | 16         |
+| 42      | 17         |
+| 43      | 18         |
+| 46      | 18         |
+| 43      | 19         |
+| 88      | 26         |
+| 112     | 27         |
+| 113     | 27         |
+| 37      | 28         |
+| 37      | 29         |
+| 18      | 30         |
+| 36      | 30         |
+| 19      | 31         |
+| 18      | 32         |
++---------+------------+
+```
