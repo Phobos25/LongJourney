@@ -52,5 +52,4 @@
   collapsed:: true
 	- ![height_observers.png](assets/height_observers_1712194032808_0.png)
 - Рисунок [[Res_dens]].
-  collapsed:: true
 	- ![res_dens.png](assets/res_dens_1712194137954_0.png)
