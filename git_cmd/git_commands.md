@@ -10,3 +10,7 @@ You can set your current master to match the origin master by:
 Check out the master branch. Double click the branch, or open the terminal and type git checkout master
 
 Then reset the branch to origin master. Locate origin/master in the log, right click, click "Reset current branch to this commit" and select hard from the dialog that comes up. Or use the command git reset --hard origin/master
+
+
+use ```git pull --rebase```
+or  ```git rebase --abort ``
