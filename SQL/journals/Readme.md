@@ -42,7 +42,6 @@ collapsed:: true
 	  [[SQL_commands_1]] [[SQL_commands_2]]
 -
 - ## Вложенный запрос
-  collapsed:: true
 	- Вложенный запрос, возвращающий одно значение
 		- вложенный запрос в [[WHERE]] описан  [[SQL_sub_query]] и пример использования в [[SQL_subset_examples]]
 		- вложенный запрос после [[SELECT]] описан в [[SQL_Select]]
