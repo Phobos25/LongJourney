@@ -1,4 +1,5 @@
 
+
 ```
 I'm new to Sourcetree and have created a mess locally, with 7 ahead commits compared to the origin/master. I want to ignore and remove everything I've done locally and start again by reverting my local repo to the origin/master as it currently stands. How do I do this?
 
