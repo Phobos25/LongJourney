@@ -5,7 +5,6 @@ Remark: I know the origin/master is correct since I have another machine next to
 ```
 
 
-
 You can set your current master to match the origin master by:
 
 Check out the master branch. Double click the branch, or open the terminal and type git checkout master
