@@ -4,6 +4,8 @@ I'm new to Sourcetree and have created a mess locally, with 7 ahead commits comp
 Remark: I know the origin/master is correct since I have another machine next to me which I don't use to do commits and just did a pull from the origin/master, and the local repo is correct on this other machine.
 ```
 
+
+
 You can set your current master to match the origin master by:
 
 Check out the master branch. Double click the branch, or open the terminal and type git checkout master
