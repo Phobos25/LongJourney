@@ -12,3 +12,5 @@
 	- и R_{ref} = 3500 м, который был взят из размеров наклонного ливня. Степень b - была взята равной 4, чтобы максимального разделить гамма-кванты от адронов.
 	- [^2] Breiman, Leo, Friedman, Jerome, Olshen, Richard A., & Stone, Charles J. (1984). Classifica- tion and Regression Trees.
 	- [^3] Shannon, Claude E. (1948). A Mathematical Theory of Communication. Bell System Technical Journal, 27(3), 379–423
+- а еще есть работа [[Sep 2nd, 2025]] - где рассматривается гипотетическая установка, на которой методом машинного обучения определяет параметры ШАЛ. Мне кажется это интересная работа, которую надо прочитать.
+-
