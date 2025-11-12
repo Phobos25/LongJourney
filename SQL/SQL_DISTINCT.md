@@ -9,7 +9,7 @@
 *Запрос:*
 ```SQL
 SELECT DISTINCT author
-  FROM book;
+FROM book;
 ```
 *Результат:*
 ```
@@ -28,6 +28,7 @@ SELECT DISTINCT author
 *Запрос:*
 ```SQL
 SELECT  author
-  FROM book
- GROUP BY author;
+FROM book
+GROUP BY author;
 ```
+-
