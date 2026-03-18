@@ -1,4 +1,7 @@
 ## Logs
+20260318
+refactoring
+
 20260317
 настроил на google colab
 
