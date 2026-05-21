@@ -1,4 +1,10 @@
 ## Logs
+20260521
+code refactoring
+
+20260520
+code refactoring
+
 20260519
 разбираюсь с кодом
 
