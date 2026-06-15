@@ -1,4 +1,7 @@
 ## Logs
+20260615
+data generation and model training
+
 20260613
 sync
 
