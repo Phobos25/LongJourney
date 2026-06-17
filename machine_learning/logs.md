@@ -1,4 +1,7 @@
 ## Logs
+20260617
+coding
+
 20260616
 data generation and model training
 
